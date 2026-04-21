@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="logo-dot"></span>
+      <h1>ArtMatch</h1>
+    </div>
+    <nav class="top-nav">
+      <a href="#discover">Discover</a>
+      <a href="#artists">Artists</a>
+      <a href="#request">Request</a>
+    </nav>
+    <button class="ghost-btn">Log In</button>
+  </header>
+
+  <main>
+    <section id="discover" class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Commission-ready creators</p>
+        <h2>Find your perfect artist match.</h2>
+        <p>
+          Swipe through verified artists by style, budget, and turnaround.
+          Connect instantly and send a commission brief in minutes.
+        </p>
+        <div class="hero-actions">
+          <button id="startMatchingBtn" class="primary-btn">Start Matching</button>
+          <button class="secondary-btn">How It Works</button>
+        </div>
+      </div>
+      <div class="hero-card hero-carousel" id="heroCarousel">
+        <div class="hero-slide is-active">
+          <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=900&q=80" alt="Lena profile preview">
+          <div class="card-body">
+            <h3>Lena Ortiz</h3>
+            <p>Digital Portraits, Fantasy Art</p>
+            <div class="tags">
+              <span>$120-$450</span>
+              <span>5 day avg</span>
+              <span>98% approval</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-slide">
+          <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80" alt="Amari profile preview">
+          <div class="card-body">
+            <h3>Amari Quinn</h3>
+            <p>Anime Icons, Character Concepts</p>
+            <div class="tags">
+              <span>$90-$260</span>
+              <span>4 day avg</span>
+              <span>95% approval</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-slide">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80" alt="Iris profile preview">
+          <div class="card-body">
+            <h3>Iris Vale</h3>
+            <p>Watercolor Scenes, Book Covers</p>
+            <div class="tags">
+              <span>$140-$500</span>
+              <span>7 day avg</span>
+              <span>99% approval</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="carousel-dots" aria-label="Artist carousel controls">
+          <button class="dot is-active" data-slide="0" aria-label="Show artist 1"></button>
+          <button class="dot" data-slide="1" aria-label="Show artist 2"></button>
+          <button class="dot" data-slide="2" aria-label="Show artist 3"></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="artists" class="match-section">
+      <h2>Trending Artist Matches</h2>
+      <p class="section-copy">A dating-style browse, rebuilt for commissioning art.</p>
+      <div class="match-grid">
+        <article class="artist-card">
+          <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80" alt="Artist A">
+          <div class="artist-info">
+            <h3>Amari, 27</h3>
+            <p>Anime and Character Sheets</p>
+            <p class="meta">Open Slots: 3 | From $90</p>
+          </div>
+          <div class="card-actions">
+            <button class="dismiss-btn">Pass</button>
+            <button class="like-btn">Request</button>
+          </div>
+        </article>
+
+        <article class="artist-card">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80" alt="Artist B">
+          <div class="artist-info">
+            <h3>Iris, 31</h3>
+            <p>Watercolor Illustrations</p>
+            <p class="meta">Open Slots: 5 | From $140</p>
+          </div>
+          <div class="card-actions">
+            <button class="dismiss-btn">Pass</button>
+            <button class="like-btn">Request</button>
+          </div>
+        </article>
+
+        <article class="artist-card">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80" alt="Artist C">
+          <div class="artist-info">
+            <h3>Sky, 24</h3>
+            <p>Concept Art and Environments</p>
+            <p class="meta">Open Slots: 2 | From $220</p>
+          </div>
+          <div class="card-actions">
+            <button class="dismiss-btn">Pass</button>
+            <button class="like-btn">Request</button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="request" class="request-section">
+      <h2>Send a Commission Request</h2>
+      <form class="request-form" id="requestForm">
+        <label for="projectType">Project Type</label>
+        <input id="projectType" name="projectType" type="text" placeholder="e.g., Twitch banner, OC portrait" required>
+
+        <label for="budget">Budget Range</label>
+        <input id="budget" name="budget" type="text" placeholder="e.g., $100-$300" required>
+
+        <label for="timeline">Timeline</label>
+        <input id="timeline" name="timeline" type="text" placeholder="e.g., Need within 2 weeks" required>
+
+        <label for="notes">Style Notes</label>
+        <textarea id="notes" name="notes" rows="4" placeholder="Describe mood, references, colors..." required></textarea>
+
+        <button type="submit" class="primary-btn">Submit Request</button>
+      </form>
+      <p id="formMessage" class="form-message" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>ArtMatch - where clients and artists find the right creative spark.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
