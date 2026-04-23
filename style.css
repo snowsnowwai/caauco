@@ -304,17 +304,56 @@ main {
 .match-actions {
   justify-content: center;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.9rem;
+  flex-wrap: wrap;
+}
+
+.save-for-later-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.save-for-later-btn {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text);
+  padding: 0.7rem 1.15rem;
+  font-size: 0.95rem;
+}
+
+.save-for-later-group.is-saved .save-for-later-btn {
+  background: rgba(52, 211, 153, 0.2);
+  color: #a7f3d0;
+  border: 1px solid rgba(52, 211, 153, 0.45);
+}
+
+.saved-pill {
+  min-width: 2.6rem;
+  padding: 0.3rem 0.5rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.1;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--muted);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.save-for-later-group.is-saved .saved-pill {
+  background: rgba(52, 211, 153, 0.22);
+  color: #d1fae5;
+  border-color: rgba(52, 211, 153, 0.5);
 }
 
 .rotate-btn {
-  width: 46px;
-  height: 46px;
+  width: 92px;
+  height: 92px;
   border-radius: 50%;
   border: 1px solid rgba(255, 255, 255, 0.35);
   background: rgba(15, 16, 33, 0.8);
   color: #ffffff;
-  font-size: 1.35rem;
+  font-size: 2.6rem;
   line-height: 1;
   padding: 0;
 }
@@ -336,6 +375,11 @@ button:hover {
   background: linear-gradient(120deg, var(--accent), #ff6aa7);
   color: white;
   padding: 0.65rem 1.1rem;
+}
+
+.like-btn--match {
+  padding: 0.85rem 1.65rem;
+  font-size: 1.1rem;
 }
 
 .secondary-btn,

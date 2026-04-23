@@ -123,9 +123,12 @@
 
       </div>
       <div class="card-actions match-actions">
-        <button class="dismiss-btn" id="passMatchBtn">Pass</button>
+        <div class="save-for-later-group" id="saveForLaterGroup">
+          <button type="button" class="save-for-later-btn" id="saveForLaterBtn">Save for later</button>
+          <button type="button" class="saved-pill" id="savedPill" aria-pressed="false" title="Mark as saved">Saved</button>
+        </div>
         <button class="rotate-btn" id="cycleMatchBtn" aria-label="Show next match">&#8594;</button>
-        <button class="like-btn" id="requestMatchBtn">Request</button>
+        <button class="like-btn like-btn--match" type="button" id="requestMatchBtn">Request</button>
       </div>
     </section>
   </main>

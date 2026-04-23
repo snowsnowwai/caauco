@@ -1,5 +1,7 @@
 const startMatchingBtn = document.getElementById("startMatchingBtn");
-const passMatchBtn = document.getElementById("passMatchBtn");
+const saveForLaterBtn = document.getElementById("saveForLaterBtn");
+const savedPill = document.getElementById("savedPill");
+const saveForLaterGroup = document.getElementById("saveForLaterGroup");
 const cycleMatchBtn = document.getElementById("cycleMatchBtn");
 const heroCarousel = document.getElementById("heroCarousel");
 const heroSlides = heroCarousel ? heroCarousel.querySelectorAll(".hero-slide") : [];
@@ -95,12 +97,35 @@ function showMatchSlide(index) {
       slide.classList.add("is-hidden");
     }
   });
+
+  setMatchSavedState(false);
+}
+
+function setMatchSavedState(saved) {
+  if (!saveForLaterGroup) {
+    return;
+  }
+  saveForLaterGroup.classList.toggle("is-saved", saved);
+  if (savedPill) {
+    savedPill.setAttribute("aria-pressed", saved ? "true" : "false");
+  }
+  if (saveForLaterBtn) {
+    saveForLaterBtn.setAttribute("aria-pressed", saved ? "true" : "false");
+  }
 }
 
 if (matchDeck && matchSlides.length) {
-  if (passMatchBtn) {
-    passMatchBtn.addEventListener("click", () => {
-      showMatchSlide(currentMatchIndex + 1);
+  if (saveForLaterBtn) {
+    saveForLaterBtn.addEventListener("click", () => {
+      const next = !saveForLaterGroup.classList.contains("is-saved");
+      setMatchSavedState(next);
+    });
+  }
+
+  if (savedPill) {
+    savedPill.addEventListener("click", () => {
+      const next = !saveForLaterGroup.classList.contains("is-saved");
+      setMatchSavedState(next);
     });
   }
 
