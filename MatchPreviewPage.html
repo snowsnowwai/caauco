@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>test</title>
+  <title>Match Preview Page</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -15,7 +15,6 @@
     <nav class="top-nav">
       <a href="#discover">Discover</a>
       <a href="#artists">Artists</a>
-      <a href="#request">Request</a>
     </nav>
     <button class="ghost-btn">Log In</button>
   </header>
@@ -84,67 +83,50 @@
 
     <section id="artists" class="match-section">
       <h2>Trending Artist Matches</h2>
-      <p class="section-copy">A dating-style browse, rebuilt for commissioning art.</p>
-      <div class="match-grid">
-        <article class="artist-card">
-          <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80" alt="Artist A">
-          <div class="artist-info">
-            <h3>Amari, 27</h3>
-            <p>Anime and Character Sheets</p>
-            <p class="meta">Open Slots: 3 | From $90</p>
-          </div>
-          <div class="card-actions">
-            <button class="dismiss-btn">Pass</button>
-            <button class="like-btn">Request</button>
-          </div>
-        </article>
-
-        <article class="artist-card">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80" alt="Artist B">
-          <div class="artist-info">
-            <h3>Iris, 31</h3>
-            <p>Watercolor Illustrations</p>
-            <p class="meta">Open Slots: 5 | From $140</p>
-          </div>
-          <div class="card-actions">
-            <button class="dismiss-btn">Pass</button>
-            <button class="like-btn">Request</button>
+      <p class="section-copy">Swipe through a vertical match preview, one artist at a time.</p>
+      <div class="match-deck" id="matchDeck">
+        <article class="artist-card match-slide is-front">
+          <img src="https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=900&q=80" alt="Amari profile placeholder">
+          <div class="artist-overlay">
+            <span class="status-pill">Active</span>
+            <div class="artist-info">
+              <h3>Amari, 27</h3>
+              <p>Anime and Character Sheets</p>
+              <p class="meta">Open Slots: 3 | From $90</p>
+            </div>
           </div>
         </article>
 
-        <article class="artist-card">
-          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80" alt="Artist C">
-          <div class="artist-info">
-            <h3>Sky, 24</h3>
-            <p>Concept Art and Environments</p>
-            <p class="meta">Open Slots: 2 | From $220</p>
-          </div>
-          <div class="card-actions">
-            <button class="dismiss-btn">Pass</button>
-            <button class="like-btn">Request</button>
+        <article class="artist-card match-slide">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=900&q=80" alt="Iris profile placeholder">
+          <div class="artist-overlay">
+            <span class="status-pill">Active</span>
+            <div class="artist-info">
+              <h3>Iris, 31</h3>
+              <p>Watercolor Illustrations</p>
+              <p class="meta">Open Slots: 5 | From $140</p>
+            </div>
           </div>
         </article>
+
+        <article class="artist-card match-slide">
+          <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=900&q=80" alt="Sky profile placeholder">
+          <div class="artist-overlay">
+            <span class="status-pill">Active</span>
+            <div class="artist-info">
+              <h3>Sky, 24</h3>
+              <p>Concept Art and Environments</p>
+              <p class="meta">Open Slots: 2 | From $220</p>
+            </div>
+          </div>
+        </article>
+
       </div>
-    </section>
-
-    <section id="request" class="request-section">
-      <h2>Send a Commission Request</h2>
-      <form class="request-form" id="requestForm">
-        <label for="projectType">Project Type</label>
-        <input id="projectType" name="projectType" type="text" placeholder="e.g., Twitch banner, OC portrait" required>
-
-        <label for="budget">Budget Range</label>
-        <input id="budget" name="budget" type="text" placeholder="e.g., $100-$300" required>
-
-        <label for="timeline">Timeline</label>
-        <input id="timeline" name="timeline" type="text" placeholder="e.g., Need within 2 weeks" required>
-
-        <label for="notes">Style Notes</label>
-        <textarea id="notes" name="notes" rows="4" placeholder="Describe mood, references, colors..." required></textarea>
-
-        <button type="submit" class="primary-btn">Submit Request</button>
-      </form>
-      <p id="formMessage" class="form-message" aria-live="polite"></p>
+      <div class="card-actions match-actions">
+        <button class="dismiss-btn" id="passMatchBtn">Pass</button>
+        <button class="rotate-btn" id="cycleMatchBtn" aria-label="Show next match">&#8594;</button>
+        <button class="like-btn" id="requestMatchBtn">Request</button>
+      </div>
     </section>
   </main>
 
