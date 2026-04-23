@@ -1,12 +1,14 @@
 const startMatchingBtn = document.getElementById("startMatchingBtn");
-const requestForm = document.getElementById("requestForm");
-const formMessage = document.getElementById("formMessage");
-const requestButtons = document.querySelectorAll(".like-btn");
+const passMatchBtn = document.getElementById("passMatchBtn");
+const cycleMatchBtn = document.getElementById("cycleMatchBtn");
 const heroCarousel = document.getElementById("heroCarousel");
 const heroSlides = heroCarousel ? heroCarousel.querySelectorAll(".hero-slide") : [];
 const heroDots = heroCarousel ? heroCarousel.querySelectorAll(".dot") : [];
+const matchDeck = document.getElementById("matchDeck");
+const matchSlides = matchDeck ? matchDeck.querySelectorAll(".match-slide") : [];
 let currentSlideIndex = 0;
 let carouselIntervalId = null;
+let currentMatchIndex = 0;
 
 if (startMatchingBtn) {
   startMatchingBtn.addEventListener("click", () => {
@@ -14,23 +16,6 @@ if (startMatchingBtn) {
     if (artistsSection) {
       artistsSection.scrollIntoView({ behavior: "smooth" });
     }
-  });
-}
-
-requestButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const requestSection = document.getElementById("request");
-    if (requestSection) {
-      requestSection.scrollIntoView({ behavior: "smooth" });
-    }
-  });
-});
-
-if (requestForm) {
-  requestForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    formMessage.textContent = "Request sent! Your matched artist will respond shortly.";
-    requestForm.reset();
   });
 }
 
@@ -87,4 +72,43 @@ if (heroCarousel && heroSlides.length) {
 
   showHeroSlide(0);
   startHeroCarousel();
+}
+
+function showMatchSlide(index) {
+  if (!matchSlides.length) {
+    return;
+  }
+
+  currentMatchIndex = (index + matchSlides.length) % matchSlides.length;
+
+  matchSlides.forEach((slide, slideIndex) => {
+    const slideOffset = (slideIndex - currentMatchIndex + matchSlides.length) % matchSlides.length;
+    slide.classList.remove("is-front", "is-back-1", "is-back-2", "is-hidden");
+
+    if (slideOffset === 0) {
+      slide.classList.add("is-front");
+    } else if (slideOffset === 1) {
+      slide.classList.add("is-back-1");
+    } else if (slideOffset === 2) {
+      slide.classList.add("is-back-2");
+    } else {
+      slide.classList.add("is-hidden");
+    }
+  });
+}
+
+if (matchDeck && matchSlides.length) {
+  if (passMatchBtn) {
+    passMatchBtn.addEventListener("click", () => {
+      showMatchSlide(currentMatchIndex + 1);
+    });
+  }
+
+  if (cycleMatchBtn) {
+    cycleMatchBtn.addEventListener("click", () => {
+      showMatchSlide(currentMatchIndex + 1);
+    });
+  }
+
+  showMatchSlide(0);
 }
