@@ -322,7 +322,7 @@
           <h1 class="sr-only">Authentication</h1>
 
           <div id="signin" role="region" aria-label="Sign in">
-            <div class="title">Log in</div>
+            <div class="title">Log In</div>
             <div class="card">
               <form class="stack" id="signinForm" novalidate>
                 <label class="field">
@@ -346,7 +346,7 @@
                     required
                     type="password"
                   />
-                  <button class="inline-action" type="button" id="forgotBtn">YOU FORGOT???</button>
+                  <button class="inline-action" type="button" id="forgotBtn">YOU REALLY FORGOT???</button>
                 </label>
 
                 <button class="primary" type="submit">Log In</button>
@@ -354,16 +354,15 @@
             </div>
 
             <p class="fineprint">
-              By signing in you agree to our <a href="#" onclick="return false;">Terms</a> and
-              <a href="#" onclick="return false;">Privacy Policy</a>.<br />
-              This site is protected by reCAPTCHA and the Google
-              <a href="#" onclick="return false;">Privacy Policy</a> and
-              <a href="#" onclick="return false;">Terms of Service</a> apply.
+              
+              This site is protected by reCAPTCHA and Google.
+              <br/>By signing in you agree to our <a href="./terms.html">Terms Of Service</a> and
+              <a href="./privacy.html">Privacy Policy</a>.
             </p>
           </div>
 
           <div id="signup" class="hidden" role="region" aria-label="Sign up">
-            <div class="title">Sign up</div>
+            <div class="title">Sign Up</div>
             <div class="card">
               <form class="stack" id="signupForm" novalidate>
                 <label class="field">
@@ -401,13 +400,13 @@
                   <button class="inline-action" type="button" id="showPwBtn">SHOW</button>
                 </label>
 
-                <button class="primary" type="submit">CREATE ACCOUNT</button>
+                <button class="primary" type="submit">Create Account</button>
               </form>
             </div>
 
             <p class="fineprint">
-              By creating an account you agree to our <a href="#" onclick="return false;">Terms</a> and
-              <a href="#" onclick="return false;">Privacy Policy</a>.
+              By creating an account you agree to our <a href="./terms.html">Terms Of Service</a> and
+              <a href="./privacy.html">Privacy Policy</a>.
             </p>
           </div>
         </section>
@@ -435,7 +434,7 @@
       });
 
       el("forgotBtn").addEventListener("click", () => {
-        alert("Password reset flow goes here.");
+        window.location.href = "./forgot.html";
       });
 
       const pw = () => signup.querySelector('input[name="newPassword"]');
