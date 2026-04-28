@@ -1,7 +1,5 @@
 const startMatchingBtn = document.getElementById("startMatchingBtn");
 const saveForLaterBtn = document.getElementById("saveForLaterBtn");
-const savedPill = document.getElementById("savedPill");
-const saveForLaterGroup = document.getElementById("saveForLaterGroup");
 const cycleMatchBtn = document.getElementById("cycleMatchBtn");
 const heroCarousel = document.getElementById("heroCarousel");
 const heroSlides = heroCarousel ? heroCarousel.querySelectorAll(".hero-slide") : [];
@@ -11,6 +9,7 @@ const matchSlides = matchDeck ? matchDeck.querySelectorAll(".match-slide") : [];
 let currentSlideIndex = 0;
 let carouselIntervalId = null;
 let currentMatchIndex = 0;
+const savedMatches = [];
 
 if (startMatchingBtn) {
   startMatchingBtn.addEventListener("click", () => {
@@ -98,16 +97,13 @@ function showMatchSlide(index) {
     }
   });
 
-  setMatchSavedState(false);
+  setMatchSavedState(savedMatches[currentMatchIndex] === true);
 }
 
 function setMatchSavedState(saved) {
-  if (!saveForLaterGroup) {
-    return;
-  }
-  saveForLaterGroup.classList.toggle("is-saved", saved);
-  if (savedPill) {
-    savedPill.setAttribute("aria-pressed", saved ? "true" : "false");
+  if (matchSlides[currentMatchIndex]) {
+    matchSlides[currentMatchIndex].classList.toggle("is-saved", saved);
+    savedMatches[currentMatchIndex] = saved;
   }
   if (saveForLaterBtn) {
     saveForLaterBtn.setAttribute("aria-pressed", saved ? "true" : "false");
@@ -115,16 +111,11 @@ function setMatchSavedState(saved) {
 }
 
 if (matchDeck && matchSlides.length) {
+  matchSlides.forEach(() => savedMatches.push(false));
+
   if (saveForLaterBtn) {
     saveForLaterBtn.addEventListener("click", () => {
-      const next = !saveForLaterGroup.classList.contains("is-saved");
-      setMatchSavedState(next);
-    });
-  }
-
-  if (savedPill) {
-    savedPill.addEventListener("click", () => {
-      const next = !saveForLaterGroup.classList.contains("is-saved");
+      const next = !(savedMatches[currentMatchIndex] === true);
       setMatchSavedState(next);
     });
   }
