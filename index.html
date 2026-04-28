@@ -5,7 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
     <title>Sign in / Sign up</title>
+    <!-- Font is bundled locally (see @font-face below) -->
     <style>
+      @font-face {
+        font-family: "RetepRelleumMedium";
+        src: url("./assets/fonts/retep-relleum/RetepRelleumMedium.otf") format("opentype");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+
       :root {
         --bg0: #0a1218;
         --bg1: #0b1b23;
@@ -31,11 +40,21 @@
         height: 100%;
       }
 
+      html {
+        font-family: "RetepRelleumMedium", "RetepRelleum", ui-sans-serif, system-ui, -apple-system,
+          Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      }
+
+      button,
+      input,
+      textarea,
+      select {
+        font-family: inherit;
+      }
+
       body {
         margin: 0;
         color: var(--text);
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
-          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
         background: radial-gradient(1200px 600px at 35% 30%, rgba(56, 182, 255, 0.12), transparent 60%),
           radial-gradient(900px 600px at 70% 65%, rgba(56, 182, 255, 0.08), transparent 55%),
           linear-gradient(180deg, var(--bg1), var(--bg0));
