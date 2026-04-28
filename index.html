@@ -4,12 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="color-scheme" content="dark" />
-    <title>Sign in / Sign up</title>
+    <title>Sign In / Sign Up</title>
     <!-- Font is bundled locally (see @font-face below) -->
     <style>
       @font-face {
-        font-family: "RetepRelleumMedium";
-        src: url("./assets/fonts/retep-relleum/RetepRelleumMedium.otf") format("opentype");
+        font-family: "IEatCrayons";
+        src: url("./Fonts/i-eat-crayons.ttf") format("truetype");
         font-weight: 400;
         font-style: normal;
         font-display: swap;
@@ -41,8 +41,8 @@
       }
 
       html {
-        font-family: "RetepRelleumMedium", "RetepRelleum", ui-sans-serif, system-ui, -apple-system,
-          Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+        font-family: "IEatCrayons", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+          Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       }
 
       button,
@@ -326,7 +326,7 @@
             <div class="card">
               <form class="stack" id="signinForm" novalidate>
                 <label class="field">
-                  <span class="sr-only">Email or username</span>
+                  <span class="sr-only">Email OR Username</span>
                   <input
                     autocomplete="username"
                     inputmode="email"
@@ -346,10 +346,10 @@
                     required
                     type="password"
                   />
-                  <button class="inline-action" type="button" id="forgotBtn">FORGOT?</button>
+                  <button class="inline-action" type="button" id="forgotBtn">YOU FORGOT???</button>
                 </label>
 
-                <button class="primary" type="submit">LOG IN</button>
+                <button class="primary" type="submit">Log In</button>
               </form>
             </div>
 
