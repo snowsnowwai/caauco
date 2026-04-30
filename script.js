@@ -126,5 +126,5 @@ if (matchDeck && matchSlides.length) {
     });
   }
 
-  showMatchSlide(0);
+  showMatchSlide(2);
 }
