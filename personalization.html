@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Personalization - Quick Draw</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .personalization-section {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 0.2rem 0 1.2rem;
+    }
+
+    .personalization-card {
+      border: 3px solid var(--ink);
+      background: #f7f1ff;
+      padding: 1rem;
+      margin-top: 1rem;
+    }
+
+    .personalization-card h3 {
+      margin: 0 0 0.45rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .bubble-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 0.85rem;
+    }
+
+    .bubble-grid input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .bubble-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.42rem 0.8rem 0.5rem;
+      border: 2px solid var(--ink);
+      border-radius: 999px;
+      background: #eee5ff;
+      color: var(--ink);
+      cursor: pointer;
+      transition: transform 0.14s ease, background-color 0.14s ease, color 0.14s ease;
+    }
+
+    .bubble-chip:hover {
+      transform: translate(-1px, -1px);
+      background: var(--pink);
+      color: #ffffff;
+    }
+
+    .bubble-grid input[type="checkbox"]:checked + .bubble-chip {
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="browser-window">
+    <header class="topbar">
+      <div class="topbar-spacer" aria-hidden="true"></div>
+      <div class="header-logo">
+        <img src="Logo/quick_draw.png" alt="Quick Draw logo">
+      </div>
+      <nav class="topbar-right">
+        <a class="top-nav-link" href="#discover">Discover</a>
+        <a class="top-nav-link" href="#artists">Artists</a>
+        <button class="ghost-btn" type="button">Log In</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="personalization-section">
+        <p class="eyebrow">Welcome to Quick Draw</p>
+        <h2>Personalize Your Feed</h2>
+        <p class="section-copy">Pick what you want to see first. You can choose multiple options and update this later anytime.</p>
+
+        <form>
+          <article class="personalization-card">
+            <h3>What kind of art commissions are you looking for?</h3>
+            <p class="section-copy">Choose all styles and deliverables you are interested in.</p>
+            <div class="bubble-grid">
+              <label>
+                <input type="checkbox" name="commission_type" value="digital-illustrations">
+                <span class="bubble-chip">Digital Illustrations</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="graphic-designs">
+                <span class="bubble-chip">Graphic Designs</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="motion-graphics">
+                <span class="bubble-chip">Motion Graphics</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="3d-models">
+                <span class="bubble-chip">3D Models</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="acrylic-paintings">
+                <span class="bubble-chip">Acrylic Paintings</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="oil-paintings">
+                <span class="bubble-chip">Oil Paintings</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="poster-designs">
+                <span class="bubble-chip">Poster Designs</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="logo-branding">
+                <span class="bubble-chip">Logo and Branding</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="mascot-design">
+                <span class="bubble-chip">Mascot Design</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="character-concepts">
+                <span class="bubble-chip">Character Concepts</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="comic-panels">
+                <span class="bubble-chip">Comic Panels</span>
+              </label>
+              <label>
+                <input type="checkbox" name="commission_type" value="infographics">
+                <span class="bubble-chip">Infographics</span>
+              </label>
+            </div>
+          </article>
+
+          <article class="personalization-card">
+            <h3>Where will you use these commissions most?</h3>
+            <p class="section-copy">This helps match you with artists experienced in your project type.</p>
+            <div class="bubble-grid">
+              <label>
+                <input type="checkbox" name="usage_type" value="school-club-events">
+                <span class="bubble-chip">School Club Events</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="school-projects">
+                <span class="bubble-chip">Class Projects</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="social-media-posts">
+                <span class="bubble-chip">Social Media Posts</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="student-campaigns">
+                <span class="bubble-chip">Student Campaigns</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="presentations">
+                <span class="bubble-chip">Presentations</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="merchandise">
+                <span class="bubble-chip">Club Merchandise</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="yearbook">
+                <span class="bubble-chip">Yearbook Features</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="school-website">
+                <span class="bubble-chip">School Website</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="print-flyers">
+                <span class="bubble-chip">Print Flyers</span>
+              </label>
+              <label>
+                <input type="checkbox" name="usage_type" value="announcements">
+                <span class="bubble-chip">Campus Announcements</span>
+              </label>
+            </div>
+          </article>
+
+          <div class="actions-row">
+            <button class="secondary-btn" type="button">Skip for now</button>
+            <button class="primary-btn" type="submit">Save Preferences</button>
+          </div>
+        </form>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Quick Draw - where clients and artists find the right creative spark.</p>
+    </footer>
+  </div>
+</body>
+</html>
