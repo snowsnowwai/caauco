@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile - Quick Draw</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .profile-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0.2rem 0 1.2rem;
+    }
+
+    .profile-grid {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 1rem;
+      margin-top: 0.95rem;
+    }
+
+    .left-nav,
+    .panel-card {
+      border: 3px solid var(--ink);
+      background: #f7f1ff;
+    }
+
+    .left-nav {
+      padding: 0.8rem;
+      align-self: start;
+      position: sticky;
+      top: 1rem;
+    }
+
+    .profile-head {
+      border: 2px solid var(--ink);
+      background: #ece2ff;
+      padding: 0.65rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .profile-head h3 {
+      margin: 0;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .profile-head p {
+      margin: 0.25rem 0 0;
+      color: var(--ink-soft);
+    }
+
+    .side-link {
+      display: block;
+      width: 100%;
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      background: #eee5ff;
+      color: var(--ink);
+      text-align: left;
+      padding: 0.5rem 0.7rem 0.56rem;
+      margin-bottom: 0.45rem;
+      cursor: pointer;
+      transition: transform 0.14s ease, background-color 0.14s ease, color 0.14s ease;
+    }
+
+    .side-link:hover {
+      transform: translate(-1px, -1px);
+      background: var(--pink);
+      color: #ffffff;
+    }
+
+    .side-link.is-active {
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .panel-stack {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .panel-card {
+      padding: 1rem;
+    }
+
+    .panel-card h3 {
+      margin: 0 0 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .panel-card[hidden] {
+      display: none;
+    }
+
+    .field-grid {
+      display: grid;
+      gap: 0.7rem;
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      margin-top: 0.75rem;
+    }
+
+    .field {
+      border: 2px solid var(--ink);
+      background: #efe6ff;
+      padding: 0.6rem;
+    }
+
+    .field-label {
+      margin: 0 0 0.22rem;
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .field-value {
+      margin: 0;
+      font-size: 1rem;
+    }
+
+    .order-list {
+      display: grid;
+      gap: 0.6rem;
+      margin-top: 0.7rem;
+    }
+
+    .order-item {
+      border: 2px solid var(--ink);
+      background: #efe6ff;
+      padding: 0.6rem;
+      display: grid;
+      gap: 0.3rem;
+    }
+
+    .order-item-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .status-pill--done {
+      background: #c8ffd5;
+    }
+
+    .status-pill--progress {
+      background: #fff3b8;
+    }
+
+    .status-pill--review {
+      background: #cce8ff;
+    }
+
+    .messages-layout {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 0.75rem;
+      margin-top: 0.7rem;
+    }
+
+    .thread-list,
+    .chat-box {
+      border: 2px solid var(--ink);
+      background: #efe6ff;
+    }
+
+    .thread-list {
+      padding: 0.4rem;
+      display: grid;
+      gap: 0.38rem;
+      align-content: start;
+    }
+
+    .thread-btn {
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      background: #f8f3ff;
+      color: var(--ink);
+      text-align: left;
+      padding: 0.45rem 0.55rem 0.5rem;
+      cursor: pointer;
+    }
+
+    .thread-btn.is-active {
+      background: var(--blue);
+      color: #ffffff;
+    }
+
+    .chat-box {
+      padding: 0.6rem;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 380px;
+      gap: 0.55rem;
+    }
+
+    .chat-header h4,
+    .chat-header p {
+      margin: 0;
+    }
+
+    .chat-header p {
+      color: var(--ink-soft);
+      margin-top: 0.2rem;
+    }
+
+    .chat-messages {
+      border: 2px solid var(--ink);
+      background: #f9f4ff;
+      padding: 0.6rem;
+      overflow-y: auto;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .chat-bubble {
+      max-width: 75%;
+      border: 2px solid var(--ink);
+      padding: 0.45rem 0.58rem 0.5rem;
+      background: #ffffff;
+    }
+
+    .chat-bubble.user {
+      justify-self: end;
+      background: #dce9ff;
+    }
+
+    .chat-input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+      align-items: end;
+    }
+
+    .chat-input-row textarea {
+      border: 2px solid var(--ink);
+      border-radius: 10px;
+      resize: vertical;
+      min-height: 64px;
+      max-height: 140px;
+      padding: 0.45rem 0.6rem;
+      background: #ffffff;
+      color: var(--ink);
+      font-size: 0.98rem;
+    }
+
+    .simple-list {
+      margin: 0.75rem 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 0.5rem;
+    }
+
+    .simple-list li {
+      border: 2px solid var(--ink);
+      background: #efe6ff;
+      padding: 0.55rem 0.6rem;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-top: 0.85rem;
+    }
+
+    @media (max-width: 960px) {
+      .profile-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .left-nav {
+        position: static;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .messages-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .chat-box {
+        min-height: 320px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="browser-window">
+    <header class="topbar">
+      <div class="topbar-spacer" aria-hidden="true"></div>
+      <div class="header-logo">
+        <img src="Logo/quick_draw.png" alt="Quick Draw logo">
+      </div>
+      <nav class="topbar-right">
+        <a class="top-nav-link" href="#discover">Discover</a>
+        <a class="top-nav-link" href="#artists">Artists</a>
+        <button class="ghost-btn" type="button">Log Out</button>
+      </nav>
+    </header>
+
+    <main>
+      <section class="profile-shell">
+        <p class="eyebrow">Your Account</p>
+        <h2>Profile Center</h2>
+        <p class="section-copy">Manage your account details, commissions, saved creators, and your inbox with artists.</p>
+
+        <div class="profile-grid">
+          <aside class="left-nav" aria-label="Profile navigation">
+            <div class="profile-head">
+              <h3>Jordan Reyes</h3>
+              <p>Student Org Client</p>
+            </div>
+            <button class="side-link is-active" type="button" data-panel="infoPanel">Info</button>
+            <button class="side-link" type="button" data-panel="ordersPanel">Order History</button>
+            <button class="side-link" type="button" data-panel="inboxPanel">Inbox</button>
+            <button class="side-link" type="button" data-panel="savedPanel">Saved Artists</button>
+            <button class="side-link" type="button" data-panel="paymentPanel">Payment and Billing</button>
+            <button class="side-link" type="button" data-panel="settingsPanel">Account Settings</button>
+          </aside>
+
+          <div class="panel-stack">
+            <article class="panel-card" id="infoPanel">
+              <h3>Info</h3>
+              <p class="section-copy">Basic profile and contact details used for artist communication and project updates.</p>
+              <div class="field-grid">
+                <div class="field">
+                  <p class="field-label">Full Name</p>
+                  <p class="field-value">Jordan Reyes</p>
+                </div>
+                <div class="field">
+                  <p class="field-label">Email</p>
+                  <p class="field-value">jreyes@studentmail.edu</p>
+                </div>
+                <div class="field">
+                  <p class="field-label">Phone</p>
+                  <p class="field-value">(555) 321-9912</p>
+                </div>
+                <div class="field">
+                  <p class="field-label">School</p>
+                  <p class="field-value">North Valley High School</p>
+                </div>
+                <div class="field">
+                  <p class="field-label">Club / Organization</p>
+                  <p class="field-value">Student Council Media Team</p>
+                </div>
+                <div class="field">
+                  <p class="field-label">Preferred Contact Method</p>
+                  <p class="field-value">Inbox + Email</p>
+                </div>
+                <div class="field">
+                  <p class="field-label">Default Project Budget</p>
+                  <p class="field-value">$75 - $250</p>
+                </div>
+                <div class="field">
+                  <p class="field-label">Typical Deadline Window</p>
+                  <p class="field-value">1 to 2 weeks</p>
+                </div>
+              </div>
+              <div class="actions-row">
+                <button class="secondary-btn" type="button">Edit Info</button>
+                <button class="primary-btn" type="button">Save Changes</button>
+              </div>
+            </article>
+
+            <article class="panel-card" id="ordersPanel" hidden>
+              <h3>Order History</h3>
+              <p class="section-copy">Track all art commissions requested by you or your school club.</p>
+              <div class="order-list">
+                <div class="order-item">
+                  <div class="order-item-top">
+                    <strong>Spring Pep Rally Poster Pack</strong>
+                    <span class="status-pill status-pill--done">Delivered</span>
+                  </div>
+                  <p class="meta">Artist: Iris M. | Category: Poster Design | Ordered: Apr 01</p>
+                  <p class="meta">Total: $120 | Files: PNG, PDF</p>
+                </div>
+                <div class="order-item">
+                  <div class="order-item-top">
+                    <strong>Robotics Club Mascot Concept</strong>
+                    <span class="status-pill status-pill--progress">In Progress</span>
+                  </div>
+                  <p class="meta">Artist: Amari T. | Category: Mascot Design | Ordered: Apr 21</p>
+                  <p class="meta">Total: $180 | Next Milestone: Color pass review</p>
+                </div>
+                <div class="order-item">
+                  <div class="order-item-top">
+                    <strong>Yearbook Cover Illustration</strong>
+                    <span class="status-pill status-pill--review">Revision Requested</span>
+                  </div>
+                  <p class="meta">Artist: Cora V. | Category: Digital Illustration | Ordered: Apr 25</p>
+                  <p class="meta">Total: $210 | Last Update: Today</p>
+                </div>
+              </div>
+              <div class="actions-row">
+                <button class="secondary-btn" type="button">Download Invoices</button>
+                <button class="primary-btn" type="button">Start New Commission</button>
+              </div>
+            </article>
+
+            <article class="panel-card" id="inboxPanel" hidden>
+              <h3>Inbox</h3>
+              <p class="section-copy">Message artists directly about project requirements, revisions, and delivery details.</p>
+              <div class="messages-layout">
+                <div class="thread-list" id="threadList">
+                  <button class="thread-btn is-active" type="button" data-thread-id="iris">Iris M.<br><small>Poster updates</small></button>
+                  <button class="thread-btn" type="button" data-thread-id="amari">Amari T.<br><small>Mascot sketch</small></button>
+                  <button class="thread-btn" type="button" data-thread-id="cora">Cora V.<br><small>Yearbook revisions</small></button>
+                </div>
+                <section class="chat-box">
+                  <div class="chat-header">
+                    <h4 id="chatTitle">Iris M.</h4>
+                    <p id="chatSubtitle">Poster updates</p>
+                  </div>
+                  <div class="chat-messages" id="chatMessages"></div>
+                  <form class="chat-input-row" id="chatForm">
+                    <textarea id="chatInput" placeholder="Type your message..." aria-label="Type your message"></textarea>
+                    <button class="primary-btn" type="submit">Send</button>
+                  </form>
+                </section>
+              </div>
+            </article>
+
+            <article class="panel-card" id="savedPanel" hidden>
+              <h3>Saved Artists</h3>
+              <p class="section-copy">Creators you bookmarked for future commissions.</p>
+              <ul class="simple-list">
+                <li><strong>Amari T.</strong> - Character concepts, mascot kits, anime style portraits.</li>
+                <li><strong>Iris M.</strong> - Event posters, watercolor illustrations, social media assets.</li>
+                <li><strong>Cora V.</strong> - Editorial and yearbook illustration, branding support.</li>
+              </ul>
+              <div class="actions-row">
+                <button class="secondary-btn" type="button">View All Artists</button>
+                <button class="primary-btn" type="button">Invite Saved Artists</button>
+              </div>
+            </article>
+
+            <article class="panel-card" id="paymentPanel" hidden>
+              <h3>Payment and Billing</h3>
+              <p class="section-copy">Manage your preferred payment method and billing details for school commission orders.</p>
+              <ul class="simple-list">
+                <li><strong>Default Card:</strong> Campus Club Card ending in 4831</li>
+                <li><strong>Backup Method:</strong> School Purchase Request (PO)</li>
+                <li><strong>Billing Contact:</strong> studentcouncilfinance@school.edu</li>
+                <li><strong>Auto Receipts:</strong> Enabled</li>
+              </ul>
+              <div class="actions-row">
+                <button class="secondary-btn" type="button">Update Billing Contact</button>
+                <button class="primary-btn" type="button">Add Payment Method</button>
+              </div>
+            </article>
+
+            <article class="panel-card" id="settingsPanel" hidden>
+              <h3>Account Settings</h3>
+              <p class="section-copy">Control account notifications and safety settings.</p>
+              <ul class="simple-list">
+                <li><strong>Message Notifications:</strong> Instant for inbox and revision requests</li>
+                <li><strong>Project Reminder Emails:</strong> 48 hours before due dates</li>
+                <li><strong>Privacy:</strong> Hide personal phone number from artist public cards</li>
+                <li><strong>Two-Step Verification:</strong> Enabled</li>
+              </ul>
+              <div class="actions-row">
+                <button class="secondary-btn" type="button">Manage Notifications</button>
+                <button class="primary-btn" type="button">Update Security</button>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Quick Draw - where clients and artists find the right creative spark.</p>
+    </footer>
+  </div>
+
+  <script>
+    const sideLinks = document.querySelectorAll(".side-link");
+    const panels = document.querySelectorAll(".panel-card");
+
+    sideLinks.forEach((button) => {
+      button.addEventListener("click", () => {
+        sideLinks.forEach((btn) => btn.classList.remove("is-active"));
+        button.classList.add("is-active");
+
+        const targetPanel = button.getAttribute("data-panel");
+        panels.forEach((panel) => {
+          panel.hidden = panel.id !== targetPanel;
+        });
+      });
+    });
+
+    const threadData = {
+      iris: {
+        name: "Iris M.",
+        topic: "Poster updates",
+        messages: [
+          { sender: "artist", text: "Hi Jordan! I uploaded two poster directions for your pep rally campaign." },
+          { sender: "user", text: "Awesome, can we push option 2 with stronger school colors?" },
+          { sender: "artist", text: "Yes! I can send the updated pass by tomorrow afternoon." }
+        ]
+      },
+      amari: {
+        name: "Amari T.",
+        topic: "Mascot sketch",
+        messages: [
+          { sender: "artist", text: "I shared the first mascot sketch set. Which one should I refine?" },
+          { sender: "user", text: "We like sketch B best. Could you test a cleaner outline style?" }
+        ]
+      },
+      cora: {
+        name: "Cora V.",
+        topic: "Yearbook revisions",
+        messages: [
+          { sender: "artist", text: "Thanks for the feedback! I can adjust the title area spacing." },
+          { sender: "user", text: "Perfect. Please also reduce the border thickness near the bottom." }
+        ]
+      }
+    };
+
+    const threadButtons = document.querySelectorAll(".thread-btn");
+    const chatTitle = document.getElementById("chatTitle");
+    const chatSubtitle = document.getElementById("chatSubtitle");
+    const chatMessages = document.getElementById("chatMessages");
+    const chatForm = document.getElementById("chatForm");
+    const chatInput = document.getElementById("chatInput");
+
+    let activeThreadId = "iris";
+
+    function renderMessages(threadId) {
+      const thread = threadData[threadId];
+      chatTitle.textContent = thread.name;
+      chatSubtitle.textContent = thread.topic;
+      chatMessages.innerHTML = "";
+
+      thread.messages.forEach((message) => {
+        const messageDiv = document.createElement("div");
+        messageDiv.className = message.sender === "user" ? "chat-bubble user" : "chat-bubble";
+        messageDiv.textContent = message.text;
+        chatMessages.appendChild(messageDiv);
+      });
+
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    threadButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        threadButtons.forEach((btn) => btn.classList.remove("is-active"));
+        button.classList.add("is-active");
+
+        activeThreadId = button.getAttribute("data-thread-id");
+        renderMessages(activeThreadId);
+      });
+    });
+
+    chatForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const text = chatInput.value.trim();
+
+      if (!text) {
+        return;
+      }
+
+      threadData[activeThreadId].messages.push({ sender: "user", text });
+      renderMessages(activeThreadId);
+      chatInput.value = "";
+      chatInput.focus();
+    });
+
+    renderMessages(activeThreadId);
+  </script>
+</body>
+</html>
