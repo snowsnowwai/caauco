@@ -1,0 +1,905 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MSN Messenger — Conversation</title>
+    <style>
+      /*
+        Background: ./Reference Images/MSN_chat.jpg
+        Window chrome: Windows Live Messenger–style cream (#f5f5f0), white transcript,
+        lavender toolbar bubbles, soft borders — aligned with your WLM reference PNG.
+      */
+      :root {
+        /* WLM-era cream canvas — matches full-screen “viewfinder” reference */
+        --surface: #f5f5f0;
+        --surface-deep: #ebe8e4;
+        --xp-blue: #1c5fb8;
+        --win-bg: var(--surface);
+        --win-border-outer: #4a6484;
+        --win-border: #0054e3;
+        --menu-bg: var(--surface);
+        --inset-dark: #b8b4a8;
+        --inset-light: #ffffff;
+        --text: #000000;
+        --online: #008000;
+        --away: #c06000;
+        --busy: #c00000;
+        --offline: #c00000;
+        --history-bg: #ffffff;
+        --warn-bg: #fffacd;
+        --toolbar-icon-size: 48px;
+        --wlm-purple-top: #dcd6ec;
+        --wlm-purple-mid: #c4bcd8;
+        --wlm-purple-bot: #a69ebd;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+
+      body {
+        font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
+        font-size: 11px;
+        color: var(--text);
+        /* Full-scene reference art (grain + Bliss + taskbar vibe) */
+        background:
+          linear-gradient(180deg, rgba(8, 40, 90, 0.12) 0%, rgba(60, 120, 200, 0.06) 45%, transparent 72%),
+          url("./Reference%20Images/MSN_chat.jpg") center / cover no-repeat fixed;
+        display: grid;
+        place-items: center;
+        padding: 16px 10px;
+      }
+
+      /* Primary frame — larger so it reads as the main “viewfinder”, not a floating postage stamp */
+      .msn-window {
+        width: min(1080px, 98vw);
+        height: min(640px, 92vh);
+        background: var(--win-bg);
+        border: 1px solid var(--win-border-outer);
+        border-radius: 8px 8px 0 0;
+        box-shadow:
+          0 12px 40px rgba(0, 0, 0, 0.35),
+          0 2px 0 rgba(255, 255, 255, 0.35) inset,
+          0 0 0 1px rgba(0, 0, 0, 0.08);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .title-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 4px 5px 4px 8px;
+        background: linear-gradient(180deg, #003d82 0%, #0055aa 35%, #2f8fef 100%);
+        color: #fff;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        user-select: none;
+      }
+
+      .title-bar .title-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-width: 0;
+      }
+
+      .title-bar .title-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-shrink: 0;
+      }
+
+      .title-msn {
+        font-family: Tahoma, Arial, sans-serif;
+        font-style: italic;
+        font-weight: 800;
+        font-size: 13px;
+        letter-spacing: -0.04em;
+        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
+        opacity: 0.95;
+      }
+
+      .title-bar .butterfly {
+        width: 16px;
+        height: 16px;
+        flex: 0 0 auto;
+        background: conic-gradient(
+          #7cbb00 0deg 90deg,
+          #ffb900 90deg 180deg,
+          #00a4ef 180deg 270deg,
+          #f25022 270deg 360deg
+        );
+        border-radius: 2px;
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
+      }
+
+      .title-bar span.title-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .title-buttons {
+        display: flex;
+        gap: 2px;
+      }
+
+      .title-buttons button {
+        width: 21px;
+        height: 21px;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: linear-gradient(180deg, #6ca6e8, #2d6bcd);
+        color: #fff;
+        font-size: 12px;
+        line-height: 1;
+        padding: 0;
+        cursor: default;
+      }
+
+      .title-buttons button.close {
+        background: linear-gradient(180deg, #e88, #c33);
+      }
+
+      .menu-bar {
+        display: flex;
+        gap: 14px;
+        padding: 3px 8px 4px;
+        background: var(--menu-bg);
+        border-bottom: 1px solid #c8c4bc;
+      }
+
+      .menu-bar span {
+        cursor: default;
+      }
+
+      .toolbar {
+        display: flex;
+        align-items: flex-end;
+        gap: 12px;
+        padding: 10px 12px 12px;
+        background: linear-gradient(180deg, #fafaf8 0%, var(--surface-deep) 100%);
+        border-bottom: 1px solid #c8c4bc;
+        flex-wrap: wrap;
+      }
+
+      .tb-btn {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+        width: var(--toolbar-icon-size);
+        cursor: default;
+      }
+
+      .tb-btn .icon {
+        width: 38px;
+        height: 38px;
+        border-radius: 10px;
+        border: 1px solid rgba(80, 70, 110, 0.35);
+        background: linear-gradient(180deg, var(--wlm-purple-top), var(--wlm-purple-mid) 55%, var(--wlm-purple-bot));
+        display: grid;
+        place-items: center;
+        font-size: 17px;
+        box-shadow:
+          0 2px 4px rgba(0, 0, 0, 0.18),
+          inset 0 1px 0 rgba(255, 255, 255, 0.65);
+      }
+
+      .tb-btn span.label {
+        font-size: 10px;
+        color: #2d2d30;
+        text-align: center;
+        line-height: 1.15;
+      }
+
+      .main-split {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+        background: var(--surface);
+      }
+
+      /* Sidebar: threads */
+      .sidebar {
+        width: 260px;
+        flex: 0 0 260px;
+        border-right: 1px solid #c8c4bc;
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+        background: var(--surface);
+      }
+
+      .me-strip {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px;
+        background: linear-gradient(180deg, #fafaf8, var(--surface-deep));
+        border-bottom: 1px solid #c8c4bc;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #888;
+        flex-shrink: 0;
+      }
+
+      .me-strip .avatar {
+        background: conic-gradient(
+          #7cbb00 0deg 90deg,
+          #ffb900 90deg 180deg,
+          #00a4ef 180deg 270deg,
+          #f25022 270deg 360deg
+        );
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+
+      .me-meta strong {
+        display: block;
+        font-size: 12px;
+      }
+
+      .me-meta .status {
+        color: var(--online);
+        font-weight: 700;
+      }
+
+      .thread-list-wrap {
+        flex: 1;
+        overflow: auto;
+        padding: 8px;
+        background: var(--surface);
+      }
+
+      .thread-section {
+        font-weight: 700;
+        font-size: 11px;
+        margin: 6px 0 4px 4px;
+        color: #333;
+      }
+
+      .thread-section .count {
+        font-weight: 400;
+        color: #666;
+      }
+
+      .sidebar-brand {
+        padding: 8px 10px;
+        border-top: 1px solid #c8c4bc;
+        background: linear-gradient(180deg, #fafaf8, var(--surface-deep));
+        text-align: center;
+        font-size: 10px;
+        color: #444;
+      }
+
+      .sidebar-brand .msn-word {
+        font-style: italic;
+        font-weight: 800;
+        font-size: 14px;
+        letter-spacing: -0.05em;
+      }
+
+      .sidebar-brand .net {
+        font-weight: 700;
+        color: #666;
+      }
+
+      .me-personal {
+        font-size: 10px;
+        color: #555;
+        font-style: italic;
+        margin-top: 2px;
+        line-height: 1.25;
+      }
+
+      .thread-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        background-color: #fff;
+        border: 1px solid;
+        border-color: var(--inset-dark) var(--inset-light) var(--inset-light) var(--inset-dark);
+      }
+
+      .thread {
+        display: flex;
+        align-items: flex-start;
+        gap: 6px;
+        padding: 5px 6px;
+        cursor: pointer;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .thread:last-child {
+        border-bottom: 0;
+      }
+
+      .thread:hover {
+        background: #ddebf7;
+      }
+
+      .thread.is-active {
+        background: #316ac5;
+        color: #fff;
+      }
+
+      .thread.is-active .preview,
+      .thread.is-active .sub {
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .status-dot {
+        width: 14px;
+        height: 14px;
+        margin-top: 1px;
+        flex-shrink: 0;
+        border-radius: 2px;
+        background: var(--online);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+
+      .status-dot.away {
+        background: var(--away);
+      }
+
+      .status-dot.busy {
+        background: var(--busy);
+      }
+
+      .status-dot.offline {
+        background: var(--offline);
+      }
+
+      .thread-body {
+        min-width: 0;
+      }
+
+      .thread-body .name {
+        font-weight: 700;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .thread-body .preview {
+        font-size: 10px;
+        color: #555;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .thread-body .sub {
+        font-size: 10px;
+        color: #777;
+        font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      /* Main chat pane — same cream surface as sidebar (one continuous panel) */
+      .chat-pane {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        min-height: 0;
+        background: var(--surface);
+      }
+
+      .chat-header {
+        padding: 8px 12px;
+        background: var(--surface);
+        border-bottom: 1px solid #d8d4cc;
+        font-size: 11px;
+      }
+
+      .chat-header .to-line {
+        font-weight: 700;
+      }
+
+      .warn-bar {
+        margin: 10px 12px 0;
+        padding: 8px 10px;
+        background: var(--warn-bg);
+        border: 1px solid #e8dc82;
+        border-radius: 2px;
+        display: flex;
+        gap: 8px;
+        align-items: flex-start;
+        font-size: 11px;
+      }
+
+      .warn-bar .i {
+        font-weight: 900;
+        color: #fff;
+        background: #2d6bcd;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        font-size: 11px;
+        flex-shrink: 0;
+      }
+
+      .chat-body {
+        flex: 1;
+        display: flex;
+        min-height: 0;
+        padding: 10px 12px;
+        gap: 10px;
+        background: var(--surface);
+      }
+
+      .history {
+        flex: 1;
+        background-color: var(--history-bg);
+        border: 1px solid #c0c0c0;
+        border-radius: 2px;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+        overflow: auto;
+        padding: 10px 12px;
+        font-size: 11px;
+        line-height: 1.5;
+      }
+
+      .msg {
+        margin-bottom: 8px;
+      }
+
+      .msg .who {
+        font-weight: 700;
+        color: #003366;
+      }
+
+      .msg.me-line .who {
+        color: #0055aa;
+      }
+
+      .msg.sys {
+        font-style: italic;
+        color: #666666;
+      }
+
+      .dp-column {
+        width: 56px;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        padding-top: 2px;
+      }
+
+      /* Reference: DP stack — Me on top (MSN mark), contact below (ducky colors) */
+      .dp-column .avatar.sm {
+        width: 52px;
+        height: 52px;
+      }
+
+      .dp-column .avatar.sm.me {
+        background: conic-gradient(
+          #7cbb00 0deg 90deg,
+          #ffb900 90deg 180deg,
+          #00a4ef 180deg 270deg,
+          #f25022 270deg 360deg
+        );
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+      }
+
+      .dp-column .avatar.sm.them {
+        background: linear-gradient(145deg, #ffe866 0%, #ffb000 45%, #ff9a00 100%);
+        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+      }
+
+      .dp-column .avatar.sm.them::after {
+        content: "🦆";
+        display: grid;
+        place-items: center;
+        width: 100%;
+        height: 100%;
+        font-size: 22px;
+        filter: saturate(1.1);
+      }
+
+
+      .compose-wrap {
+        border-top: 1px solid #d8d4cc;
+        padding: 10px 12px 12px;
+        background: var(--surface);
+      }
+
+      .format-bar {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 8px;
+        align-items: center;
+      }
+
+      .fmt {
+        width: 26px;
+        height: 24px;
+        border: 1px solid #b0b0b0;
+        border-radius: 3px;
+        background: linear-gradient(180deg, #ffffff, #e8e8e8);
+        display: grid;
+        place-items: center;
+        font-size: 12px;
+        cursor: default;
+        box-shadow: inset 0 1px 0 #fff;
+      }
+
+      .fmt.palette {
+        width: auto;
+        padding: 0 4px;
+        gap: 2px;
+        display: inline-flex;
+      }
+
+      .fmt.palette i {
+        width: 8px;
+        height: 10px;
+        border: 1px solid #666;
+      }
+
+      .fmt.palette i.c1 {
+        background: #000;
+      }
+      .fmt.palette i.c2 {
+        background: #c00000;
+      }
+      .fmt.palette i.c3 {
+        background: #16365c;
+      }
+
+      .fmt.wide {
+        width: auto;
+        padding: 0 8px;
+        font-size: 10px;
+        font-weight: 700;
+      }
+
+      .input-row {
+        display: flex;
+        gap: 10px;
+        align-items: stretch;
+      }
+
+      .input-row textarea {
+        flex: 1;
+        min-height: 64px;
+        resize: vertical;
+        font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
+        font-size: 11px;
+        padding: 8px;
+        border: 1px solid #b0b0b0;
+        border-radius: 2px;
+        background: #fff;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      .input-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 84px;
+        flex-shrink: 0;
+      }
+
+      .send-btn,
+      .search-btn {
+        width: 100%;
+        font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        min-height: 28px;
+        background: linear-gradient(180deg, #ffffff, #ebebeb);
+        border: 1px solid #b0b0b0;
+        border-radius: 4px;
+        color: #000;
+        box-shadow: inset 0 1px 0 #fff;
+      }
+
+      .send-btn:hover,
+      .search-btn:hover {
+        background: linear-gradient(180deg, #ffffff, #f5f5f5);
+      }
+
+      .status-footer {
+        padding: 3px 10px;
+        border-top: 1px solid #d8d4cc;
+        background: linear-gradient(180deg, #fafaf8, var(--surface-deep));
+        color: #333;
+        font-size: 10px;
+      }
+
+      @media (max-width: 640px) {
+        .sidebar {
+          width: 200px;
+          flex-basis: 200px;
+        }
+        .toolbar {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="msn-window" role="application" aria-label="MSN Messenger style chat">
+      <div class="title-bar">
+        <div class="title-left">
+          <span class="butterfly" aria-hidden="true"></span>
+          <span class="title-text" id="winTitle">MSN Messenger — Conversation</span>
+        </div>
+        <div class="title-right">
+          <span class="title-msn" aria-hidden="true">msn</span>
+          <div class="title-buttons" aria-hidden="true">
+            <button type="button" tabindex="-1">_</button>
+            <button type="button" tabindex="-1">□</button>
+            <button type="button" class="close" tabindex="-1">×</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="menu-bar">
+        <span>File</span>
+        <span>Edit</span>
+        <span>Actions</span>
+        <span>Tools</span>
+        <span>Help</span>
+      </div>
+
+      <div class="toolbar" aria-hidden="true">
+        <div class="tb-btn"><div class="icon">👥</div><span class="label">Invite</span></div>
+        <div class="tb-btn"><div class="icon">📎</div><span class="label">Send<br />Files</span></div>
+        <div class="tb-btn"><div class="icon">📹</div><span class="label">Video</span></div>
+        <div class="tb-btn"><div class="icon">🎤</div><span class="label">Voice</span></div>
+        <div class="tb-btn"><div class="icon">🎭</div><span class="label">Activities</span></div>
+        <div class="tb-btn"><div class="icon">🎮</div><span class="label">Games</span></div>
+      </div>
+
+      <div class="main-split">
+        <aside class="sidebar" aria-label="Message threads">
+          <div class="me-strip">
+            <div class="avatar" aria-hidden="true"></div>
+            <div class="me-meta">
+              <strong>Me</strong>
+              <span class="status">Online</span>
+              <div class="me-personal">they only want u when ur 17 &lt;3</div>
+            </div>
+          </div>
+
+          <div class="thread-list-wrap" id="threadMount"></div>
+
+          <div class="sidebar-brand" aria-hidden="true">
+            <span class="msn-word">msn</span>
+            <span class="net"> Messenger</span> ·
+            <span class="net">.net</span>
+          </div>
+        </aside>
+
+        <section class="chat-pane" aria-label="Active conversation">
+          <div class="chat-header">
+            <div class="to-line" id="toLine">To: —</div>
+          </div>
+
+          <div class="warn-bar" id="warnBar" hidden>
+            <span class="i">i</span>
+            <span id="warnText"></span>
+          </div>
+
+          <div class="chat-body">
+            <div class="history" id="history" tabindex="0"></div>
+            <div class="dp-column" aria-hidden="true">
+              <div class="avatar sm me" title="Me"></div>
+              <div class="avatar sm them" title="Them"></div>
+            </div>
+          </div>
+
+          <div class="compose-wrap">
+            <div class="format-bar">
+              <span class="fmt" title="Font">A</span>
+              <span class="fmt" title="Emoticons">☺</span>
+              <span class="fmt palette" title="Font color" aria-hidden="true"
+                ><i class="c1"></i><i class="c2"></i><i class="c3"></i></span
+              >
+              <span class="fmt wide" title="Voice clips">Voice clip</span>
+            </div>
+            <div class="input-row">
+              <textarea id="composer" placeholder="Type a message here…" rows="3"></textarea>
+              <div class="input-actions">
+                <button class="send-btn" id="sendBtn" type="button">Send</button>
+                <button class="search-btn" id="searchBtn" type="button">Search</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="status-footer" id="statusFooter">Ready</div>
+        </section>
+      </div>
+    </div>
+
+    <script>
+      const threads = [
+        {
+          id: "sarah",
+          name: "xxx.jessica.xxx",
+          online: true,
+          statusClass: "",
+          statusShort: "Online",
+          flavor: "",
+          preview: "omg no way!!!",
+          warn: "Sarah may not reply because her status is set to Away.",
+          messages: [
+            { type: "msg", who: "Me", text: "hello???" },
+            { type: "sys", text: "*You just sent a nudge!*" },
+            { type: "msg", who: "Sarah", text: "brb dinner in 5" },
+            { type: "sys", text: "Sarah appears to be away from MSN Messenger." },
+          ],
+        },
+        {
+          id: "kate",
+          name: "Fair Dinkum",
+          online: true,
+          statusClass: "away",
+          statusShort: "Away",
+          flavor: "*From where…*",
+          preview: "are u coming to the thing tonight??",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Fair Dinkum", text: "are u coming to the thing tonight??" },
+            { type: "msg", who: "Me", text: "maybe idk yet lol" },
+          ],
+        },
+        {
+          id: "mom",
+          name: "mom (Work)",
+          online: false,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "",
+          preview: "call me when u get home",
+          warn: "",
+          messages: [{ type: "msg", who: "mom (Work)", text: "don't forget your key" }],
+        },
+      ];
+
+      const threadMount = document.getElementById("threadMount");
+      const historyEl = document.getElementById("history");
+      const toLineEl = document.getElementById("toLine");
+      const winTitleEl = document.getElementById("winTitle");
+      const warnBar = document.getElementById("warnBar");
+      const warnText = document.getElementById("warnText");
+      const composer = document.getElementById("composer");
+      const sendBtn = document.getElementById("sendBtn");
+      const searchBtn = document.getElementById("searchBtn");
+      const statusFooter = document.getElementById("statusFooter");
+
+      let activeId = threads.find((t) => t.online)?.id ?? threads[0]?.id ?? null;
+
+      function buildThreadLi(t) {
+        const li = document.createElement("li");
+        li.className = "thread" + (t.id === activeId ? " is-active" : "");
+        li.dataset.id = t.id;
+        li.setAttribute("role", "option");
+        li.setAttribute("aria-selected", t.id === activeId ? "true" : "false");
+
+        const dot = document.createElement("span");
+        dot.className = "status-dot " + (t.statusClass || "");
+        dot.setAttribute("aria-hidden", "true");
+
+        const body = document.createElement("div");
+        body.className = "thread-body";
+        body.innerHTML = '<div class="name"></div><div class="preview"></div><div class="sub"></div>';
+        body.querySelector(".name").textContent = `${t.name} (${t.statusShort})`;
+        body.querySelector(".preview").textContent = t.preview;
+        body.querySelector(".sub").textContent = t.flavor || "";
+
+        li.appendChild(dot);
+        li.appendChild(body);
+        li.addEventListener("click", () => setActive(t.id));
+        return li;
+      }
+
+      function renderThreadList() {
+        const onlineThreads = threads.filter((t) => t.online);
+        const offlineThreads = threads.filter((t) => !t.online);
+
+        threadMount.innerHTML = `
+          <div class="thread-section">Online <span class="count">(${onlineThreads.length})</span></div>
+          <ul class="thread-list" id="onlineThreadList" role="listbox"></ul>
+          <div class="thread-section">Offline <span class="count">(${offlineThreads.length})</span></div>
+          <ul class="thread-list" id="offlineThreadList" role="listbox"></ul>
+        `;
+
+        const onlineUl = threadMount.querySelector("#onlineThreadList");
+        const offlineUl = threadMount.querySelector("#offlineThreadList");
+        onlineThreads.forEach((t) => onlineUl.appendChild(buildThreadLi(t)));
+        offlineThreads.forEach((t) => offlineUl.appendChild(buildThreadLi(t)));
+      }
+
+      function renderMessages(t) {
+        historyEl.innerHTML = "";
+        t.messages.forEach((m) => {
+          const div = document.createElement("div");
+          if (m.type === "sys") {
+            div.className = "msg sys";
+            div.textContent = m.text;
+          } else {
+            div.className = "msg" + (m.who === "Me" ? " me-line" : "");
+            div.innerHTML = '<span class="who"></span>: ';
+            div.querySelector(".who").textContent = m.who;
+            div.appendChild(document.createTextNode(m.text));
+          }
+          historyEl.appendChild(div);
+        });
+        historyEl.scrollTop = historyEl.scrollHeight;
+      }
+
+      function setActive(id) {
+        activeId = id;
+        const t = threads.find((x) => x.id === id);
+        if (!t) return;
+
+        renderThreadList();
+        toLineEl.textContent = "To: " + t.name;
+        winTitleEl.textContent = "Conversation — " + t.name;
+
+        if (t.warn) {
+          warnBar.hidden = false;
+          warnText.textContent = t.warn;
+        } else {
+          warnBar.hidden = true;
+          warnText.textContent = "";
+        }
+
+        renderMessages(t);
+        statusFooter.textContent = "Last message in this conversation.";
+      }
+
+      function sendMessage() {
+        const text = (composer.value || "").trim();
+        if (!text) return;
+
+        const t = threads.find((x) => x.id === activeId);
+        if (!t) return;
+
+        t.messages.push({ type: "msg", who: "Me", text });
+        t.preview = text.length > 40 ? text.slice(0, 37) + "…" : text;
+        composer.value = "";
+        renderThreadList();
+        renderMessages(t);
+        statusFooter.textContent = "Message sent.";
+      }
+
+      sendBtn.addEventListener("click", sendMessage);
+      searchBtn.addEventListener("click", () => {
+        composer.focus();
+        composer.select();
+      });
+      composer.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      renderThreadList();
+      setActive(activeId);
+    </script>
+  </body>
+</html>
