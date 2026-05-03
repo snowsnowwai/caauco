@@ -6,20 +6,21 @@
     <title>MSN Messenger — Conversation</title>
     <style>
       /*
-        Background: ./Reference Images/MSN_chat.jpg
-        Window chrome: Windows Live Messenger–style cream (#f5f5f0), white transcript,
-        lavender toolbar bubbles, soft borders — aligned with your WLM reference PNG.
+        Classic MSN Messenger look (sky panel, white transcript, soft waves on DP rail) — no bitmap bg.
       */
       :root {
-        /* WLM-era cream canvas — matches full-screen “viewfinder” reference */
-        --surface: #f5f5f0;
-        --surface-deep: #ebe8e4;
+        --msn-sky: #dce6f2;
+        --msn-sky-deep: #c5d4ea;
+        --msn-sky-edge: #a8bdd4;
+        --msn-menu: #e8eef6;
+        --surface: var(--msn-sky);
+        --surface-deep: var(--msn-sky-deep);
         --xp-blue: #1c5fb8;
-        --win-bg: var(--surface);
-        --win-border-outer: #4a6484;
+        --win-bg: var(--msn-sky);
+        --win-border-outer: #7a8fa8;
         --win-border: #0054e3;
-        --menu-bg: var(--surface);
-        --inset-dark: #b8b4a8;
+        --menu-bg: var(--msn-menu);
+        --inset-dark: #808080;
         --inset-light: #ffffff;
         --text: #000000;
         --online: #008000;
@@ -29,47 +30,52 @@
         --history-bg: #ffffff;
         --warn-bg: #fffacd;
         --toolbar-icon-size: 48px;
-        --wlm-purple-top: #dcd6ec;
-        --wlm-purple-mid: #c4bcd8;
-        --wlm-purple-bot: #a69ebd;
+        --to-name: #b85500;
+        --wlm-purple-top: #e8f2ff;
+        --wlm-purple-mid: #b8d4f4;
+        --wlm-purple-bot: #6fa8e8;
+        --wave: radial-gradient(ellipse 90% 70% at 30% 25%, rgba(255, 255, 255, 0.55) 0%, transparent 58%);
+        --wave2: radial-gradient(ellipse 80% 60% at 85% 75%, rgba(255, 255, 255, 0.42) 0%, transparent 52%);
       }
 
       * {
         box-sizing: border-box;
       }
 
-      html,
-      body {
+      html {
         height: 100%;
-        margin: 0;
+        letter-spacing: 0.1em;
       }
 
       body {
+        min-height: 100dvh;
+        margin: 0;
         font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
         font-size: 11px;
         color: var(--text);
-        /* Full-scene reference art (grain + Bliss + taskbar vibe) */
-        background:
-          linear-gradient(180deg, rgba(8, 40, 90, 0.12) 0%, rgba(60, 120, 200, 0.06) 45%, transparent 72%),
-          url("./Reference%20Images/MSN_chat.jpg") center / cover no-repeat fixed;
-        display: grid;
-        place-items: center;
-        padding: 16px 10px;
-      }
-
-      /* Primary frame — larger so it reads as the main “viewfinder”, not a floating postage stamp */
-      .msn-window {
-        width: min(1080px, 98vw);
-        height: min(640px, 92vh);
-        background: var(--win-bg);
-        border: 1px solid var(--win-border-outer);
-        border-radius: 8px 8px 0 0;
-        box-shadow:
-          0 12px 40px rgba(0, 0, 0, 0.35),
-          0 2px 0 rgba(255, 255, 255, 0.35) inset,
-          0 0 0 1px rgba(0, 0, 0, 0.08);
+        background: linear-gradient(180deg, #8eb0d4 0%, #6e94bc 48%, #5a82ae 100%);
         display: flex;
         flex-direction: column;
+      }
+
+      button,
+      input,
+      textarea,
+      select {
+        letter-spacing: inherit;
+      }
+
+      /* Full-viewport panel — classic MSN sky blue */
+      .msn-window {
+        flex: 1 1 auto;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-height: 0;
+        background: linear-gradient(180deg, #e8f0fa 0%, var(--msn-sky) 38%, var(--msn-sky) 100%);
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
         overflow: hidden;
       }
 
@@ -81,7 +87,7 @@
         background: linear-gradient(180deg, #003d82 0%, #0055aa 35%, #2f8fef 100%);
         color: #fff;
         font-weight: 700;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.12em;
         user-select: none;
       }
 
@@ -104,7 +110,7 @@
         font-style: italic;
         font-weight: 800;
         font-size: 13px;
-        letter-spacing: -0.04em;
+        letter-spacing: 0.06em;
         text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
         opacity: 0.95;
       }
@@ -154,8 +160,8 @@
         display: flex;
         gap: 14px;
         padding: 3px 8px 4px;
-        background: var(--menu-bg);
-        border-bottom: 1px solid #c8c4bc;
+        background: linear-gradient(180deg, #f4f7fb 0%, var(--msn-menu) 100%);
+        border-bottom: 1px solid #a8b8cc;
       }
 
       .menu-bar span {
@@ -167,8 +173,8 @@
         align-items: flex-end;
         gap: 12px;
         padding: 10px 12px 12px;
-        background: linear-gradient(180deg, #fafaf8 0%, var(--surface-deep) 100%);
-        border-bottom: 1px solid #c8c4bc;
+        background: linear-gradient(180deg, #ffffff 0%, #e2ecf8 55%, var(--msn-sky-deep) 100%);
+        border-bottom: 1px solid #9aaec4;
         flex-wrap: wrap;
       }
 
@@ -184,20 +190,20 @@
       .tb-btn .icon {
         width: 38px;
         height: 38px;
-        border-radius: 10px;
-        border: 1px solid rgba(80, 70, 110, 0.35);
-        background: linear-gradient(180deg, var(--wlm-purple-top), var(--wlm-purple-mid) 55%, var(--wlm-purple-bot));
+        border-radius: 9px;
+        border: 1px solid #6a8ec0;
+        background: linear-gradient(180deg, #ffffff 0%, var(--wlm-purple-mid) 42%, var(--wlm-purple-bot) 100%);
         display: grid;
         place-items: center;
         font-size: 17px;
         box-shadow:
-          0 2px 4px rgba(0, 0, 0, 0.18),
-          inset 0 1px 0 rgba(255, 255, 255, 0.65);
+          0 2px 5px rgba(40, 80, 130, 0.28),
+          inset 0 1px 0 rgba(255, 255, 255, 0.85);
       }
 
       .tb-btn span.label {
         font-size: 10px;
-        color: #2d2d30;
+        color: #1e3a5c;
         text-align: center;
         line-height: 1.15;
       }
@@ -206,18 +212,18 @@
         flex: 1;
         display: flex;
         min-height: 0;
-        background: var(--surface);
+        background: var(--wave), var(--wave2), linear-gradient(175deg, #e6eef8 0%, var(--msn-sky) 60%);
       }
 
       /* Sidebar: threads */
       .sidebar {
         width: 260px;
         flex: 0 0 260px;
-        border-right: 1px solid #c8c4bc;
+        border-right: 1px solid var(--msn-sky-edge);
         display: flex;
         flex-direction: column;
         min-height: 0;
-        background: var(--surface);
+        background: var(--wave), linear-gradient(180deg, #eaf1fa 0%, var(--msn-sky) 100%);
       }
 
       .me-strip {
@@ -225,8 +231,8 @@
         align-items: center;
         gap: 8px;
         padding: 10px;
-        background: linear-gradient(180deg, #fafaf8, var(--surface-deep));
-        border-bottom: 1px solid #c8c4bc;
+        background: linear-gradient(180deg, #f2f6fc 0%, var(--msn-sky-deep) 100%);
+        border-bottom: 1px solid var(--msn-sky-edge);
       }
 
       .avatar {
@@ -260,7 +266,7 @@
         flex: 1;
         overflow: auto;
         padding: 8px;
-        background: var(--surface);
+        background: var(--wave2), linear-gradient(180deg, var(--msn-sky) 0%, #cad8ea 100%);
       }
 
       .thread-section {
@@ -277,18 +283,18 @@
 
       .sidebar-brand {
         padding: 8px 10px;
-        border-top: 1px solid #c8c4bc;
-        background: linear-gradient(180deg, #fafaf8, var(--surface-deep));
+        border-top: 1px solid var(--msn-sky-edge);
+        background: linear-gradient(180deg, #eef3fa 0%, var(--msn-sky-deep) 100%);
         text-align: center;
         font-size: 10px;
-        color: #444;
+        color: #3d4d60;
       }
 
       .sidebar-brand .msn-word {
         font-style: italic;
         font-weight: 800;
         font-size: 14px;
-        letter-spacing: -0.05em;
+        letter-spacing: 0.05em;
       }
 
       .sidebar-brand .net {
@@ -327,7 +333,7 @@
       }
 
       .thread:hover {
-        background: #ddebf7;
+        background: rgba(49, 106, 197, 0.18);
       }
 
       .thread.is-active {
@@ -390,25 +396,47 @@
         text-overflow: ellipsis;
       }
 
-      /* Main chat pane — same cream surface as sidebar (one continuous panel) */
+      /* Main chat pane — MSN sky panel */
       .chat-pane {
         flex: 1;
         display: flex;
         flex-direction: column;
         min-width: 0;
         min-height: 0;
-        background: var(--surface);
+        background: var(--wave), linear-gradient(195deg, #e4edf8 0%, var(--msn-sky) 45%);
       }
 
       .chat-header {
-        padding: 8px 12px;
-        background: var(--surface);
-        border-bottom: 1px solid #d8d4cc;
+        padding: 8px 12px 10px;
+        background: transparent;
+        border-bottom: 1px solid var(--msn-sky-edge);
         font-size: 11px;
       }
 
       .chat-header .to-line {
+        display: flex;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 0 6px;
         font-weight: 700;
+        color: #1a1a1a;
+      }
+
+      .chat-header .to-prefix {
+        color: #333;
+      }
+
+      .chat-header .to-name {
+        color: var(--to-name);
+        font-weight: 700;
+      }
+
+      .chat-header .to-email {
+        display: block;
+        margin-top: 3px;
+        font-size: 10px;
+        font-weight: 400;
+        color: #5a6a7a;
       }
 
       .warn-bar {
@@ -442,15 +470,16 @@
         min-height: 0;
         padding: 10px 12px;
         gap: 10px;
-        background: var(--surface);
+        background: transparent;
       }
 
       .history {
         flex: 1;
         background-color: var(--history-bg);
-        border: 1px solid #c0c0c0;
+        border: 1px solid;
+        border-color: var(--inset-dark) var(--inset-light) var(--inset-light) var(--inset-dark);
         border-radius: 2px;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.06);
+        box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.08);
         overflow: auto;
         padding: 10px 12px;
         font-size: 11px;
@@ -476,13 +505,18 @@
       }
 
       .dp-column {
-        width: 56px;
+        width: 64px;
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
         gap: 10px;
         align-items: center;
-        padding-top: 2px;
+        padding: 6px 4px 8px;
+        align-self: stretch;
+        background: var(--wave2), var(--wave), linear-gradient(200deg, #e8f1fb 0%, #b8cce8 100%);
+        border: 1px solid #8fa8c4;
+        border-radius: 6px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
       }
 
       /* Reference: DP stack — Me on top (MSN mark), contact below (ducky colors) */
@@ -518,9 +552,9 @@
 
 
       .compose-wrap {
-        border-top: 1px solid #d8d4cc;
+        border-top: 1px solid var(--msn-sky-edge);
         padding: 10px 12px 12px;
-        background: var(--surface);
+        background: linear-gradient(180deg, var(--msn-sky-deep) 0%, var(--msn-sky) 100%);
       }
 
       .format-bar {
@@ -621,9 +655,9 @@
 
       .status-footer {
         padding: 3px 10px;
-        border-top: 1px solid #d8d4cc;
-        background: linear-gradient(180deg, #fafaf8, var(--surface-deep));
-        color: #333;
+        border-top: 1px solid var(--msn-sky-edge);
+        background: linear-gradient(180deg, #eef3fa 0%, var(--msn-sky-deep) 100%);
+        color: #2d3d52;
         font-size: 10px;
       }
 
@@ -694,7 +728,11 @@
 
         <section class="chat-pane" aria-label="Active conversation">
           <div class="chat-header">
-            <div class="to-line" id="toLine">To: —</div>
+            <div class="to-line">
+              <span class="to-prefix">To:</span>
+              <span class="to-name" id="toName">—</span>
+            </div>
+            <span class="to-email" id="toEmail" hidden></span>
           </div>
 
           <div class="warn-bar" id="warnBar" hidden>
@@ -738,6 +776,7 @@
         {
           id: "sarah",
           name: "xxx.jessica.xxx",
+          email: "xxx.jessica.xxx@hotmail.com",
           online: true,
           statusClass: "",
           statusShort: "Online",
@@ -754,6 +793,7 @@
         {
           id: "kate",
           name: "Fair Dinkum",
+          email: "fairdinkum@hotmail.com",
           online: true,
           statusClass: "away",
           statusShort: "Away",
@@ -768,6 +808,7 @@
         {
           id: "mom",
           name: "mom (Work)",
+          email: "mom@work.com",
           online: false,
           statusClass: "offline",
           statusShort: "Offline",
@@ -780,7 +821,8 @@
 
       const threadMount = document.getElementById("threadMount");
       const historyEl = document.getElementById("history");
-      const toLineEl = document.getElementById("toLine");
+      const toNameEl = document.getElementById("toName");
+      const toEmailEl = document.getElementById("toEmail");
       const winTitleEl = document.getElementById("winTitle");
       const warnBar = document.getElementById("warnBar");
       const warnText = document.getElementById("warnText");
@@ -856,7 +898,14 @@
         if (!t) return;
 
         renderThreadList();
-        toLineEl.textContent = "To: " + t.name;
+        toNameEl.textContent = t.name;
+        if (t.email) {
+          toEmailEl.textContent = t.email;
+          toEmailEl.hidden = false;
+        } else {
+          toEmailEl.textContent = "";
+          toEmailEl.hidden = true;
+        }
         winTitleEl.textContent = "Conversation — " + t.name;
 
         if (t.warn) {

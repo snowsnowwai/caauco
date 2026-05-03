@@ -28,6 +28,10 @@
   box-sizing: border-box;
 }
 
+html {
+  letter-spacing: 0.1em;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -46,6 +50,7 @@ input,
 select,
 textarea {
   font-family: inherit;
+  letter-spacing: inherit;
 }
 
 .browser-window {
@@ -94,7 +99,7 @@ textarea {
   border-radius: 12px;
   padding: 0.35rem 0.85rem 0.45rem;
   font-size: 1.15rem;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.13em;
   background: #fbf8ee;
 }
 
@@ -164,7 +169,7 @@ main {
 
 .eyebrow {
   margin: 0 0 0.55rem;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   font-size: 0.78rem;
   font-weight: 700;
@@ -173,7 +178,7 @@ main {
 .hero h2,
 .match-section h2 {
   margin: 0 0 0.6rem;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
 }
 
@@ -360,7 +365,7 @@ main {
   background: #000000;
   color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.14em;
   font-size: 1.25rem;
   text-align: center;
   padding: 1rem;
@@ -400,7 +405,7 @@ main {
   margin: 0;
   font-size: 2rem;
   line-height: 1.05;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.12em;
   color: var(--ink);
   font-family: "ShadowMarker", "IEatCrayons", sans-serif;
 }
