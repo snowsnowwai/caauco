@@ -309,6 +309,7 @@ main {
 
 .match-deck .artist-card {
   border: none;
+  background: transparent;
 }
 
 .match-slide {
