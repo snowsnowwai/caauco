@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Match Preview Page</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,8 +25,8 @@
 
     <main>
       <section id="artists" class="match-section">
-        <h2>Trending Artist Matches</h2>
-        <p class="section-copy">Swipe through a vertical match preview, one artist at a time.</p>
+        <h2>Swipe, Tap, and Message!!</h2>
+        <p class="section-copy">Scroll through a list of SJSU designers and find your potentional match today!</p>
         <div class="match-deck" id="matchDeck">
           <article class="artist-card match-slide is-front">
             <div class="match-card-inner">
@@ -31,8 +34,8 @@
                 <img src="Image_Rotation/me oh vector-01.png" alt="Artist artwork preview 1">
                 <div class="artist-overlay">
                   <div class="artist-info">
-                    <h3>Amari</h3>
-                    <p>Anime and Character Sheets</p>
+                    <h3>Cole Louie</h3>
+                    <p>Vector and Retro Graphics</p>
                   </div>
                 </div>
               </div>
@@ -46,8 +49,8 @@
                 <img src="Image_Rotation/Gage n Natsuki OFFICIAL-01.png" alt="Artist artwork preview 2">
                 <div class="artist-overlay">
                   <div class="artist-info">
-                    <h3>Iris</h3>
-                    <p>Watercolor Illustrations</p>
+                    <h3>Audrey Wai</h3>
+                    <p>Digital Media Art</p>
                   </div>
                 </div>
               </div>
@@ -66,15 +69,34 @@
                   </div>
                 </div>
               </div>
-              <div class="match-card-face match-card-face--back" aria-hidden="true"></div>
+              <div class="match-card-face match-card-face--back match-card-face--back-guide">
+                <div class="guide-back-inner">
+                  <p class="guide-back-lead">Hello There and welcome to Quick Draw!</p>
+                  <div class="guide-back-logo">
+                    <img src="Logo/quick_draw.png" alt="Quick Draw">
+                  </div>
+                  <h4 class="guide-back-heading">How to Use:</h4>
+                  <p class="guide-back-copy">For clients the main page is the program’s primary matching function as you are given a whole gallery of our registered artists who are ready to work!</p>
+                  <ol class="guide-back-steps">
+                    <li>Use the arrow at the bottom of the cards to move through the gallery of talented artists.</li>
+                    <li>When you find one you’re interested in, tap to reveal their artist card.</li>
+                    <li>To request or get into contact with them, tap on the message button in the card or the request button to where a pop up will appear and will give you an artist menu for you to choose your specific needs!</li>
+                    <li>On the top task bar will be our messaging system where you can review your chats with the artists you contact!</li>
+                  </ol>
+                </div>
+              </div>
             </div>
           </article>
 
           <article class="artist-card match-slide">
             <div class="match-card-inner">
               <div class="match-card-face match-card-face--front">
-                <div class="placeholder-tile" role="img" aria-label="Placeholder tile">
-                  Placeholder Tile
+                <div class="placeholder-tile placeholder-tile--match" aria-hidden="true"></div>
+                <div class="artist-overlay">
+                  <div class="artist-info">
+                    <h3>Cassidy Singman</h3>
+                    <p>Illustration and Animation</p>
+                  </div>
                 </div>
               </div>
               <div class="match-card-face match-card-face--back" aria-hidden="true"></div>

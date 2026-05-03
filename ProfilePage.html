@@ -379,7 +379,7 @@
                     <strong>Spring Pep Rally Poster Pack</strong>
                     <span class="status-pill status-pill--done">Delivered</span>
                   </div>
-                  <p class="meta">Artist: Iris M. | Category: Poster Design | Ordered: Apr 01</p>
+                  <p class="meta">Artist: Audrey Wai | Category: Poster Design | Ordered: Apr 01</p>
                   <p class="meta">Total: $120 | Files: PNG, PDF</p>
                 </div>
                 <div class="order-item">
@@ -387,7 +387,7 @@
                     <strong>Robotics Club Mascot Concept</strong>
                     <span class="status-pill status-pill--progress">In Progress</span>
                   </div>
-                  <p class="meta">Artist: Amari T. | Category: Mascot Design | Ordered: Apr 21</p>
+                  <p class="meta">Artist: Cole Louie | Category: Mascot Design | Ordered: Apr 21</p>
                   <p class="meta">Total: $180 | Next Milestone: Color pass review</p>
                 </div>
                 <div class="order-item">
@@ -410,13 +410,13 @@
               <p class="section-copy">Message artists directly about project requirements, revisions, and delivery details.</p>
               <div class="messages-layout">
                 <div class="thread-list" id="threadList">
-                  <button class="thread-btn is-active" type="button" data-thread-id="iris">Iris M.<br><small>Poster updates</small></button>
-                  <button class="thread-btn" type="button" data-thread-id="amari">Amari T.<br><small>Mascot sketch</small></button>
+                  <button class="thread-btn is-active" type="button" data-thread-id="audrey">Audrey Wai<br><small>Poster updates</small></button>
+                  <button class="thread-btn" type="button" data-thread-id="cole">Cole Louie<br><small>Mascot sketch</small></button>
                   <button class="thread-btn" type="button" data-thread-id="cora">Cora V.<br><small>Yearbook revisions</small></button>
                 </div>
                 <section class="chat-box">
                   <div class="chat-header">
-                    <h4 id="chatTitle">Iris M.</h4>
+                    <h4 id="chatTitle">Audrey Wai</h4>
                     <p id="chatSubtitle">Poster updates</p>
                   </div>
                   <div class="chat-messages" id="chatMessages"></div>
@@ -432,8 +432,8 @@
               <h3>Saved Artists</h3>
               <p class="section-copy">Creators you bookmarked for future commissions.</p>
               <ul class="simple-list">
-                <li><strong>Amari T.</strong> - Character concepts, mascot kits, anime style portraits.</li>
-                <li><strong>Iris M.</strong> - Event posters, watercolor illustrations, social media assets.</li>
+                <li><strong>Cole Louie</strong> - Vector and Retro Graphics.</li>
+                <li><strong>Audrey Wai</strong> - Digital Media Art.</li>
                 <li><strong>Cora V.</strong> - Editorial and yearbook illustration, branding support.</li>
               </ul>
               <div class="actions-row">
@@ -498,8 +498,8 @@
     });
 
     const threadData = {
-      iris: {
-        name: "Iris M.",
+      audrey: {
+        name: "Audrey Wai",
         topic: "Poster updates",
         messages: [
           { sender: "artist", text: "Hi Jordan! I uploaded two poster directions for your pep rally campaign." },
@@ -507,8 +507,8 @@
           { sender: "artist", text: "Yes! I can send the updated pass by tomorrow afternoon." }
         ]
       },
-      amari: {
-        name: "Amari T.",
+      cole: {
+        name: "Cole Louie",
         topic: "Mascot sketch",
         messages: [
           { sender: "artist", text: "I shared the first mascot sketch set. Which one should I refine?" },
@@ -532,7 +532,7 @@
     const chatForm = document.getElementById("chatForm");
     const chatInput = document.getElementById("chatInput");
 
-    let activeThreadId = "iris";
+    let activeThreadId = "audrey";
 
     function renderMessages(threadId) {
       const thread = threadData[threadId];
