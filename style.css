@@ -124,6 +124,12 @@ textarea {
   justify-content: center;
 }
 
+.header-logo a {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 .header-logo img {
   display: block;
   width: 140px;
@@ -711,7 +717,8 @@ main {
   flex-wrap: wrap;
 }
 
-button {
+button,
+a.ghost-btn {
   border: 2px solid var(--ink);
   cursor: pointer;
   font-weight: 700;
@@ -721,7 +728,14 @@ button {
   transition: transform 0.14s ease;
 }
 
-button:hover {
+a.ghost-btn {
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+button:hover,
+a.ghost-btn:hover {
   background: var(--pink);
   transform: translate(-1px, -1px);
 }
