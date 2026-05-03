@@ -304,8 +304,34 @@ main {
   inset: 0;
   border-radius: 0;
   overflow: hidden;
+  transform-style: preserve-3d;
   transition: transform 0.45s ease, opacity 0.45s ease, filter 0.45s ease;
   pointer-events: none;
+}
+
+.match-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.55s cubic-bezier(0.4, 0.02, 0.2, 1);
+}
+
+.match-slide.is-flipped .match-card-inner {
+  transform: rotateY(180deg);
+}
+
+.match-card-face {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  overflow: hidden;
+}
+
+.match-card-face--back {
+  transform: rotateY(180deg);
+  background: #e6dcff;
 }
 
 .match-slide.is-front {
@@ -314,6 +340,7 @@ main {
   filter: blur(0);
   z-index: 3;
   pointer-events: auto;
+  cursor: pointer;
 }
 
 .match-slide.is-back-1 {
@@ -337,7 +364,7 @@ main {
   z-index: 0;
 }
 
-.match-slide.is-saved::after {
+.match-slide.is-saved .match-card-face--front::after {
   content: "";
   position: absolute;
   top: 12px;

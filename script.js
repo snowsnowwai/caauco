@@ -126,5 +126,14 @@ if (matchDeck && matchSlides.length) {
     });
   }
 
+  matchSlides.forEach((slide) => {
+    slide.addEventListener("click", () => {
+      if (!slide.classList.contains("is-front")) {
+        return;
+      }
+      slide.classList.toggle("is-flipped");
+    });
+  });
+
   showMatchSlide(2);
 }
