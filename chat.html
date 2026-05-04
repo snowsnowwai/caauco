@@ -6,23 +6,37 @@
     <title>MSN Messenger — Conversation</title>
     <style>
       /*
-        Classic MSN Messenger look (sky panel, white transcript, soft waves on DP rail) — no bitmap bg.
+        Classic MSN Messenger look — tinted to Quick Draw / Match Preview palette.
       */
+      @font-face {
+        font-family: "IEatCrayons";
+        src: url("./Fonts/i-eat-crayons.ttf") format("truetype");
+        font-style: normal;
+        font-weight: 400 700;
+      }
+
       :root {
-        --msn-sky: #dce6f2;
-        --msn-sky-deep: #c5d4ea;
-        --msn-sky-edge: #a8bdd4;
-        --msn-menu: #e8eef6;
+        --blue: #07279a;
+        --pink: #d54aa9;
+        --paper: #f4efff;
+        --paper-2: #ece4ff;
+        --ink: #07279a;
+        --ink-soft: #3f4f9a;
+
+        --msn-sky: #e6dcff;
+        --msn-sky-deep: #ddd4f0;
+        --msn-sky-edge: #b5a3d6;
+        --msn-menu: #f2ecff;
         --surface: var(--msn-sky);
         --surface-deep: var(--msn-sky-deep);
-        --xp-blue: #1c5fb8;
+        --xp-blue: var(--blue);
         --win-bg: var(--msn-sky);
-        --win-border-outer: #7a8fa8;
-        --win-border: #0054e3;
+        --win-border-outer: #9a88c4;
+        --win-border: var(--blue);
         --menu-bg: var(--msn-menu);
         --inset-dark: #808080;
         --inset-light: #ffffff;
-        --text: #000000;
+        --text: var(--ink);
         --online: #008000;
         --away: #c06000;
         --busy: #c00000;
@@ -30,10 +44,10 @@
         --history-bg: #ffffff;
         --warn-bg: #fffacd;
         --toolbar-icon-size: 48px;
-        --to-name: #b85500;
-        --wlm-purple-top: #e8f2ff;
-        --wlm-purple-mid: #b8d4f4;
-        --wlm-purple-bot: #6fa8e8;
+        --to-name: #a04818;
+        --wlm-purple-top: #ece8fb;
+        --wlm-purple-mid: #c4b5e8;
+        --wlm-purple-bot: #8b7ece;
         --wave: radial-gradient(ellipse 90% 70% at 30% 25%, rgba(255, 255, 255, 0.55) 0%, transparent 58%);
         --wave2: radial-gradient(ellipse 80% 60% at 85% 75%, rgba(255, 255, 255, 0.42) 0%, transparent 52%);
       }
@@ -50,10 +64,14 @@
       body {
         min-height: 100dvh;
         margin: 0;
-        font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
-        font-size: 11px;
+        font-family: "IEatCrayons", Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
+        font-weight: 700;
+        font-size: 12px;
         color: var(--text);
-        background: linear-gradient(180deg, #8eb0d4 0%, #6e94bc 48%, #5a82ae 100%);
+        background:
+          radial-gradient(circle at 20% 20%, #d54aa938 0%, #ffffff00 42%),
+          radial-gradient(circle at 85% 12%, #07279a33 0%, #ffffff00 45%),
+          var(--paper-2);
         display: flex;
         flex-direction: column;
       }
@@ -65,14 +83,14 @@
         letter-spacing: inherit;
       }
 
-      /* Full-viewport panel — classic MSN sky blue */
+      /* Full-viewport panel */
       .msn-window {
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
         width: 100%;
         min-height: 0;
-        background: linear-gradient(180deg, #e8f0fa 0%, var(--msn-sky) 38%, var(--msn-sky) 100%);
+        background: var(--paper);
         border: 0;
         border-radius: 0;
         box-shadow: none;
@@ -84,7 +102,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 4px 5px 4px 8px;
-        background: linear-gradient(180deg, #003d82 0%, #0055aa 35%, #2f8fef 100%);
+        background: linear-gradient(180deg, #051451 0%, var(--blue) 38%, var(--ink-soft) 100%);
         color: #fff;
         font-weight: 700;
         letter-spacing: 0.12em;
@@ -144,7 +162,7 @@
         width: 21px;
         height: 21px;
         border: 1px solid rgba(255, 255, 255, 0.35);
-        background: linear-gradient(180deg, #6ca6e8, #2d6bcd);
+        background: linear-gradient(180deg, var(--ink-soft), var(--blue));
         color: #fff;
         font-size: 12px;
         line-height: 1;
@@ -156,16 +174,26 @@
         background: linear-gradient(180deg, #e88, #c33);
       }
 
-      .menu-bar {
-        display: flex;
-        gap: 14px;
-        padding: 3px 8px 4px;
-        background: linear-gradient(180deg, #f4f7fb 0%, var(--msn-menu) 100%);
-        border-bottom: 1px solid #a8b8cc;
+      .title-buttons button {
+        cursor: pointer;
       }
 
-      .menu-bar span {
-        cursor: default;
+      .msn-window.is-maximized {
+        position: fixed;
+        inset: 0;
+        z-index: 10000;
+        max-height: 100dvh;
+        width: 100%;
+        box-shadow: 0 12px 48px rgba(0, 0, 0, 0.35);
+      }
+
+      body.chat-maximized {
+        overflow: hidden;
+      }
+
+      .msn-window.is-minimized .toolbar,
+      .msn-window.is-minimized .main-split {
+        display: none !important;
       }
 
       .toolbar {
@@ -184,7 +212,20 @@
         align-items: center;
         gap: 4px;
         width: var(--toolbar-icon-size);
-        cursor: default;
+        cursor: pointer;
+        appearance: none;
+        margin: 0;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        font: inherit;
+        color: inherit;
+      }
+
+      .tb-btn:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 3px;
+        border-radius: 10px;
       }
 
       .tb-btn .icon {
@@ -203,7 +244,7 @@
 
       .tb-btn span.label {
         font-size: 10px;
-        color: #1e3a5c;
+        color: var(--ink-soft);
         text-align: center;
         line-height: 1.15;
       }
@@ -226,40 +267,9 @@
         background: var(--wave), linear-gradient(180deg, #eaf1fa 0%, var(--msn-sky) 100%);
       }
 
-      .me-strip {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px;
-        background: linear-gradient(180deg, #f2f6fc 0%, var(--msn-sky-deep) 100%);
-        border-bottom: 1px solid var(--msn-sky-edge);
-      }
-
       .avatar {
-        width: 40px;
-        height: 40px;
-        border: 1px solid #888;
         flex-shrink: 0;
-      }
-
-      .me-strip .avatar {
-        background: conic-gradient(
-          #7cbb00 0deg 90deg,
-          #ffb900 90deg 180deg,
-          #00a4ef 180deg 270deg,
-          #f25022 270deg 360deg
-        );
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
-      }
-
-      .me-meta strong {
-        display: block;
-        font-size: 12px;
-      }
-
-      .me-meta .status {
-        color: var(--online);
-        font-weight: 700;
+        border: 1px solid #888;
       }
 
       .thread-list-wrap {
@@ -273,7 +283,7 @@
         font-weight: 700;
         font-size: 11px;
         margin: 6px 0 4px 4px;
-        color: #333;
+        color: var(--ink-soft);
       }
 
       .thread-section .count {
@@ -300,14 +310,6 @@
       .sidebar-brand .net {
         font-weight: 700;
         color: #666;
-      }
-
-      .me-personal {
-        font-size: 10px;
-        color: #555;
-        font-style: italic;
-        margin-top: 2px;
-        line-height: 1.25;
       }
 
       .thread-list {
@@ -341,9 +343,13 @@
         color: #fff;
       }
 
+      .thread.is-active .thread-body .name {
+        color: #ffffff;
+      }
+
       .thread.is-active .preview,
       .thread.is-active .sub {
-        color: rgba(255, 255, 255, 0.85);
+        color: rgba(255, 255, 255, 0.92);
       }
 
       .status-dot {
@@ -374,22 +380,24 @@
 
       .thread-body .name {
         font-weight: 700;
+        font-size: 12px;
+        color: #141414;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
       .thread-body .preview {
-        font-size: 10px;
-        color: #555;
+        font-size: 12px;
+        color: #2a2a2a;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
       }
 
       .thread-body .sub {
-        font-size: 10px;
-        color: #777;
+        font-size: 11px;
+        color: #444444;
         font-style: italic;
         white-space: nowrap;
         overflow: hidden;
@@ -410,7 +418,7 @@
         padding: 8px 12px 10px;
         background: transparent;
         border-bottom: 1px solid var(--msn-sky-edge);
-        font-size: 11px;
+        font-size: 13px;
       }
 
       .chat-header .to-line {
@@ -434,9 +442,9 @@
       .chat-header .to-email {
         display: block;
         margin-top: 3px;
-        font-size: 10px;
+        font-size: 11px;
         font-weight: 400;
-        color: #5a6a7a;
+        color: #333333;
       }
 
       .warn-bar {
@@ -448,7 +456,14 @@
         display: flex;
         gap: 8px;
         align-items: flex-start;
-        font-size: 11px;
+        font-size: 13px;
+        line-height: 1.45;
+        color: #2a2410;
+      }
+
+      .warn-bar #warnText {
+        flex: 1;
+        min-width: 0;
       }
 
       .warn-bar .i {
@@ -482,26 +497,28 @@
         box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.08);
         overflow: auto;
         padding: 10px 12px;
-        font-size: 11px;
-        line-height: 1.5;
+        font-size: 13px;
+        line-height: 1.55;
+        color: #141414;
       }
 
       .msg {
         margin-bottom: 8px;
+        color: #141414;
       }
 
       .msg .who {
         font-weight: 700;
-        color: #003366;
+        color: #052080;
       }
 
       .msg.me-line .who {
-        color: #0055aa;
+        color: #052080;
       }
 
       .msg.sys {
         font-style: italic;
-        color: #666666;
+        color: #3d3d3d;
       }
 
       .dp-column {
@@ -573,8 +590,18 @@
         display: grid;
         place-items: center;
         font-size: 12px;
-        cursor: default;
+        cursor: pointer;
         box-shadow: inset 0 1px 0 #fff;
+        appearance: none;
+        margin: 0;
+        padding: 0;
+        font: inherit;
+        color: inherit;
+      }
+
+      .fmt:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
       }
 
       .fmt.palette {
@@ -618,7 +645,9 @@
         min-height: 64px;
         resize: vertical;
         font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
-        font-size: 11px;
+        font-size: 13px;
+        line-height: 1.45;
+        color: #141414;
         padding: 8px;
         border: 1px solid #b0b0b0;
         border-radius: 2px;
@@ -638,14 +667,16 @@
       .search-btn {
         width: 100%;
         font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 700;
+        color: #141414;
         min-height: 28px;
         background: linear-gradient(180deg, #ffffff, #ebebeb);
         border: 1px solid #b0b0b0;
         border-radius: 4px;
         color: #000;
         box-shadow: inset 0 1px 0 #fff;
+        cursor: pointer;
       }
 
       .send-btn:hover,
@@ -657,8 +688,8 @@
         padding: 3px 10px;
         border-top: 1px solid var(--msn-sky-edge);
         background: linear-gradient(180deg, #eef3fa 0%, var(--msn-sky-deep) 100%);
-        color: #2d3d52;
-        font-size: 10px;
+        color: #1a2433;
+        font-size: 12px;
       }
 
       @media (max-width: 640px) {
@@ -681,42 +712,37 @@
         </div>
         <div class="title-right">
           <span class="title-msn" aria-hidden="true">msn</span>
-          <div class="title-buttons" aria-hidden="true">
-            <button type="button" tabindex="-1">_</button>
-            <button type="button" tabindex="-1">□</button>
-            <button type="button" class="close" tabindex="-1">×</button>
+          <div class="title-buttons">
+            <button type="button" id="titleMin" aria-label="Minimize">_</button>
+            <button type="button" id="titleMax" aria-label="Maximize">□</button>
+            <button type="button" class="close" id="titleClose" aria-label="Close">×</button>
           </div>
         </div>
       </div>
 
-      <div class="menu-bar">
-        <span>File</span>
-        <span>Edit</span>
-        <span>Actions</span>
-        <span>Tools</span>
-        <span>Help</span>
-      </div>
+      <input type="file" id="tbFilePick" hidden multiple />
 
-      <div class="toolbar" aria-hidden="true">
-        <div class="tb-btn"><div class="icon">👥</div><span class="label">Invite</span></div>
-        <div class="tb-btn"><div class="icon">📎</div><span class="label">Send<br />Files</span></div>
-        <div class="tb-btn"><div class="icon">📹</div><span class="label">Video</span></div>
-        <div class="tb-btn"><div class="icon">🎤</div><span class="label">Voice</span></div>
-        <div class="tb-btn"><div class="icon">🎭</div><span class="label">Activities</span></div>
-        <div class="tb-btn"><div class="icon">🎮</div><span class="label">Games</span></div>
+      <div class="toolbar" role="toolbar" aria-label="Conversation actions">
+        <button type="button" class="tb-btn" id="tbInvite" aria-label="Invite">
+          <span class="icon" aria-hidden="true">👥</span>
+          <span class="label">Invite</span>
+        </button>
+        <button type="button" class="tb-btn" id="tbSendFiles" aria-label="Send files">
+          <span class="icon" aria-hidden="true">📎</span>
+          <span class="label">Send<br />Files</span>
+        </button>
+        <button type="button" class="tb-btn" id="tbVideo" aria-label="Video">
+          <span class="icon" aria-hidden="true">📹</span>
+          <span class="label">Video</span>
+        </button>
+        <button type="button" class="tb-btn" id="tbVoice" aria-label="Voice">
+          <span class="icon" aria-hidden="true">🎤</span>
+          <span class="label">Voice</span>
+        </button>
       </div>
 
       <div class="main-split">
         <aside class="sidebar" aria-label="Message threads">
-          <div class="me-strip">
-            <div class="avatar" aria-hidden="true"></div>
-            <div class="me-meta">
-              <strong>Me</strong>
-              <span class="status">Online</span>
-              <div class="me-personal">they only want u when ur 17 &lt;3</div>
-            </div>
-          </div>
-
           <div class="thread-list-wrap" id="threadMount"></div>
 
           <div class="sidebar-brand" aria-hidden="true">
@@ -749,13 +775,13 @@
           </div>
 
           <div class="compose-wrap">
-            <div class="format-bar">
-              <span class="fmt" title="Font">A</span>
-              <span class="fmt" title="Emoticons">☺</span>
-              <span class="fmt palette" title="Font color" aria-hidden="true"
-                ><i class="c1"></i><i class="c2"></i><i class="c3"></i></span
-              >
-              <span class="fmt wide" title="Voice clips">Voice clip</span>
+            <div class="format-bar" role="toolbar" aria-label="Format">
+              <button type="button" class="fmt" id="fmtFont" title="Font size">A</button>
+              <button type="button" class="fmt" id="fmtEmoji" title="Insert emoticon">☺</button>
+              <button type="button" class="fmt palette" id="fmtPalette" title="Font color" aria-label="Font color">
+                <i class="c1"></i><i class="c2"></i><i class="c3"></i>
+              </button>
+              <button type="button" class="fmt wide" id="fmtVoiceClip" title="Voice clip">Voice clip</button>
             </div>
             <div class="input-row">
               <textarea id="composer" placeholder="Type a message here…" rows="3"></textarea>
@@ -774,48 +800,156 @@
     <script>
       const threads = [
         {
-          id: "sarah",
-          name: "xxx.jessica.xxx",
-          email: "xxx.jessica.xxx@hotmail.com",
+          id: "vectorclient",
+          name: "Jessica Morales",
+          email: "jessica.morales@hotmail.com",
           online: true,
           statusClass: "",
           statusShort: "Online",
           flavor: "",
-          preview: "omg no way!!!",
-          warn: "Sarah may not reply because her status is set to Away.",
+          preview: "Rev A looks perf — one tweak?",
+          warn: "This contact may be slow to reply while reviewing your commission files.",
           messages: [
-            { type: "msg", who: "Me", text: "hello???" },
-            { type: "sys", text: "*You just sent a nudge!*" },
-            { type: "msg", who: "Sarah", text: "brb dinner in 5" },
-            { type: "sys", text: "Sarah appears to be away from MSN Messenger." },
+            { type: "msg", who: "Me", text: "Uploaded Rev B of the logo vector package (commission #2041)." },
+            { type: "sys", text: "*Deliverables marked ready for client review.*" },
+            { type: "msg", who: "Jessica Morales", text: "Rev A looks perf — one tweak on the stroke weight?" },
+            { type: "sys", text: "Milestone 2/3 for this commission is invoiced." },
           ],
         },
         {
-          id: "kate",
-          name: "Fair Dinkum",
-          email: "fairdinkum@hotmail.com",
+          id: "rush_client",
+          name: "Marcus Reid",
+          email: "marcus.reid@hotmail.com",
           online: true,
           statusClass: "away",
           statusShort: "Away",
-          flavor: "*From where…*",
-          preview: "are u coming to the thing tonight??",
+          flavor: "commission: event poster",
+          preview: "can we lock delivery for Friday?",
           warn: "",
           messages: [
-            { type: "msg", who: "Fair Dinkum", text: "are u coming to the thing tonight??" },
-            { type: "msg", who: "Me", text: "maybe idk yet lol" },
+            { type: "msg", who: "Marcus Reid", text: "can we lock delivery for Friday? it's for the gallery opening commission." },
+            { type: "msg", who: "Me", text: "yes if you approve the flat colors by Wed night" },
           ],
         },
         {
-          id: "mom",
-          name: "mom (Work)",
-          email: "mom@work.com",
+          id: "merch_assets",
+          name: "Nina Kowalski",
+          email: "nina.kowalski@hotmail.com",
+          online: true,
+          statusClass: "busy",
+          statusShort: "Busy",
+          flavor: "band merch commission",
+          preview: "PNG masters for the shirt run?",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Nina Kowalski", text: "PNG masters for the shirt run still coming for the merch commission?" },
+            { type: "msg", who: "Me", text: "exporting 300dpi tonight — same folder as the invoice" },
+            { type: "sys", text: "Nina Kowalski is marked Busy (approving print proofs)." },
+          ],
+        },
+        {
+          id: "cole",
+          name: "Cole Winters",
+          email: "cole.winters@hotmail.com",
+          online: true,
+          statusClass: "",
+          statusShort: "Online",
+          flavor: "",
+          preview: "thanks for the revision notes!",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Cole Winters", text: "thanks for the revision notes on the character commission!" },
+            { type: "msg", who: "Me", text: "happy to iterate — round 3 sketch drops tomorrow" },
+          ],
+        },
+        {
+          id: "brief_partner",
+          name: "Avery Kim",
+          email: "avery.kim@msn.com",
+          online: true,
+          statusClass: "away",
+          statusShort: "Away",
+          flavor: "shared pitch deck art",
+          preview: "did you check the brief PDF?",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Avery Kim", text: "did you check the brief PDF for our joint commission?" },
+            { type: "msg", who: "Me", text: "yes — I'll match your palette on the hero panel" },
+          ],
+        },
+        {
+          id: "portrait_client",
+          name: "Mai Nguyen",
+          email: "mai.nguyen@gmail.com",
           online: false,
           statusClass: "offline",
           statusShort: "Offline",
           flavor: "",
-          preview: "call me when u get home",
+          preview: "Invoice sent for portrait deposit.",
           warn: "",
-          messages: [{ type: "msg", who: "mom (Work)", text: "don't forget your key" }],
+          messages: [
+            { type: "msg", who: "Mai Nguyen", text: "Portrait commission — deposit invoice received, thanks." },
+            { type: "msg", who: "Me", text: "Great — I'll start thumbnails once it clears." },
+          ],
+        },
+        {
+          id: "printlab",
+          name: "Riley Chen",
+          email: "riley.chen@printhaus.sf",
+          online: false,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "",
+          preview: "Large-format proof ready for pickup.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Riley Chen", text: "Your exhibition print commission proof is ready for pickup." },
+            { type: "msg", who: "Me", text: "I'll swing by Thursday — hold under Quick Draw." },
+          ],
+        },
+        {
+          id: "payout",
+          name: "Jordan Blake",
+          email: "jordan.blake@quickdraw.app",
+          online: false,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "",
+          preview: "Payout scheduled for completed jobs.",
+          warn: "",
+          messages: [
+            { type: "sys", text: "Quick Draw: commission payouts batch runs Friday." },
+            { type: "msg", who: "Jordan Blake", text: "Your last 3 completed commissions are included in this week's payout." },
+          ],
+        },
+        {
+          id: "frame",
+          name: "Casey Flores",
+          email: "casey.flores@campusframe.example",
+          online: false,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "",
+          preview: "Mat quote for your portfolio pieces.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Casey Flores", text: "Quote for mats + UV glass on the two portfolio commissions — reply when ready." },
+          ],
+        },
+        {
+          id: "gallery_rep",
+          name: "Alexandra Rivera",
+          email: "alexandra.rivera@rivergallery.art",
+          online: false,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "",
+          preview: "Wall labels for the group show commission.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Alexandra Rivera", text: "Wall labels copy for the group show commission — need final titles by Mon." },
+            { type: "msg", who: "Me", text: "will send a doc tonight with artist names + mediums" },
+          ],
         },
       ];
 
@@ -830,8 +964,37 @@
       const sendBtn = document.getElementById("sendBtn");
       const searchBtn = document.getElementById("searchBtn");
       const statusFooter = document.getElementById("statusFooter");
+      const msnWindowEl = document.querySelector(".msn-window");
+      const titleMin = document.getElementById("titleMin");
+      const titleMax = document.getElementById("titleMax");
+      const titleClose = document.getElementById("titleClose");
+      const tbFilePick = document.getElementById("tbFilePick");
+      const tbInvite = document.getElementById("tbInvite");
+      const tbSendFiles = document.getElementById("tbSendFiles");
+      const tbVideo = document.getElementById("tbVideo");
+      const tbVoice = document.getElementById("tbVoice");
+      const fmtFont = document.getElementById("fmtFont");
+      const fmtEmoji = document.getElementById("fmtEmoji");
+      const fmtPalette = document.getElementById("fmtPalette");
+      const fmtVoiceClip = document.getElementById("fmtVoiceClip");
 
       let activeId = threads.find((t) => t.online)?.id ?? threads[0]?.id ?? null;
+      let fontSizeStep = 0;
+      const composerFontSizes = ["11px", "13px", "15px"];
+      let paletteStep = 0;
+      const composerColors = ["#000000", "#c00000", "var(--ink)"];
+
+      function addSysToActive(text) {
+        const t = threads.find((x) => x.id === activeId);
+        if (!t) return;
+        t.messages.push({ type: "sys", text });
+        renderMessages(t);
+      }
+
+      function setMaximized(on) {
+        msnWindowEl.classList.toggle("is-maximized", on);
+        document.body.classList.toggle("chat-maximized", on);
+      }
 
       function buildThreadLi(t) {
         const li = document.createElement("li");
@@ -847,7 +1010,7 @@
         const body = document.createElement("div");
         body.className = "thread-body";
         body.innerHTML = '<div class="name"></div><div class="preview"></div><div class="sub"></div>';
-        body.querySelector(".name").textContent = `${t.name} (${t.statusShort})`;
+        body.querySelector(".name").textContent = t.name;
         body.querySelector(".preview").textContent = t.preview;
         body.querySelector(".sub").textContent = t.flavor || "";
 
@@ -937,14 +1100,121 @@
 
       sendBtn.addEventListener("click", sendMessage);
       searchBtn.addEventListener("click", () => {
+        const q = window.prompt("Find text in this conversation:");
+        if (q === null) return;
+        const needle = q.trim();
+        if (!needle) {
+          statusFooter.textContent = "Search cancelled.";
+          return;
+        }
+        const t = threads.find((x) => x.id === activeId);
+        if (!t) return;
+        const lower = needle.toLowerCase();
+        const hits = t.messages.filter(
+          (m) => m.type === "msg" && (m.text || "").toLowerCase().includes(lower),
+        );
+        if (hits.length === 0) {
+          statusFooter.textContent = "No messages match your search.";
+          return;
+        }
+        statusFooter.textContent = `Found ${hits.length} message(s) containing “${needle}”.`;
+        composer.value = hits[hits.length - 1].text;
         composer.focus();
-        composer.select();
       });
+
       composer.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
           e.preventDefault();
           sendMessage();
         }
+      });
+
+      titleMin.addEventListener("click", () => {
+        const nowMin = msnWindowEl.classList.toggle("is-minimized");
+        if (nowMin) {
+          setMaximized(false);
+        }
+        statusFooter.textContent = nowMin
+          ? "Window minimized — click Minimize again to restore."
+          : "Window restored.";
+      });
+
+      titleMax.addEventListener("click", () => {
+        const on = !msnWindowEl.classList.contains("is-maximized");
+        setMaximized(on);
+        if (on) {
+          msnWindowEl.classList.remove("is-minimized");
+        }
+        statusFooter.textContent = on ? "Maximized." : "Returned to normal size.";
+      });
+
+      titleClose.addEventListener("click", () => {
+        window.location.href = "./MatchPreviewPage.html";
+      });
+
+      tbInvite.addEventListener("click", () => {
+        const who = window.prompt("Invite someone to this conversation (email or sign-in name):", "");
+        if (who === null) {
+          statusFooter.textContent = "Invite cancelled.";
+          return;
+        }
+        const v = who.trim();
+        if (!v) {
+          statusFooter.textContent = "Invite cancelled.";
+          return;
+        }
+        addSysToActive(`*Invitation sent to ${v}.*`);
+        statusFooter.textContent = `Invite queued for “${v}” (demo).`;
+      });
+
+      tbSendFiles.addEventListener("click", () => tbFilePick.click());
+      tbFilePick.addEventListener("change", () => {
+        const files = [...tbFilePick.files];
+        if (!files.length) return;
+        const list = files.map((f) => f.name).join(", ");
+        addSysToActive(`*Sending file(s): ${list}*`);
+        statusFooter.textContent =
+          files.length === 1 ? `Attached “${files[0].name}”.` : `Attached ${files.length} files.`;
+        tbFilePick.value = "";
+      });
+
+      tbVideo.addEventListener("click", () => {
+        addSysToActive("*Starting video session…*");
+        statusFooter.textContent = "Video: connecting… (demo)";
+      });
+
+      tbVoice.addEventListener("click", () => {
+        addSysToActive("*Voice call started.*");
+        statusFooter.textContent = "Voice: channel open (demo).";
+      });
+
+      fmtFont.addEventListener("click", () => {
+        fontSizeStep = (fontSizeStep + 1) % composerFontSizes.length;
+        composer.style.fontSize = composerFontSizes[fontSizeStep];
+        statusFooter.textContent = `Composer size: ${composerFontSizes[fontSizeStep]}.`;
+      });
+
+      fmtEmoji.addEventListener("click", () => {
+        const sym = "☺ ";
+        const start = composer.selectionStart ?? composer.value.length;
+        const end = composer.selectionEnd ?? composer.value.length;
+        composer.value = composer.value.slice(0, start) + sym + composer.value.slice(end);
+        const pos = start + sym.length;
+        composer.focus();
+        composer.setSelectionRange(pos, pos);
+        statusFooter.textContent = "Inserted emoticon.";
+      });
+
+      fmtPalette.addEventListener("click", () => {
+        paletteStep = (paletteStep + 1) % composerColors.length;
+        const c = composerColors[paletteStep];
+        composer.style.color = c === "var(--ink)" ? "#07279a" : c;
+        statusFooter.textContent = `Composer color updated.`;
+      });
+
+      fmtVoiceClip.addEventListener("click", () => {
+        addSysToActive("*Voice clip attached (demo).*");
+        statusFooter.textContent = "Voice clip placeholder added to conversation.";
       });
 
       renderThreadList();
