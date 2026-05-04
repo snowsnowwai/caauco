@@ -4,24 +4,31 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>MSN Messenger — Conversation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Matemasie&display=swap"
+      rel="stylesheet"
+    />
     <style>
       /*
         Classic MSN Messenger look — tinted to Quick Draw / Match Preview palette.
+        Headings: Matemasie (https://fonts.google.com/specimen/Matemasie).
+        Body UI: Caveat (https://fonts.google.com/specimen/Caveat).
       */
-      @font-face {
-        font-family: "IEatCrayons";
-        src: url("./Fonts/i-eat-crayons.ttf") format("truetype");
-        font-style: normal;
-        font-weight: 400 700;
-      }
 
       :root {
+        --font-heading: "Matemasie", system-ui, sans-serif;
+        --font-body: "Caveat", cursive;
+        /* Match style.css / MatchPreviewPage palette */
         --blue: #07279a;
         --pink: #d54aa9;
         --paper: #f4efff;
         --paper-2: #ece4ff;
         --ink: #07279a;
         --ink-soft: #3f4f9a;
+        --gold: #d54aa9;
+        --green: #a9b8f2;
 
         --msn-sky: #e6dcff;
         --msn-sky-deep: #ddd4f0;
@@ -44,10 +51,9 @@
         --history-bg: #ffffff;
         --warn-bg: #fffacd;
         --toolbar-icon-size: 48px;
-        --to-name: #a04818;
-        --wlm-purple-top: #ece8fb;
-        --wlm-purple-mid: #c4b5e8;
-        --wlm-purple-bot: #8b7ece;
+        --wlm-purple-top: #f0e8ff;
+        --wlm-purple-mid: var(--green);
+        --wlm-purple-bot: var(--ink-soft);
         --wave: radial-gradient(ellipse 90% 70% at 30% 25%, rgba(255, 255, 255, 0.55) 0%, transparent 58%);
         --wave2: radial-gradient(ellipse 80% 60% at 85% 75%, rgba(255, 255, 255, 0.42) 0%, transparent 52%);
       }
@@ -64,9 +70,9 @@
       body {
         min-height: 100dvh;
         margin: 0;
-        font-family: "IEatCrayons", Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
-        font-weight: 700;
-        font-size: 12px;
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 14px;
         color: var(--text);
         background:
           radial-gradient(circle at 20% 20%, #d54aa938 0%, #ffffff00 42%),
@@ -80,6 +86,7 @@
       input,
       textarea,
       select {
+        font-family: inherit;
         letter-spacing: inherit;
       }
 
@@ -97,23 +104,27 @@
         overflow: hidden;
       }
 
+      /* Match MatchPreviewPage .topbar + .match-section h2 */
       .title-bar {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 4px 5px 4px 8px;
-        background: linear-gradient(180deg, #051451 0%, var(--blue) 38%, var(--ink-soft) 100%);
-        color: #fff;
+        gap: 0.5rem;
+        padding: 0.35rem 0.8rem;
+        background: #f0e8ff;
+        border-bottom: 3px solid var(--ink);
+        color: var(--ink);
         font-weight: 700;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.1em;
         user-select: none;
       }
 
       .title-bar .title-left {
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 8px;
         min-width: 0;
+        flex: 1;
       }
 
       .title-bar .title-right {
@@ -124,13 +135,14 @@
       }
 
       .title-msn {
-        font-family: Tahoma, Arial, sans-serif;
-        font-style: italic;
-        font-weight: 800;
-        font-size: 13px;
-        letter-spacing: 0.06em;
-        text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.35);
-        opacity: 0.95;
+        font-family: var(--font-heading);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 0.78rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        opacity: 1;
       }
 
       .title-bar .butterfly {
@@ -148,9 +160,15 @@
       }
 
       .title-bar span.title-text {
+        font-family: var(--font-heading);
+        font-weight: 400;
+        font-size: clamp(1.35rem, 3.2vw, 2rem);
+        letter-spacing: 0.04em;
+        text-transform: none;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        min-width: 0;
       }
 
       .title-buttons {
@@ -159,19 +177,31 @@
       }
 
       .title-buttons button {
-        width: 21px;
-        height: 21px;
-        border: 1px solid rgba(255, 255, 255, 0.35);
-        background: linear-gradient(180deg, var(--ink-soft), var(--blue));
-        color: #fff;
-        font-size: 12px;
+        min-width: 26px;
+        height: 26px;
+        padding: 0 0.35rem;
+        border: 2px solid var(--ink);
+        border-radius: 10px;
+        background: var(--blue);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 600;
         line-height: 1;
-        padding: 0;
         cursor: default;
+        transition: background-color 0.14s ease, transform 0.14s ease;
+      }
+
+      .title-buttons button:hover {
+        background: var(--pink);
+        transform: translate(-1px, -1px);
       }
 
       .title-buttons button.close {
-        background: linear-gradient(180deg, #e88, #c33);
+        background: var(--blue);
+      }
+
+      .title-buttons button.close:hover {
+        background: var(--pink);
       }
 
       .title-buttons button {
@@ -280,15 +310,17 @@
       }
 
       .thread-section {
-        font-weight: 700;
-        font-size: 11px;
+        font-family: var(--font-heading);
+        font-weight: 400;
+        font-size: 12px;
         margin: 6px 0 4px 4px;
+        letter-spacing: 0.06em;
         color: var(--ink-soft);
       }
 
       .thread-section .count {
         font-weight: 400;
-        color: #666;
+        color: var(--ink-soft);
       }
 
       .sidebar-brand {
@@ -297,7 +329,7 @@
         background: linear-gradient(180deg, #eef3fa 0%, var(--msn-sky-deep) 100%);
         text-align: center;
         font-size: 10px;
-        color: #3d4d60;
+        color: var(--ink-soft);
       }
 
       .sidebar-brand .msn-word {
@@ -309,7 +341,7 @@
 
       .sidebar-brand .net {
         font-weight: 700;
-        color: #666;
+        color: var(--ink-soft);
       }
 
       .thread-list {
@@ -335,11 +367,11 @@
       }
 
       .thread:hover {
-        background: rgba(49, 106, 197, 0.18);
+        background: rgba(169, 184, 242, 0.38);
       }
 
       .thread.is-active {
-        background: #316ac5;
+        background: var(--blue);
         color: #fff;
       }
 
@@ -381,7 +413,7 @@
       .thread-body .name {
         font-weight: 700;
         font-size: 12px;
-        color: #141414;
+        color: var(--ink);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -389,7 +421,7 @@
 
       .thread-body .preview {
         font-size: 12px;
-        color: #2a2a2a;
+        color: var(--ink);
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -397,7 +429,7 @@
 
       .thread-body .sub {
         font-size: 11px;
-        color: #444444;
+        color: var(--ink-soft);
         font-style: italic;
         white-space: nowrap;
         overflow: hidden;
@@ -415,9 +447,9 @@
       }
 
       .chat-header {
-        padding: 8px 12px 10px;
-        background: transparent;
-        border-bottom: 1px solid var(--msn-sky-edge);
+        padding: 0.35rem 0.8rem 0.5rem;
+        background: #f0e8ff;
+        border-bottom: 3px solid var(--ink);
         font-size: 13px;
       }
 
@@ -427,16 +459,22 @@
         flex-wrap: wrap;
         gap: 0 6px;
         font-weight: 700;
-        color: #1a1a1a;
+        color: var(--ink);
       }
 
       .chat-header .to-prefix {
-        color: #333;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
       }
 
       .chat-header .to-name {
-        color: var(--to-name);
-        font-weight: 700;
+        font-family: var(--font-heading);
+        font-size: clamp(1.35rem, 3.2vw, 2rem);
+        font-weight: 400;
+        letter-spacing: 0.04em;
+        color: var(--ink);
       }
 
       .chat-header .to-email {
@@ -444,7 +482,7 @@
         margin-top: 3px;
         font-size: 11px;
         font-weight: 400;
-        color: #333333;
+        color: var(--ink-soft);
       }
 
       .warn-bar {
@@ -458,7 +496,7 @@
         align-items: flex-start;
         font-size: 13px;
         line-height: 1.45;
-        color: #2a2410;
+        color: var(--ink);
       }
 
       .warn-bar #warnText {
@@ -469,7 +507,7 @@
       .warn-bar .i {
         font-weight: 900;
         color: #fff;
-        background: #2d6bcd;
+        background: var(--blue);
         width: 16px;
         height: 16px;
         border-radius: 50%;
@@ -499,26 +537,26 @@
         padding: 10px 12px;
         font-size: 13px;
         line-height: 1.55;
-        color: #141414;
+        color: var(--ink);
       }
 
       .msg {
         margin-bottom: 8px;
-        color: #141414;
+        color: var(--ink);
       }
 
       .msg .who {
         font-weight: 700;
-        color: #052080;
+        color: var(--ink-soft);
       }
 
       .msg.me-line .who {
-        color: #052080;
+        color: var(--pink);
       }
 
       .msg.sys {
         font-style: italic;
-        color: #3d3d3d;
+        color: var(--ink-soft);
       }
 
       .dp-column {
@@ -618,13 +656,13 @@
       }
 
       .fmt.palette i.c1 {
-        background: #000;
+        background: var(--ink);
       }
       .fmt.palette i.c2 {
-        background: #c00000;
+        background: var(--pink);
       }
       .fmt.palette i.c3 {
-        background: #16365c;
+        background: var(--blue);
       }
 
       .fmt.wide {
@@ -644,15 +682,21 @@
         flex: 1;
         min-height: 64px;
         resize: vertical;
-        font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
-        font-size: 13px;
+        font-size: 15px;
         line-height: 1.45;
-        color: #141414;
+        font-weight: 600;
+        color: var(--ink);
         padding: 8px;
         border: 1px solid #b0b0b0;
         border-radius: 2px;
         background: #fff;
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+      }
+
+      .input-row textarea::placeholder {
+        font-weight: 600;
+        color: var(--ink-soft);
+        opacity: 0.65;
       }
 
       .input-actions {
@@ -666,15 +710,13 @@
       .send-btn,
       .search-btn {
         width: 100%;
-        font-family: Tahoma, "Segoe UI", "MS Sans Serif", Geneva, sans-serif;
-        font-size: 12px;
-        font-weight: 700;
-        color: #141414;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--ink);
         min-height: 28px;
         background: linear-gradient(180deg, #ffffff, #ebebeb);
         border: 1px solid #b0b0b0;
         border-radius: 4px;
-        color: #000;
         box-shadow: inset 0 1px 0 #fff;
         cursor: pointer;
       }
@@ -688,7 +730,7 @@
         padding: 3px 10px;
         border-top: 1px solid var(--msn-sky-edge);
         background: linear-gradient(180deg, #eef3fa 0%, var(--msn-sky-deep) 100%);
-        color: #1a2433;
+        color: var(--ink-soft);
         font-size: 12px;
       }
 
@@ -982,7 +1024,7 @@
       let fontSizeStep = 0;
       const composerFontSizes = ["11px", "13px", "15px"];
       let paletteStep = 0;
-      const composerColors = ["#000000", "#c00000", "var(--ink)"];
+      const composerColors = ["var(--ink)", "var(--pink)", "var(--ink-soft)"];
 
       function addSysToActive(text) {
         const t = threads.find((x) => x.id === activeId);
@@ -1208,7 +1250,7 @@
       fmtPalette.addEventListener("click", () => {
         paletteStep = (paletteStep + 1) % composerColors.length;
         const c = composerColors[paletteStep];
-        composer.style.color = c === "var(--ink)" ? "#07279a" : c;
+        composer.style.color = c;
         statusFooter.textContent = `Composer color updated.`;
       });
 
