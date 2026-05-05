@@ -39,6 +39,7 @@ body {
   color: var(--ink);
   font-family: "IEatCrayons";
   font-weight: 700;
+  font-size: 1.2rem;
   background:
     radial-gradient(circle at 20% 20%, #d54aa938 0%, #ffffff00 42%),
     radial-gradient(circle at 85% 12%, #07279a33 0%, #ffffff00 45%),

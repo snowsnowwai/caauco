@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>MSN Messenger — Conversation</title>
+    <title>Messenger — Conversation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -12,7 +12,7 @@
     />
     <style>
       /*
-        Classic MSN Messenger look — tinted to Quick Draw / Match Preview palette.
+        Classic messenger look — tinted to Quick Draw / Match Preview palette.
         Headings: Matemasie (https://fonts.google.com/specimen/Matemasie).
         Body UI: Caveat (https://fonts.google.com/specimen/Caveat).
       */
@@ -30,17 +30,17 @@
         --gold: #d54aa9;
         --green: #a9b8f2;
 
-        --msn-sky: #e6dcff;
-        --msn-sky-deep: #ddd4f0;
-        --msn-sky-edge: #b5a3d6;
-        --msn-menu: #f2ecff;
-        --surface: var(--msn-sky);
-        --surface-deep: var(--msn-sky-deep);
+        --sky: #e6dcff;
+        --sky-deep: #ddd4f0;
+        --sky-edge: #b5a3d6;
+        --menu: #f2ecff;
+        --surface: var(--sky);
+        --surface-deep: var(--sky-deep);
         --xp-blue: var(--blue);
-        --win-bg: var(--msn-sky);
+        --win-bg: var(--sky);
         --win-border-outer: #9a88c4;
         --win-border: var(--blue);
-        --menu-bg: var(--msn-menu);
+        --menu-bg: var(--menu);
         --inset-dark: #808080;
         --inset-light: #ffffff;
         --text: var(--ink);
@@ -71,8 +71,8 @@
         min-height: 100dvh;
         margin: 0;
         font-family: var(--font-body);
-        font-weight: 600;
-        font-size: 14px;
+        font-weight: 700;
+        font-size: 14.2px;
         color: var(--text);
         background:
           radial-gradient(circle at 20% 20%, #d54aa938 0%, #ffffff00 42%),
@@ -91,7 +91,7 @@
       }
 
       /* Full-viewport panel */
-      .msn-window {
+      .chat-window {
         flex: 1 1 auto;
         display: flex;
         flex-direction: column;
@@ -134,15 +134,28 @@
         flex-shrink: 0;
       }
 
-      .title-msn {
-        font-family: var(--font-heading);
-        font-style: normal;
-        font-weight: 400;
-        font-size: 0.78rem;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--ink-soft);
-        opacity: 1;
+      .title-bar .title-right .back-btn {
+        height: 28px;
+        padding: 0 12px;
+        border: 2px solid var(--ink);
+        border-radius: 12px;
+        background: var(--blue);
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1;
+        cursor: pointer;
+        transition: background-color 0.14s ease, transform 0.14s ease;
+      }
+
+      .title-bar .title-right .back-btn:hover {
+        background: var(--pink);
+        transform: translate(-1px, -1px);
+      }
+
+      .title-bar .title-right .back-btn:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
       }
 
       .title-bar .butterfly {
@@ -171,44 +184,7 @@
         min-width: 0;
       }
 
-      .title-buttons {
-        display: flex;
-        gap: 2px;
-      }
-
-      .title-buttons button {
-        min-width: 26px;
-        height: 26px;
-        padding: 0 0.35rem;
-        border: 2px solid var(--ink);
-        border-radius: 10px;
-        background: var(--blue);
-        color: #ffffff;
-        font-size: 13px;
-        font-weight: 600;
-        line-height: 1;
-        cursor: default;
-        transition: background-color 0.14s ease, transform 0.14s ease;
-      }
-
-      .title-buttons button:hover {
-        background: var(--pink);
-        transform: translate(-1px, -1px);
-      }
-
-      .title-buttons button.close {
-        background: var(--blue);
-      }
-
-      .title-buttons button.close:hover {
-        background: var(--pink);
-      }
-
-      .title-buttons button {
-        cursor: pointer;
-      }
-
-      .msn-window.is-maximized {
+      .chat-window.is-maximized {
         position: fixed;
         inset: 0;
         z-index: 10000;
@@ -221,8 +197,8 @@
         overflow: hidden;
       }
 
-      .msn-window.is-minimized .toolbar,
-      .msn-window.is-minimized .main-split {
+      .chat-window.is-minimized .toolbar,
+      .chat-window.is-minimized .main-split {
         display: none !important;
       }
 
@@ -231,7 +207,7 @@
         align-items: flex-end;
         gap: 12px;
         padding: 10px 12px 12px;
-        background: linear-gradient(180deg, #ffffff 0%, #e2ecf8 55%, var(--msn-sky-deep) 100%);
+        background: linear-gradient(180deg, #ffffff 0%, #e2ecf8 55%, var(--sky-deep) 100%);
         border-bottom: 1px solid #9aaec4;
         flex-wrap: wrap;
       }
@@ -283,18 +259,18 @@
         flex: 1;
         display: flex;
         min-height: 0;
-        background: var(--wave), var(--wave2), linear-gradient(175deg, #e6eef8 0%, var(--msn-sky) 60%);
+        background: var(--wave), var(--wave2), linear-gradient(175deg, #e6eef8 0%, var(--sky) 60%);
       }
 
       /* Sidebar: threads */
       .sidebar {
         width: 260px;
         flex: 0 0 260px;
-        border-right: 1px solid var(--msn-sky-edge);
+        border-right: 1px solid var(--sky-edge);
         display: flex;
         flex-direction: column;
         min-height: 0;
-        background: var(--wave), linear-gradient(180deg, #eaf1fa 0%, var(--msn-sky) 100%);
+        background: var(--wave), linear-gradient(180deg, #eaf1fa 0%, var(--sky) 100%);
       }
 
       .avatar {
@@ -306,7 +282,7 @@
         flex: 1;
         overflow: auto;
         padding: 8px;
-        background: var(--wave2), linear-gradient(180deg, var(--msn-sky) 0%, #cad8ea 100%);
+        background: var(--wave2), linear-gradient(180deg, var(--sky) 0%, #cad8ea 100%);
       }
 
       .thread-section {
@@ -325,18 +301,11 @@
 
       .sidebar-brand {
         padding: 8px 10px;
-        border-top: 1px solid var(--msn-sky-edge);
-        background: linear-gradient(180deg, #eef3fa 0%, var(--msn-sky-deep) 100%);
+        border-top: 1px solid var(--sky-edge);
+        background: linear-gradient(180deg, #eef3fa 0%, var(--sky-deep) 100%);
         text-align: center;
         font-size: 10px;
         color: var(--ink-soft);
-      }
-
-      .sidebar-brand .msn-word {
-        font-style: italic;
-        font-weight: 800;
-        font-size: 14px;
-        letter-spacing: 0.05em;
       }
 
       .sidebar-brand .net {
@@ -436,14 +405,14 @@
         text-overflow: ellipsis;
       }
 
-      /* Main chat pane — MSN sky panel */
+      /* Main chat pane — sky panel */
       .chat-pane {
         flex: 1;
         display: flex;
         flex-direction: column;
         min-width: 0;
         min-height: 0;
-        background: var(--wave), linear-gradient(195deg, #e4edf8 0%, var(--msn-sky) 45%);
+        background: var(--wave), linear-gradient(195deg, #e4edf8 0%, var(--sky) 45%);
       }
 
       .chat-header {
@@ -574,7 +543,7 @@
         box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
       }
 
-      /* Reference: DP stack — Me on top (MSN mark), contact below (ducky colors) */
+      /* Reference: DP stack — Me on top, contact below (ducky colors) */
       .dp-column .avatar.sm {
         width: 52px;
         height: 52px;
@@ -607,9 +576,9 @@
 
 
       .compose-wrap {
-        border-top: 1px solid var(--msn-sky-edge);
+        border-top: 1px solid var(--sky-edge);
         padding: 10px 12px 12px;
-        background: linear-gradient(180deg, var(--msn-sky-deep) 0%, var(--msn-sky) 100%);
+        background: linear-gradient(180deg, var(--sky-deep) 0%, var(--sky) 100%);
       }
 
       .format-bar {
@@ -637,32 +606,22 @@
         color: inherit;
       }
 
+      .fmt.icon-only {
+        width: 32px;
+        height: 28px;
+      }
+
+      .fmt .icon-img {
+        display: block;
+        width: 18px;
+        height: 18px;
+        object-fit: contain;
+        image-rendering: auto;
+      }
+
       .fmt:focus-visible {
         outline: 2px solid var(--blue);
         outline-offset: 2px;
-      }
-
-      .fmt.palette {
-        width: auto;
-        padding: 0 4px;
-        gap: 2px;
-        display: inline-flex;
-      }
-
-      .fmt.palette i {
-        width: 8px;
-        height: 10px;
-        border: 1px solid #666;
-      }
-
-      .fmt.palette i.c1 {
-        background: var(--ink);
-      }
-      .fmt.palette i.c2 {
-        background: var(--pink);
-      }
-      .fmt.palette i.c3 {
-        background: var(--blue);
       }
 
       .fmt.wide {
@@ -670,6 +629,110 @@
         padding: 0 8px;
         font-size: 10px;
         font-weight: 700;
+      }
+
+      .fmt-wrap {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+      }
+
+      .emoji-menu {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        z-index: 50;
+        width: min(320px, 84vw);
+        max-height: min(360px, 55vh);
+        padding: 8px;
+        border: 1px solid #b0b0b0;
+        border-radius: 6px;
+        background: #ffffff;
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+        overflow: auto;
+      }
+
+      .emoji-menu.is-up {
+        top: auto;
+        bottom: calc(100% + 8px);
+      }
+
+      .emoji-menu[hidden] {
+        display: none;
+      }
+
+      .emoji-top {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 8px;
+      }
+
+      .emoji-search {
+        width: 100%;
+        height: 30px;
+        padding: 0 8px;
+        border: 1px solid #b0b0b0;
+        border-radius: 6px;
+        background: #fff;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--ink);
+      }
+
+      .emoji-search::placeholder {
+        color: var(--ink-soft);
+        opacity: 0.75;
+      }
+
+      .emoji-section-title {
+        font-size: 11px;
+        font-weight: 700;
+        color: var(--ink-soft);
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        margin: 2px 0 0;
+      }
+
+      .emoji-recent {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .emoji-grid {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 6px;
+      }
+
+      .emoji-item {
+        width: 30px;
+        height: 30px;
+        border: 1px solid #b0b0b0;
+        border-radius: 6px;
+        background: linear-gradient(180deg, #ffffff, #f1f1f1);
+        display: grid;
+        place-items: center;
+        font-size: 16px;
+        cursor: pointer;
+        user-select: none;
+        padding: 0;
+      }
+
+      .emoji-item:hover {
+        background: linear-gradient(180deg, #ffffff, #fbfbfb);
+        transform: translate(-1px, -1px);
+      }
+
+      .emoji-item:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
+      }
+
+      .emoji-hint {
+        margin-top: 6px;
+        font-size: 11px;
+        color: var(--ink-soft);
       }
 
       .input-row {
@@ -728,8 +791,8 @@
 
       .status-footer {
         padding: 3px 10px;
-        border-top: 1px solid var(--msn-sky-edge);
-        background: linear-gradient(180deg, #eef3fa 0%, var(--msn-sky-deep) 100%);
+        border-top: 1px solid var(--sky-edge);
+        background: linear-gradient(180deg, #eef3fa 0%, var(--sky-deep) 100%);
         color: var(--ink-soft);
         font-size: 12px;
       }
@@ -746,19 +809,14 @@
     </style>
   </head>
   <body>
-    <div class="msn-window" role="application" aria-label="MSN Messenger style chat">
+    <div class="chat-window" role="application" aria-label="Messenger style chat">
       <div class="title-bar">
         <div class="title-left">
           <span class="butterfly" aria-hidden="true"></span>
-          <span class="title-text" id="winTitle">MSN Messenger — Conversation</span>
+          <span class="title-text" id="winTitle">Messenger — Conversation</span>
         </div>
         <div class="title-right">
-          <span class="title-msn" aria-hidden="true">msn</span>
-          <div class="title-buttons">
-            <button type="button" id="titleMin" aria-label="Minimize">_</button>
-            <button type="button" id="titleMax" aria-label="Maximize">□</button>
-            <button type="button" class="close" id="titleClose" aria-label="Close">×</button>
-          </div>
+          <button type="button" class="back-btn" id="backBtn" aria-label="Back">Back</button>
         </div>
       </div>
 
@@ -788,9 +846,7 @@
           <div class="thread-list-wrap" id="threadMount"></div>
 
           <div class="sidebar-brand" aria-hidden="true">
-            <span class="msn-word">msn</span>
-            <span class="net"> Messenger</span> ·
-            <span class="net">.net</span>
+            <span class="net">Messenger</span>
           </div>
         </aside>
 
@@ -818,11 +874,20 @@
 
           <div class="compose-wrap">
             <div class="format-bar" role="toolbar" aria-label="Format">
-              <button type="button" class="fmt" id="fmtFont" title="Font size">A</button>
-              <button type="button" class="fmt" id="fmtEmoji" title="Insert emoticon">☺</button>
-              <button type="button" class="fmt palette" id="fmtPalette" title="Font color" aria-label="Font color">
-                <i class="c1"></i><i class="c2"></i><i class="c3"></i>
-              </button>
+              <span class="fmt-wrap">
+                <button
+                  type="button"
+                  class="fmt icon-only"
+                  id="fmtEmoji"
+                  title="Insert emoticon"
+                  aria-label="Insert emoticon"
+                  aria-haspopup="menu"
+                  aria-expanded="false"
+                >
+                  <img class="icon-img" src="./Reference Images/emoticons.png" alt="" />
+                </button>
+                <div class="emoji-menu" id="emojiMenu" role="menu" hidden></div>
+              </span>
               <button type="button" class="fmt wide" id="fmtVoiceClip" title="Voice clip">Voice clip</button>
             </div>
             <div class="input-row">
@@ -907,7 +972,7 @@
         {
           id: "brief_partner",
           name: "Avery Kim",
-          email: "avery.kim@msn.com",
+          email: "avery.kim@outlook.com",
           online: true,
           statusClass: "away",
           statusShort: "Away",
@@ -1006,25 +1071,269 @@
       const sendBtn = document.getElementById("sendBtn");
       const searchBtn = document.getElementById("searchBtn");
       const statusFooter = document.getElementById("statusFooter");
-      const msnWindowEl = document.querySelector(".msn-window");
-      const titleMin = document.getElementById("titleMin");
-      const titleMax = document.getElementById("titleMax");
-      const titleClose = document.getElementById("titleClose");
+      const chatWindowEl = document.querySelector(".chat-window");
+      const backBtn = document.getElementById("backBtn");
       const tbFilePick = document.getElementById("tbFilePick");
       const tbInvite = document.getElementById("tbInvite");
       const tbSendFiles = document.getElementById("tbSendFiles");
       const tbVideo = document.getElementById("tbVideo");
       const tbVoice = document.getElementById("tbVoice");
-      const fmtFont = document.getElementById("fmtFont");
       const fmtEmoji = document.getElementById("fmtEmoji");
-      const fmtPalette = document.getElementById("fmtPalette");
+      const emojiMenu = document.getElementById("emojiMenu");
       const fmtVoiceClip = document.getElementById("fmtVoiceClip");
 
       let activeId = threads.find((t) => t.online)?.id ?? threads[0]?.id ?? null;
-      let fontSizeStep = 0;
-      const composerFontSizes = ["11px", "13px", "15px"];
-      let paletteStep = 0;
-      const composerColors = ["var(--ink)", "var(--pink)", "var(--ink-soft)"];
+      const EMOTICONS = [
+        { sym: "☺", name: "smile" },
+        { sym: "☹", name: "frown" },
+        { sym: "♥", name: "heart" },
+        { sym: "★", name: "star" },
+        { sym: "☆", name: "star outline" },
+        { sym: "♪", name: "music" },
+        { sym: "♬", name: "notes" },
+        { sym: "✓", name: "check" },
+        { sym: "✿", name: "flower" },
+        { sym: "✧", name: "sparkle" },
+        { sym: "☀", name: "sun" },
+        { sym: "☁", name: "cloud" },
+        { sym: "☂", name: "umbrella" },
+        { sym: "☕", name: "coffee" },
+        { sym: "✈", name: "airplane" },
+        { sym: "⚡", name: "bolt" },
+        { sym: "❄", name: "snow" },
+        { sym: "☾", name: "moon" },
+        { sym: "✉", name: "mail" },
+        { sym: "☎", name: "phone" },
+        { sym: "⌛", name: "hourglass" },
+        { sym: "☘", name: "clover" },
+        { sym: "⚑", name: "flag" },
+        { sym: "⚙", name: "gear" },
+      ];
+
+      let voiceRecorder = null;
+      let voiceStream = null;
+      let voiceChunks = [];
+
+      function insertAtComposer(sym) {
+        const text = (sym || "").toString();
+        if (!text) return;
+        const insert = text + " ";
+        const start = composer.selectionStart ?? composer.value.length;
+        const end = composer.selectionEnd ?? composer.value.length;
+        composer.value = composer.value.slice(0, start) + insert + composer.value.slice(end);
+        const pos = start + insert.length;
+        composer.focus();
+        composer.setSelectionRange(pos, pos);
+      }
+
+      function closeEmojiMenu() {
+        emojiMenu.hidden = true;
+        emojiMenu.classList.remove("is-up");
+        fmtEmoji.setAttribute("aria-expanded", "false");
+      }
+
+      function openEmojiMenu() {
+        // Flip menu upward near bottom of viewport.
+        const btnRect = fmtEmoji.getBoundingClientRect();
+        const spaceBelow = window.innerHeight - btnRect.bottom;
+        const spaceAbove = btnRect.top;
+        emojiMenu.classList.toggle("is-up", spaceBelow < 240 && spaceAbove > spaceBelow);
+
+        emojiMenu.hidden = false;
+        fmtEmoji.setAttribute("aria-expanded", "true");
+        emojiMenu._focusSearch?.();
+      }
+
+      function toggleEmojiMenu() {
+        if (emojiMenu.hidden) openEmojiMenu();
+        else closeEmojiMenu();
+      }
+
+      function buildEmojiMenu() {
+        const RECENT_KEY = "chat_recent_emoticons";
+        const RECENT_MAX = 12;
+
+        function loadRecent() {
+          try {
+            const raw = localStorage.getItem(RECENT_KEY);
+            const arr = JSON.parse(raw || "[]");
+            return Array.isArray(arr) ? arr.filter((x) => typeof x === "string") : [];
+          } catch {
+            return [];
+          }
+        }
+
+        function saveRecent(list) {
+          try {
+            localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, RECENT_MAX)));
+          } catch {
+            // ignore
+          }
+        }
+
+        function pushRecent(sym) {
+          const cur = loadRecent();
+          const next = [sym, ...cur.filter((x) => x !== sym)].slice(0, RECENT_MAX);
+          saveRecent(next);
+        }
+
+        function makeEmojiButton(sym, label) {
+          const b = document.createElement("button");
+          b.type = "button";
+          b.className = "emoji-item";
+          b.setAttribute("role", "menuitem");
+          b.setAttribute("aria-label", label || sym);
+          b.textContent = sym;
+          b.tabIndex = -1; // roving tabindex
+          b.addEventListener("click", () => {
+            insertAtComposer(sym);
+            pushRecent(sym);
+            statusFooter.textContent = "Inserted emoticon.";
+            closeEmojiMenu();
+            fmtEmoji.focus();
+          });
+          return b;
+        }
+
+        function setRovingFocus(items, idx) {
+          const clamped = Math.max(0, Math.min(idx, items.length - 1));
+          items.forEach((el, i) => (el.tabIndex = i === clamped ? 0 : -1));
+          items[clamped]?.focus();
+          return clamped;
+        }
+
+        const top = document.createElement("div");
+        top.className = "emoji-top";
+
+        const search = document.createElement("input");
+        search.className = "emoji-search";
+        search.type = "search";
+        search.autocomplete = "off";
+        search.spellcheck = false;
+        search.placeholder = "Search… (type, arrows to move, Enter to insert)";
+
+        const recentTitle = document.createElement("div");
+        recentTitle.className = "emoji-section-title";
+        recentTitle.textContent = "Recent";
+
+        const recentRow = document.createElement("div");
+        recentRow.className = "emoji-recent";
+
+        const allTitle = document.createElement("div");
+        allTitle.className = "emoji-section-title";
+        allTitle.textContent = "All";
+
+        top.appendChild(search);
+        top.appendChild(recentTitle);
+        top.appendChild(recentRow);
+        top.appendChild(allTitle);
+
+        const grid = document.createElement("div");
+        grid.className = "emoji-grid";
+
+        const hint = document.createElement("div");
+        hint.className = "emoji-hint";
+        hint.textContent = "Esc closes • Enter inserts • Click outside closes";
+
+        emojiMenu.innerHTML = "";
+        emojiMenu.appendChild(top);
+        emojiMenu.appendChild(grid);
+        emojiMenu.appendChild(hint);
+
+        function renderRecent() {
+          const rec = loadRecent();
+          recentRow.innerHTML = "";
+          if (rec.length === 0) {
+            const empty = document.createElement("div");
+            empty.className = "emoji-hint";
+            empty.textContent = "No recent emoticons yet.";
+            recentRow.appendChild(empty);
+            return;
+          }
+          rec.forEach((sym) => recentRow.appendChild(makeEmojiButton(sym, `recent ${sym}`)));
+        }
+
+        function renderAll(filter) {
+          const q = (filter || "").trim().toLowerCase();
+          const list = q
+            ? EMOTICONS.filter((e) => e.sym.includes(q) || (e.name || "").toLowerCase().includes(q))
+            : EMOTICONS;
+          grid.innerHTML = "";
+          list.forEach((e) => grid.appendChild(makeEmojiButton(e.sym, e.name ? `${e.name} ${e.sym}` : e.sym)));
+          return grid.querySelectorAll(".emoji-item");
+        }
+
+        renderRecent();
+        let items = renderAll("");
+        let focusIndex = 0;
+
+        function refreshItems() {
+          items = emojiMenu.querySelectorAll(".emoji-item");
+          return [...items];
+        }
+
+        function focusFirst() {
+          const arr = refreshItems();
+          if (arr.length === 0) return;
+          focusIndex = setRovingFocus(arr, 0);
+        }
+
+        function focusMove(delta, cols) {
+          const arr = refreshItems();
+          if (arr.length === 0) return;
+          const next = cols ? focusIndex + delta * cols : focusIndex + delta;
+          focusIndex = setRovingFocus(arr, next);
+        }
+
+        search.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            e.preventDefault();
+            closeEmojiMenu();
+            fmtEmoji.focus();
+          } else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            focusFirst();
+          }
+        });
+
+        search.addEventListener("input", () => {
+          items = renderAll(search.value);
+          focusIndex = 0;
+          const arr = [...items];
+          arr.forEach((el, i) => (el.tabIndex = i === 0 ? 0 : -1));
+        });
+
+        emojiMenu.addEventListener("keydown", (e) => {
+          if (e.key === "Escape") {
+            e.preventDefault();
+            closeEmojiMenu();
+            fmtEmoji.focus();
+            return;
+          }
+          if (e.key === "ArrowDown") {
+            e.preventDefault();
+            focusMove(1, 6);
+          } else if (e.key === "ArrowUp") {
+            e.preventDefault();
+            focusMove(-1, 6);
+          } else if (e.key === "ArrowRight") {
+            e.preventDefault();
+            focusMove(1, 0);
+          } else if (e.key === "ArrowLeft") {
+            e.preventDefault();
+            focusMove(-1, 0);
+          } else if (e.key === "Enter") {
+            const arr = refreshItems();
+            const el = arr.find((x) => x.tabIndex === 0) || document.activeElement;
+            if (el && el.classList?.contains("emoji-item")) {
+              e.preventDefault();
+              el.click();
+            }
+          }
+        });
+
+        emojiMenu._focusSearch = () => search.focus();
+      }
 
       function addSysToActive(text) {
         const t = threads.find((x) => x.id === activeId);
@@ -1034,7 +1343,7 @@
       }
 
       function setMaximized(on) {
-        msnWindowEl.classList.toggle("is-maximized", on);
+        chatWindowEl.classList.toggle("is-maximized", on);
         document.body.classList.toggle("chat-maximized", on);
       }
 
@@ -1086,6 +1395,17 @@
           if (m.type === "sys") {
             div.className = "msg sys";
             div.textContent = m.text;
+          } else if (m.type === "audio") {
+            div.className = "msg me-line";
+            div.innerHTML = '<span class="who"></span>: ';
+            div.querySelector(".who").textContent = m.who || "Me";
+            const audio = document.createElement("audio");
+            audio.controls = true;
+            audio.src = m.url;
+            audio.preload = "metadata";
+            audio.style.verticalAlign = "middle";
+            audio.style.marginLeft = "6px";
+            div.appendChild(audio);
           } else {
             div.className = "msg" + (m.who === "Me" ? " me-line" : "");
             div.innerHTML = '<span class="who"></span>: ';
@@ -1171,26 +1491,7 @@
         }
       });
 
-      titleMin.addEventListener("click", () => {
-        const nowMin = msnWindowEl.classList.toggle("is-minimized");
-        if (nowMin) {
-          setMaximized(false);
-        }
-        statusFooter.textContent = nowMin
-          ? "Window minimized — click Minimize again to restore."
-          : "Window restored.";
-      });
-
-      titleMax.addEventListener("click", () => {
-        const on = !msnWindowEl.classList.contains("is-maximized");
-        setMaximized(on);
-        if (on) {
-          msnWindowEl.classList.remove("is-minimized");
-        }
-        statusFooter.textContent = on ? "Maximized." : "Returned to normal size.";
-      });
-
-      titleClose.addEventListener("click", () => {
+      backBtn.addEventListener("click", () => {
         window.location.href = "./MatchPreviewPage.html";
       });
 
@@ -1230,33 +1531,151 @@
         statusFooter.textContent = "Voice: channel open (demo).";
       });
 
-      fmtFont.addEventListener("click", () => {
-        fontSizeStep = (fontSizeStep + 1) % composerFontSizes.length;
-        composer.style.fontSize = composerFontSizes[fontSizeStep];
-        statusFooter.textContent = `Composer size: ${composerFontSizes[fontSizeStep]}.`;
+      buildEmojiMenu();
+
+      fmtEmoji.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        toggleEmojiMenu();
       });
 
-      fmtEmoji.addEventListener("click", () => {
-        const sym = "☺ ";
-        const start = composer.selectionStart ?? composer.value.length;
-        const end = composer.selectionEnd ?? composer.value.length;
-        composer.value = composer.value.slice(0, start) + sym + composer.value.slice(end);
-        const pos = start + sym.length;
-        composer.focus();
-        composer.setSelectionRange(pos, pos);
-        statusFooter.textContent = "Inserted emoticon.";
+      fmtEmoji.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowDown" || e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          if (emojiMenu.hidden) openEmojiMenu();
+          else emojiMenu._focusSearch?.();
+        }
       });
 
-      fmtPalette.addEventListener("click", () => {
-        paletteStep = (paletteStep + 1) % composerColors.length;
-        const c = composerColors[paletteStep];
-        composer.style.color = c;
-        statusFooter.textContent = `Composer color updated.`;
+      document.addEventListener("click", (e) => {
+        const t = e.target;
+        if (emojiMenu.hidden) return;
+        if (t === fmtEmoji || fmtEmoji.contains(t)) return;
+        if (t === emojiMenu || emojiMenu.contains(t)) return;
+        closeEmojiMenu();
       });
 
-      fmtVoiceClip.addEventListener("click", () => {
-        addSysToActive("*Voice clip attached (demo).*");
-        statusFooter.textContent = "Voice clip placeholder added to conversation.";
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") {
+          if (!emojiMenu.hidden) {
+            closeEmojiMenu();
+            statusFooter.textContent = "Emoticon menu closed.";
+          }
+        }
+      });
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!emojiMenu.hidden) closeEmojiMenu();
+        },
+        { passive: true },
+      );
+
+      window.addEventListener("resize", () => {
+        if (!emojiMenu.hidden) closeEmojiMenu();
+      });
+
+      async function stopVoiceRecording() {
+        if (!voiceRecorder) return;
+        try {
+          // Helps avoid empty blobs in some browsers.
+          voiceRecorder.requestData?.();
+        } catch {
+          // ignore
+        }
+        if (voiceRecorder.state !== "inactive") voiceRecorder.stop();
+      }
+
+      function pickRecorderMimeType() {
+        const candidates = [
+          "audio/webm;codecs=opus",
+          "audio/webm",
+          "audio/ogg;codecs=opus",
+          "audio/ogg",
+        ];
+        if (!window.MediaRecorder?.isTypeSupported) return null;
+        return candidates.find((t) => MediaRecorder.isTypeSupported(t)) || null;
+      }
+
+      async function startVoiceRecording() {
+        voiceChunks = [];
+        voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        if (!window.MediaRecorder) {
+          throw new Error("MediaRecorder not supported");
+        }
+
+        const mimeType = pickRecorderMimeType();
+        voiceRecorder = mimeType ? new MediaRecorder(voiceStream, { mimeType }) : new MediaRecorder(voiceStream);
+        voiceRecorder.addEventListener("start", () => {
+          statusFooter.textContent = "Recording voice clip… click Stop to attach.";
+        });
+        voiceRecorder.addEventListener("error", () => {
+          statusFooter.textContent = "Recorder error (try a different browser).";
+        });
+        voiceRecorder.addEventListener("dataavailable", (e) => {
+          if (e.data && e.data.size > 0) voiceChunks.push(e.data);
+        });
+        voiceRecorder.addEventListener("stop", () => {
+          const blobType = voiceRecorder?.mimeType || mimeType || "audio/webm";
+          const blob = new Blob(voiceChunks, { type: blobType });
+          if (blob.size === 0) {
+            statusFooter.textContent = "No audio captured (mic blocked or unsupported).";
+          }
+          const url = URL.createObjectURL(blob);
+          const t = threads.find((x) => x.id === activeId);
+          if (t) {
+            t.messages.push({ type: "audio", who: "Me", url });
+            t.preview = "🎤 Voice clip";
+            renderThreadList();
+            renderMessages(t);
+          }
+
+          if (voiceStream) {
+            voiceStream.getTracks().forEach((tr) => tr.stop());
+            voiceStream = null;
+          }
+          voiceRecorder = null;
+          voiceChunks = [];
+
+          fmtVoiceClip.textContent = "Voice clip";
+          if (blob.size > 0) statusFooter.textContent = "Voice clip attached.";
+        });
+        // Record as a single blob for correct duration metadata.
+        voiceRecorder.start();
+      }
+
+      fmtVoiceClip.addEventListener("click", async () => {
+        try {
+          const isRecording = !!voiceRecorder && voiceRecorder.state === "recording";
+          if (isRecording) {
+            fmtVoiceClip.textContent = "Voice clip";
+            statusFooter.textContent = "Stopping recording…";
+            await stopVoiceRecording();
+            return;
+          }
+
+          if (!navigator.mediaDevices?.getUserMedia) {
+            statusFooter.textContent = "Voice clips not supported in this browser.";
+            return;
+          }
+          if (!window.MediaRecorder) {
+            statusFooter.textContent = "Voice recording not supported in this browser.";
+            return;
+          }
+
+          fmtVoiceClip.textContent = "Stop";
+          await startVoiceRecording();
+        } catch (err) {
+          fmtVoiceClip.textContent = "Voice clip";
+          if (voiceStream) {
+            voiceStream.getTracks().forEach((tr) => tr.stop());
+            voiceStream = null;
+          }
+          voiceRecorder = null;
+          voiceChunks = [];
+          statusFooter.textContent = "Couldn’t start recording (mic permission or unsupported).";
+        }
       });
 
       renderThreadList();
