@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Matemasie&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Matemasie&display=swap"
       rel="stylesheet"
     />
     <style>
@@ -19,7 +19,7 @@
 
       :root {
         --font-heading: "Matemasie", system-ui, sans-serif;
-        --font-body: "Caveat", cursive;
+        --font-body: "Gochi Hand", system-ui, sans-serif;
         /* Match style.css / MatchPreviewPage palette */
         --blue: #07279a;
         --pink: #d54aa9;
@@ -51,6 +51,8 @@
         --history-bg: #ffffff;
         --warn-bg: #fffacd;
         --toolbar-icon-size: 48px;
+        --profile-col-width: 170px;
+        --split-gap: 10px;
         --wlm-purple-top: #f0e8ff;
         --wlm-purple-mid: var(--green);
         --wlm-purple-bot: var(--ink-soft);
@@ -197,62 +199,8 @@
         overflow: hidden;
       }
 
-      .chat-window.is-minimized .toolbar,
       .chat-window.is-minimized .main-split {
         display: none !important;
-      }
-
-      .toolbar {
-        display: flex;
-        align-items: flex-end;
-        gap: 12px;
-        padding: 10px 12px 12px;
-        background: linear-gradient(180deg, #ffffff 0%, #e2ecf8 55%, var(--sky-deep) 100%);
-        border-bottom: 1px solid #9aaec4;
-        flex-wrap: wrap;
-      }
-
-      .tb-btn {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-        width: var(--toolbar-icon-size);
-        cursor: pointer;
-        appearance: none;
-        margin: 0;
-        padding: 0;
-        border: 0;
-        background: transparent;
-        font: inherit;
-        color: inherit;
-      }
-
-      .tb-btn:focus-visible {
-        outline: 2px solid var(--blue);
-        outline-offset: 3px;
-        border-radius: 10px;
-      }
-
-      .tb-btn .icon {
-        width: 38px;
-        height: 38px;
-        border-radius: 9px;
-        border: 1px solid #6a8ec0;
-        background: linear-gradient(180deg, #ffffff 0%, var(--wlm-purple-mid) 42%, var(--wlm-purple-bot) 100%);
-        display: grid;
-        place-items: center;
-        font-size: 17px;
-        box-shadow:
-          0 2px 5px rgba(40, 80, 130, 0.28),
-          inset 0 1px 0 rgba(255, 255, 255, 0.85);
-      }
-
-      .tb-btn span.label {
-        font-size: 10px;
-        color: var(--ink-soft);
-        text-align: center;
-        line-height: 1.15;
       }
 
       .main-split {
@@ -491,7 +439,7 @@
         display: flex;
         min-height: 0;
         padding: 10px 12px;
-        gap: 10px;
+        gap: var(--split-gap);
         background: transparent;
       }
 
@@ -528,56 +476,165 @@
         color: var(--ink-soft);
       }
 
+      .file-attach {
+        display: inline-grid;
+        gap: 6px;
+        margin-left: 6px;
+        padding: 0;
+        max-width: min(360px, 65vw);
+        vertical-align: middle;
+      }
+
+      .file-attach a.file-link {
+        display: inline-block;
+        text-decoration: none;
+        border: 0;
+        color: inherit;
+      }
+
+      .file-thumb {
+        width: 75px;
+        height: 75px;
+        background: #f6f6f6;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+      }
+
+      .file-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .file-group {
+        display: inline-flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-left: 6px;
+        vertical-align: middle;
+        max-width: min(520px, 70vw);
+      }
+
+      .file-thumb .ext {
+        font-weight: 700;
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        padding: 0 4px;
+        text-align: center;
+        line-height: 1.1;
+      }
+
       .dp-column {
-        width: 64px;
+        width: var(--profile-col-width);
         flex-shrink: 0;
         display: flex;
         flex-direction: column;
-        gap: 10px;
+        justify-content: flex-end;
         align-items: center;
-        padding: 6px 4px 8px;
+        padding: 8px 6px 10px;
         align-self: stretch;
-        background: var(--wave2), var(--wave), linear-gradient(200deg, #e8f1fb 0%, #b8cce8 100%);
+        background: linear-gradient(180deg, #eef3fa 0%, #c7d5ea 100%);
         border: 1px solid #8fa8c4;
-        border-radius: 6px;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.75);
+        border-radius: 8px;
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.75),
+          0 1px 0 rgba(0, 0, 0, 0.06);
       }
 
-      /* Reference: DP stack — Me on top, contact below (ducky colors) */
-      .dp-column .avatar.sm {
-        width: 52px;
-        height: 52px;
+      .dp-pic {
+        width: 150px;
+        height: 150px;
+        display: block;
+        border: 1px solid;
+        border-color: var(--inset-dark) var(--inset-light) var(--inset-light) var(--inset-dark);
+        border-radius: 0;
+        background: #ffffff;
+        object-fit: cover;
+        object-position: center;
+        box-shadow:
+          inset 1px 1px 0 rgba(0, 0, 0, 0.08),
+          inset -1px -1px 0 rgba(255, 255, 255, 0.75);
       }
 
-      .dp-column .avatar.sm.me {
-        background: conic-gradient(
-          #7cbb00 0deg 90deg,
-          #ffb900 90deg 180deg,
-          #00a4ef 180deg 270deg,
-          #f25022 270deg 360deg
-        );
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+      .dp-pic.them {
+        outline: 1px solid rgba(7, 39, 154, 0.55);
+        outline-offset: -2px;
       }
 
-      .dp-column .avatar.sm.them {
-        background: linear-gradient(145deg, #ffe866 0%, #ffb000 45%, #ff9a00 100%);
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.12);
+      .profile-link {
+        display: inline-block;
+        text-decoration: none;
+        color: inherit;
       }
 
-      .dp-column .avatar.sm.them::after {
-        content: "🦆";
+      .profile-link-btn {
+        appearance: none;
+        padding: 0;
+        margin: 0;
+        border: 0;
+        background: transparent;
+        cursor: pointer;
+      }
+
+      .profile-link:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 3px;
+      }
+
+      .profile-link-btn:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 3px;
+      }
+
+      .profile-link-btn:hover .dp-pic {
+        outline-color: rgba(213, 74, 169, 0.75);
+      }
+
+      .modal-backdrop[hidden] {
+        display: none;
+      }
+
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 20000;
+        background: rgba(0, 0, 0, 0.55);
         display: grid;
         place-items: center;
+        padding: 18px;
+      }
+
+      .modal-panel {
+        width: min(92vw, 720px);
+        max-height: min(90vh, 820px);
+        overflow: auto;
+        background: var(--paper);
+        border: 3px solid var(--ink);
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+        padding: 10px;
+      }
+
+      .modal-panel img {
+        display: block;
         width: 100%;
-        height: 100%;
-        font-size: 22px;
-        filter: saturate(1.1);
+        height: auto;
+      }
+
+      .modal-fallback {
+        padding: 14px 12px;
+        color: var(--ink-soft);
+        font-weight: 700;
       }
 
 
       .compose-wrap {
         border-top: 1px solid var(--sky-edge);
         padding: 10px 12px 12px;
+        padding-right: calc(12px + var(--profile-col-width) + var(--split-gap));
         background: linear-gradient(180deg, var(--sky-deep) 0%, var(--sky) 100%);
       }
 
@@ -736,13 +793,12 @@
       }
 
       .input-row {
-        display: flex;
-        gap: 10px;
-        align-items: stretch;
+        position: relative;
+        display: block;
       }
 
       .input-row textarea {
-        flex: 1;
+        width: 100%;
         min-height: 64px;
         resize: vertical;
         font-size: 15px;
@@ -763,31 +819,14 @@
       }
 
       .input-actions {
+        position: absolute;
+        top: 8px;
+        right: 8px;
         display: flex;
-        flex-direction: column;
-        gap: 8px;
-        width: 84px;
-        flex-shrink: 0;
+        align-items: flex-start;
       }
 
-      .send-btn,
-      .search-btn {
-        width: 100%;
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--ink);
-        min-height: 28px;
-        background: linear-gradient(180deg, #ffffff, #ebebeb);
-        border: 1px solid #b0b0b0;
-        border-radius: 4px;
-        box-shadow: inset 0 1px 0 #fff;
-        cursor: pointer;
-      }
-
-      .send-btn:hover,
-      .search-btn:hover {
-        background: linear-gradient(180deg, #ffffff, #f5f5f5);
-      }
+      /* Send button removed (Enter to send). */
 
       .status-footer {
         padding: 3px 10px;
@@ -801,9 +840,6 @@
         .sidebar {
           width: 200px;
           flex-basis: 200px;
-        }
-        .toolbar {
-          flex-wrap: wrap;
         }
       }
     </style>
@@ -821,25 +857,6 @@
       </div>
 
       <input type="file" id="tbFilePick" hidden multiple />
-
-      <div class="toolbar" role="toolbar" aria-label="Conversation actions">
-        <button type="button" class="tb-btn" id="tbInvite" aria-label="Invite">
-          <span class="icon" aria-hidden="true">👥</span>
-          <span class="label">Invite</span>
-        </button>
-        <button type="button" class="tb-btn" id="tbSendFiles" aria-label="Send files">
-          <span class="icon" aria-hidden="true">📎</span>
-          <span class="label">Send<br />Files</span>
-        </button>
-        <button type="button" class="tb-btn" id="tbVideo" aria-label="Video">
-          <span class="icon" aria-hidden="true">📹</span>
-          <span class="label">Video</span>
-        </button>
-        <button type="button" class="tb-btn" id="tbVoice" aria-label="Voice">
-          <span class="icon" aria-hidden="true">🎤</span>
-          <span class="label">Voice</span>
-        </button>
-      </div>
 
       <div class="main-split">
         <aside class="sidebar" aria-label="Message threads">
@@ -866,14 +883,16 @@
 
           <div class="chat-body">
             <div class="history" id="history" tabindex="0"></div>
-            <div class="dp-column" aria-hidden="true">
-              <div class="avatar sm me" title="Me"></div>
-              <div class="avatar sm them" title="Them"></div>
+            <div class="dp-column" aria-label="Profile pictures">
+              <button type="button" class="profile-link-btn" id="openColeCard" aria-label="View profile card">
+                <img class="dp-pic them" id="toPic" alt="Contact profile picture" />
+              </button>
             </div>
           </div>
 
           <div class="compose-wrap">
             <div class="format-bar" role="toolbar" aria-label="Format">
+              <button type="button" class="fmt wide" id="sendFilesBtn" title="Send files">Send files</button>
               <span class="fmt-wrap">
                 <button
                   type="button"
@@ -884,23 +903,29 @@
                   aria-haspopup="menu"
                   aria-expanded="false"
                 >
-                  <img class="icon-img" src="./Reference Images/emoticons.png" alt="" />
+                  😀
                 </button>
                 <div class="emoji-menu" id="emojiMenu" role="menu" hidden></div>
               </span>
-              <button type="button" class="fmt wide" id="fmtVoiceClip" title="Voice clip">Voice clip</button>
             </div>
             <div class="input-row">
-              <textarea id="composer" placeholder="Type a message here…" rows="3"></textarea>
+              <textarea id="composer" placeholder="Type your message…" rows="3"></textarea>
               <div class="input-actions">
-                <button class="send-btn" id="sendBtn" type="button">Send</button>
-                <button class="search-btn" id="searchBtn" type="button">Search</button>
               </div>
             </div>
           </div>
 
-          <div class="status-footer" id="statusFooter">Ready</div>
+          <div class="status-footer" id="statusFooter">Ready.</div>
         </section>
+      </div>
+    </div>
+
+    <div class="modal-backdrop" id="coleCardModal" hidden>
+      <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Profile card">
+        <img id="coleCardImg" src="./Reference Images/colecard.png" alt="Cole profile card" />
+        <div class="modal-fallback" id="coleCardFallback" hidden>
+          The profile card image could not be loaded. Please ensure `Reference Images/colecard.png` exists.
+        </div>
       </div>
     </div>
 
@@ -910,16 +935,17 @@
           id: "vectorclient",
           name: "Jessica Morales",
           email: "jessica.morales@hotmail.com",
+          avatar: "./UserCards/Jersey-Post_01.jpg",
           online: true,
           statusClass: "",
           statusShort: "Online",
           flavor: "",
-          preview: "Rev A looks perf — one tweak?",
+          preview: "Revision A looks excellent; one adjustment remains.",
           warn: "This contact may be slow to reply while reviewing your commission files.",
           messages: [
             { type: "msg", who: "Me", text: "Uploaded Rev B of the logo vector package (commission #2041)." },
-            { type: "sys", text: "*Deliverables marked ready for client review.*" },
-            { type: "msg", who: "Jessica Morales", text: "Rev A looks perf — one tweak on the stroke weight?" },
+            { type: "sys", text: "*Deliverables have been marked as ready for client review.*" },
+            { type: "msg", who: "Jessica Morales", text: "Revision A looks excellent. Could we make one adjustment to the stroke weight?" },
             { type: "sys", text: "Milestone 2/3 for this commission is invoiced." },
           ],
         },
@@ -927,21 +953,23 @@
           id: "rush_client",
           name: "Marcus Reid",
           email: "marcus.reid@hotmail.com",
+          avatar: "./UserCards/DsGD100A_Pr1_Poster_Louie_ColeF.jpg",
           online: true,
           statusClass: "away",
           statusShort: "Away",
           flavor: "commission: event poster",
-          preview: "can we lock delivery for Friday?",
+          preview: "Can we confirm delivery for Friday?",
           warn: "",
           messages: [
-            { type: "msg", who: "Marcus Reid", text: "can we lock delivery for Friday? it's for the gallery opening commission." },
-            { type: "msg", who: "Me", text: "yes if you approve the flat colors by Wed night" },
+            { type: "msg", who: "Marcus Reid", text: "Can we confirm delivery for Friday? This is for the gallery opening commission." },
+            { type: "msg", who: "Me", text: "Yes, provided the flat colors are approved by Wednesday evening." },
           ],
         },
         {
           id: "merch_assets",
           name: "Nina Kowalski",
           email: "nina.kowalski@hotmail.com",
+          avatar: "./UserCards/Gray Uniform Poster.png",
           online: true,
           statusClass: "busy",
           statusShort: "Busy",
@@ -950,7 +978,7 @@
           warn: "",
           messages: [
             { type: "msg", who: "Nina Kowalski", text: "PNG masters for the shirt run still coming for the merch commission?" },
-            { type: "msg", who: "Me", text: "exporting 300dpi tonight — same folder as the invoice" },
+            { type: "msg", who: "Me", text: "I will export the 300 DPI files this evening and place them in the same folder as the invoice." },
             { type: "sys", text: "Nina Kowalski is marked Busy (approving print proofs)." },
           ],
         },
@@ -958,21 +986,23 @@
           id: "cole",
           name: "Cole Winters",
           email: "cole.winters@hotmail.com",
+          avatar: "./UserCards/Curryoke_F.jpg",
           online: true,
           statusClass: "",
           statusShort: "Online",
           flavor: "",
-          preview: "thanks for the revision notes!",
+          preview: "Thank you for the revision notes.",
           warn: "",
           messages: [
-            { type: "msg", who: "Cole Winters", text: "thanks for the revision notes on the character commission!" },
-            { type: "msg", who: "Me", text: "happy to iterate — round 3 sketch drops tomorrow" },
+            { type: "msg", who: "Cole Winters", text: "Thank you for the revision notes on the character commission." },
+            { type: "msg", who: "Me", text: "I am happy to iterate. The third-round sketch will be delivered tomorrow." },
           ],
         },
         {
           id: "brief_partner",
           name: "Avery Kim",
           email: "avery.kim@outlook.com",
+          avatar: "./Image_Rotation/me oh vector-01.png",
           online: true,
           statusClass: "away",
           statusShort: "Away",
@@ -981,13 +1011,14 @@
           warn: "",
           messages: [
             { type: "msg", who: "Avery Kim", text: "did you check the brief PDF for our joint commission?" },
-            { type: "msg", who: "Me", text: "yes — I'll match your palette on the hero panel" },
+            { type: "msg", who: "Me", text: "Yes. I will match your palette on the hero panel." },
           ],
         },
         {
           id: "portrait_client",
           name: "Mai Nguyen",
           email: "mai.nguyen@gmail.com",
+          avatar: "./Image_Rotation/test 1.png",
           online: false,
           statusClass: "offline",
           statusShort: "Offline",
@@ -995,14 +1026,15 @@
           preview: "Invoice sent for portrait deposit.",
           warn: "",
           messages: [
-            { type: "msg", who: "Mai Nguyen", text: "Portrait commission — deposit invoice received, thanks." },
-            { type: "msg", who: "Me", text: "Great — I'll start thumbnails once it clears." },
+            { type: "msg", who: "Mai Nguyen", text: "Portrait commission: I have received the deposit invoice. Thank you." },
+            { type: "msg", who: "Me", text: "Thank you. I will begin thumbnail sketches once the payment clears." },
           ],
         },
         {
           id: "printlab",
           name: "Riley Chen",
           email: "riley.chen@printhaus.sf",
+          avatar: "./Image_Rotation/References/20.jpg",
           online: false,
           statusClass: "offline",
           statusShort: "Offline",
@@ -1011,7 +1043,7 @@
           warn: "",
           messages: [
             { type: "msg", who: "Riley Chen", text: "Your exhibition print commission proof is ready for pickup." },
-            { type: "msg", who: "Me", text: "I'll swing by Thursday — hold under Quick Draw." },
+            { type: "msg", who: "Me", text: "I will pick it up on Thursday. Please hold it under Quick Draw." },
           ],
         },
         {
@@ -1055,7 +1087,7 @@
           warn: "",
           messages: [
             { type: "msg", who: "Alexandra Rivera", text: "Wall labels copy for the group show commission — need final titles by Mon." },
-            { type: "msg", who: "Me", text: "will send a doc tonight with artist names + mediums" },
+            { type: "msg", who: "Me", text: "I will send a document this evening with the artist names and mediums." },
           ],
         },
       ];
@@ -1068,51 +1100,84 @@
       const warnBar = document.getElementById("warnBar");
       const warnText = document.getElementById("warnText");
       const composer = document.getElementById("composer");
-      const sendBtn = document.getElementById("sendBtn");
-      const searchBtn = document.getElementById("searchBtn");
       const statusFooter = document.getElementById("statusFooter");
       const chatWindowEl = document.querySelector(".chat-window");
       const backBtn = document.getElementById("backBtn");
+      const toPic = document.getElementById("toPic");
+      const openColeCard = document.getElementById("openColeCard");
+      const coleCardModal = document.getElementById("coleCardModal");
+      const coleCardImg = document.getElementById("coleCardImg");
+      const coleCardFallback = document.getElementById("coleCardFallback");
       const tbFilePick = document.getElementById("tbFilePick");
-      const tbInvite = document.getElementById("tbInvite");
-      const tbSendFiles = document.getElementById("tbSendFiles");
-      const tbVideo = document.getElementById("tbVideo");
-      const tbVoice = document.getElementById("tbVoice");
+      const sendFilesBtn = document.getElementById("sendFilesBtn");
       const fmtEmoji = document.getElementById("fmtEmoji");
       const emojiMenu = document.getElementById("emojiMenu");
-      const fmtVoiceClip = document.getElementById("fmtVoiceClip");
 
       let activeId = threads.find((t) => t.online)?.id ?? threads[0]?.id ?? null;
       const EMOTICONS = [
-        { sym: "☺", name: "smile" },
-        { sym: "☹", name: "frown" },
-        { sym: "♥", name: "heart" },
-        { sym: "★", name: "star" },
-        { sym: "☆", name: "star outline" },
-        { sym: "♪", name: "music" },
-        { sym: "♬", name: "notes" },
-        { sym: "✓", name: "check" },
-        { sym: "✿", name: "flower" },
-        { sym: "✧", name: "sparkle" },
-        { sym: "☀", name: "sun" },
-        { sym: "☁", name: "cloud" },
-        { sym: "☂", name: "umbrella" },
-        { sym: "☕", name: "coffee" },
-        { sym: "✈", name: "airplane" },
-        { sym: "⚡", name: "bolt" },
-        { sym: "❄", name: "snow" },
-        { sym: "☾", name: "moon" },
-        { sym: "✉", name: "mail" },
-        { sym: "☎", name: "phone" },
-        { sym: "⌛", name: "hourglass" },
-        { sym: "☘", name: "clover" },
-        { sym: "⚑", name: "flag" },
-        { sym: "⚙", name: "gear" },
+        "😀",
+        "😃",
+        "😄",
+        "😁",
+        "😆",
+        "😅",
+        "😂",
+        "😉",
+        "😊",
+        "🙂",
+        "😋",
+        "😎",
+        "😍",
+        "😘",
+        "😗",
+        "😙",
+        "😚",
+        "😇",
+        "🤗",
+        "🤔",
+        "😐",
+        "😑",
+        "🙄",
+        "😏",
+        "😣",
+        "😥",
+        "😮",
+        "😯",
+        "😪",
+        "😫",
+        "😴",
+        "😌",
+        "😛",
+        "😜",
+        "😝",
+        "😒",
+        "😓",
+        "😔",
+        "😕",
+        "🙃",
+        "🙁",
+        "😖",
+        "😞",
+        "😟",
+        "😤",
+        "😢",
+        "😭",
+        "😦",
+        "😧",
+        "😨",
+        "😩",
+        "😬",
+        "😰",
+        "😱",
+        "👍",
+        "👎",
+        "👏",
+        "🙏",
+        "❤️",
+        "💔",
+        "⭐️",
+        "✨",
       ];
-
-      let voiceRecorder = null;
-      let voiceStream = null;
-      let voiceChunks = [];
 
       function insertAtComposer(sym) {
         const text = (sym || "").toString();
@@ -1150,45 +1215,17 @@
       }
 
       function buildEmojiMenu() {
-        const RECENT_KEY = "chat_recent_emoticons";
-        const RECENT_MAX = 12;
-
-        function loadRecent() {
-          try {
-            const raw = localStorage.getItem(RECENT_KEY);
-            const arr = JSON.parse(raw || "[]");
-            return Array.isArray(arr) ? arr.filter((x) => typeof x === "string") : [];
-          } catch {
-            return [];
-          }
-        }
-
-        function saveRecent(list) {
-          try {
-            localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, RECENT_MAX)));
-          } catch {
-            // ignore
-          }
-        }
-
-        function pushRecent(sym) {
-          const cur = loadRecent();
-          const next = [sym, ...cur.filter((x) => x !== sym)].slice(0, RECENT_MAX);
-          saveRecent(next);
-        }
-
-        function makeEmojiButton(sym, label) {
+        function makeEmojiButton(sym) {
           const b = document.createElement("button");
           b.type = "button";
           b.className = "emoji-item";
           b.setAttribute("role", "menuitem");
-          b.setAttribute("aria-label", label || sym);
+          b.setAttribute("aria-label", sym);
           b.textContent = sym;
           b.tabIndex = -1; // roving tabindex
           b.addEventListener("click", () => {
             insertAtComposer(sym);
-            pushRecent(sym);
-            statusFooter.textContent = "Inserted emoticon.";
+            statusFooter.textContent = "Emoticon inserted.";
             closeEmojiMenu();
             fmtEmoji.focus();
           });
@@ -1202,69 +1239,16 @@
           return clamped;
         }
 
-        const top = document.createElement("div");
-        top.className = "emoji-top";
-
-        const search = document.createElement("input");
-        search.className = "emoji-search";
-        search.type = "search";
-        search.autocomplete = "off";
-        search.spellcheck = false;
-        search.placeholder = "Search… (type, arrows to move, Enter to insert)";
-
-        const recentTitle = document.createElement("div");
-        recentTitle.className = "emoji-section-title";
-        recentTitle.textContent = "Recent";
-
-        const recentRow = document.createElement("div");
-        recentRow.className = "emoji-recent";
-
-        const allTitle = document.createElement("div");
-        allTitle.className = "emoji-section-title";
-        allTitle.textContent = "All";
-
-        top.appendChild(search);
-        top.appendChild(recentTitle);
-        top.appendChild(recentRow);
-        top.appendChild(allTitle);
-
         const grid = document.createElement("div");
         grid.className = "emoji-grid";
 
-        const hint = document.createElement("div");
-        hint.className = "emoji-hint";
-        hint.textContent = "Esc closes • Enter inserts • Click outside closes";
-
         emojiMenu.innerHTML = "";
-        emojiMenu.appendChild(top);
         emojiMenu.appendChild(grid);
-        emojiMenu.appendChild(hint);
+        // No hint text in menu.
 
-        function renderRecent() {
-          const rec = loadRecent();
-          recentRow.innerHTML = "";
-          if (rec.length === 0) {
-            const empty = document.createElement("div");
-            empty.className = "emoji-hint";
-            empty.textContent = "No recent emoticons yet.";
-            recentRow.appendChild(empty);
-            return;
-          }
-          rec.forEach((sym) => recentRow.appendChild(makeEmojiButton(sym, `recent ${sym}`)));
-        }
-
-        function renderAll(filter) {
-          const q = (filter || "").trim().toLowerCase();
-          const list = q
-            ? EMOTICONS.filter((e) => e.sym.includes(q) || (e.name || "").toLowerCase().includes(q))
-            : EMOTICONS;
-          grid.innerHTML = "";
-          list.forEach((e) => grid.appendChild(makeEmojiButton(e.sym, e.name ? `${e.name} ${e.sym}` : e.sym)));
-          return grid.querySelectorAll(".emoji-item");
-        }
-
-        renderRecent();
-        let items = renderAll("");
+        grid.innerHTML = "";
+        EMOTICONS.forEach((sym) => grid.appendChild(makeEmojiButton(sym)));
+        let items = grid.querySelectorAll(".emoji-item");
         let focusIndex = 0;
 
         function refreshItems() {
@@ -1284,24 +1268,6 @@
           const next = cols ? focusIndex + delta * cols : focusIndex + delta;
           focusIndex = setRovingFocus(arr, next);
         }
-
-        search.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") {
-            e.preventDefault();
-            closeEmojiMenu();
-            fmtEmoji.focus();
-          } else if (e.key === "ArrowDown") {
-            e.preventDefault();
-            focusFirst();
-          }
-        });
-
-        search.addEventListener("input", () => {
-          items = renderAll(search.value);
-          focusIndex = 0;
-          const arr = [...items];
-          arr.forEach((el, i) => (el.tabIndex = i === 0 ? 0 : -1));
-        });
 
         emojiMenu.addEventListener("keydown", (e) => {
           if (e.key === "Escape") {
@@ -1332,7 +1298,7 @@
           }
         });
 
-        emojiMenu._focusSearch = () => search.focus();
+        emojiMenu._focusSearch = () => focusFirst();
       }
 
       function addSysToActive(text) {
@@ -1395,17 +1361,73 @@
           if (m.type === "sys") {
             div.className = "msg sys";
             div.textContent = m.text;
-          } else if (m.type === "audio") {
-            div.className = "msg me-line";
+          } else if (m.type === "file") {
+            div.className = "msg" + ((m.who || "Me") === "Me" ? " me-line" : "");
             div.innerHTML = '<span class="who"></span>: ';
             div.querySelector(".who").textContent = m.who || "Me";
-            const audio = document.createElement("audio");
-            audio.controls = true;
-            audio.src = m.url;
-            audio.preload = "metadata";
-            audio.style.verticalAlign = "middle";
-            audio.style.marginLeft = "6px";
-            div.appendChild(audio);
+
+            const wrap = document.createElement("span");
+            wrap.className = "file-attach";
+
+            const link = document.createElement("a");
+            link.className = "file-link";
+            link.href = m.url;
+            link.download = m.name || "download";
+            link.setAttribute("aria-label", m.name ? `Download ${m.name}` : "Download file");
+            link.title = m.name || "Download";
+
+            const thumb = document.createElement("span");
+            thumb.className = "file-thumb";
+            if (m.thumbUrl) {
+              const img = document.createElement("img");
+              img.alt = "";
+              img.src = m.thumbUrl;
+              thumb.appendChild(img);
+            } else {
+              const ext = document.createElement("span");
+              ext.className = "ext";
+              ext.textContent = (m.ext || "FILE").slice(0, 6);
+              thumb.appendChild(ext);
+            }
+            link.appendChild(thumb);
+            wrap.appendChild(link);
+
+            div.appendChild(wrap);
+          } else if (m.type === "file-group") {
+            div.className = "msg" + ((m.who || "Me") === "Me" ? " me-line" : "");
+            div.innerHTML = '<span class="who"></span>: ';
+            div.querySelector(".who").textContent = m.who || "Me";
+
+            const group = document.createElement("span");
+            group.className = "file-group";
+
+            (m.files || []).forEach((f) => {
+              const link = document.createElement("a");
+              link.className = "file-link";
+              link.href = f.url;
+              link.download = f.name || "download";
+              link.setAttribute("aria-label", f.name ? `Download ${f.name}` : "Download file");
+              link.title = f.name || "Download";
+
+              const thumb = document.createElement("span");
+              thumb.className = "file-thumb";
+              if (f.thumbUrl) {
+                const img = document.createElement("img");
+                img.alt = "";
+                img.src = f.thumbUrl;
+                thumb.appendChild(img);
+              } else {
+                const ext = document.createElement("span");
+                ext.className = "ext";
+                ext.textContent = (f.ext || "FILE").slice(0, 6);
+                thumb.appendChild(ext);
+              }
+
+              link.appendChild(thumb);
+              group.appendChild(link);
+            });
+
+            div.appendChild(group);
           } else {
             div.className = "msg" + (m.who === "Me" ? " me-line" : "");
             div.innerHTML = '<span class="who"></span>: ';
@@ -1433,6 +1455,10 @@
         }
         winTitleEl.textContent = "Conversation — " + t.name;
 
+        // Update profile pictures (fallbacks keep UI stable even if an image is missing).
+        toPic.src = t.avatar || "./UserCards/Curryoke_F.jpg";
+        toPic.alt = `${t.name} profile picture`;
+
         if (t.warn) {
           warnBar.hidden = false;
           warnText.textContent = t.warn;
@@ -1442,7 +1468,7 @@
         }
 
         renderMessages(t);
-        statusFooter.textContent = "Last message in this conversation.";
+        statusFooter.textContent = "You have reached the most recent message in this conversation.";
       }
 
       function sendMessage() {
@@ -1457,32 +1483,8 @@
         composer.value = "";
         renderThreadList();
         renderMessages(t);
-        statusFooter.textContent = "Message sent.";
+        statusFooter.textContent = "Your message has been sent.";
       }
-
-      sendBtn.addEventListener("click", sendMessage);
-      searchBtn.addEventListener("click", () => {
-        const q = window.prompt("Find text in this conversation:");
-        if (q === null) return;
-        const needle = q.trim();
-        if (!needle) {
-          statusFooter.textContent = "Search cancelled.";
-          return;
-        }
-        const t = threads.find((x) => x.id === activeId);
-        if (!t) return;
-        const lower = needle.toLowerCase();
-        const hits = t.messages.filter(
-          (m) => m.type === "msg" && (m.text || "").toLowerCase().includes(lower),
-        );
-        if (hits.length === 0) {
-          statusFooter.textContent = "No messages match your search.";
-          return;
-        }
-        statusFooter.textContent = `Found ${hits.length} message(s) containing “${needle}”.`;
-        composer.value = hits[hits.length - 1].text;
-        composer.focus();
-      });
 
       composer.addEventListener("keydown", (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
@@ -1495,40 +1497,160 @@
         window.location.href = "./MatchPreviewPage.html";
       });
 
-      tbInvite.addEventListener("click", () => {
-        const who = window.prompt("Invite someone to this conversation (email or sign-in name):", "");
-        if (who === null) {
-          statusFooter.textContent = "Invite cancelled.";
-          return;
-        }
-        const v = who.trim();
-        if (!v) {
-          statusFooter.textContent = "Invite cancelled.";
-          return;
-        }
-        addSysToActive(`*Invitation sent to ${v}.*`);
-        statusFooter.textContent = `Invite queued for “${v}” (demo).`;
+      function openModal() {
+        coleCardModal.hidden = false;
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeModal() {
+        coleCardModal.hidden = true;
+        document.body.style.overflow = "";
+      }
+
+      openColeCard.addEventListener("click", () => {
+        openModal();
       });
 
-      tbSendFiles.addEventListener("click", () => tbFilePick.click());
+      coleCardModal.addEventListener("click", (e) => {
+        if (e.target === coleCardModal) closeModal();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && !coleCardModal.hidden) closeModal();
+      });
+
+      coleCardImg.addEventListener("error", () => {
+        coleCardFallback.hidden = false;
+      });
+
+      sendFilesBtn.addEventListener("click", () => tbFilePick.click());
       tbFilePick.addEventListener("change", () => {
         const files = [...tbFilePick.files];
         if (!files.length) return;
-        const list = files.map((f) => f.name).join(", ");
-        addSysToActive(`*Sending file(s): ${list}*`);
-        statusFooter.textContent =
-          files.length === 1 ? `Attached “${files[0].name}”.` : `Attached ${files.length} files.`;
+        const t = threads.find((x) => x.id === activeId);
+        if (!t) return;
+
+        const makeId = () =>
+          (window.crypto?.randomUUID ? crypto.randomUUID() : `f_${Date.now()}_${Math.random().toString(16).slice(2)}`);
+
+        const fmtSize = (bytes) => {
+          if (!Number.isFinite(bytes)) return "";
+          const units = ["B", "KB", "MB", "GB"];
+          let v = bytes;
+          let i = 0;
+          while (v >= 1024 && i < units.length - 1) {
+            v /= 1024;
+            i += 1;
+          }
+          const n = i === 0 ? Math.round(v) : Math.round(v * 10) / 10;
+          return `${n} ${units[i]}`;
+        };
+
+        const makeVideoThumb = (blobUrl) =>
+          new Promise((resolve, reject) => {
+            try {
+              const video = document.createElement("video");
+              video.preload = "metadata";
+              video.muted = true;
+              video.playsInline = true;
+              video.src = blobUrl;
+
+              const cleanup = () => {
+                video.removeAttribute("src");
+                video.load();
+              };
+
+              video.addEventListener(
+                "loadedmetadata",
+                () => {
+                  const t = Math.min(0.2, Math.max(0.01, (video.duration || 1) * 0.02));
+                  // Some browsers require a seek before current frame is available.
+                  video.currentTime = t;
+                },
+                { once: true },
+              );
+
+              video.addEventListener(
+                "seeked",
+                () => {
+                  const canvas = document.createElement("canvas");
+                  canvas.width = 75;
+                  canvas.height = 75;
+                  const ctx = canvas.getContext("2d");
+                  if (!ctx) {
+                    cleanup();
+                    reject(new Error("no canvas ctx"));
+                    return;
+                  }
+                  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                  const dataUrl = canvas.toDataURL("image/png");
+                  cleanup();
+                  resolve(dataUrl);
+                },
+                { once: true },
+              );
+
+              video.addEventListener(
+                "error",
+                () => {
+                  cleanup();
+                  reject(new Error("video error"));
+                },
+                { once: true },
+              );
+            } catch (e) {
+              reject(e);
+            }
+          });
+
+        const groupId = makeId();
+        const fileEntries = files.map((f) => {
+          const url = URL.createObjectURL(f);
+          const isImg = /^image\//i.test(f.type || "");
+          const isVideo = /^video\//i.test(f.type || "");
+          const ext = (f.name.split(".").pop() || "file").toUpperCase();
+          return {
+            id: makeId(),
+            name: f.name,
+            url,
+            thumbUrl: isImg ? url : "",
+            ext,
+            isVideo,
+            sizeLabel: f.size ? fmtSize(f.size) : "",
+          };
+        });
+
+        t.messages.push({
+          id: groupId,
+          type: "file-group",
+          who: "Me",
+          files: fileEntries.map(({ id, name, url, thumbUrl, ext }) => ({ id, name, url, thumbUrl, ext })),
+        });
+
+        // Generate thumbnails for videos asynchronously.
+        fileEntries
+          .filter((x) => x.isVideo)
+          .forEach((x) => {
+            makeVideoThumb(x.url)
+              .then((thumbUrl) => {
+                const group = t.messages.find((m) => m && m.id === groupId);
+                if (!group || group.type !== "file-group") return;
+                const target = (group.files || []).find((f) => f && f.url === x.url);
+                if (!target) return;
+                target.thumbUrl = thumbUrl;
+                target.ext = "";
+                if (activeId === t.id) renderMessages(t);
+              })
+              .catch(() => {
+                // keep extension tile fallback
+              });
+          });
+
+        t.preview = files.length === 1 ? `📎 ${files[0].name}` : `📎 ${files.length} files`;
+        renderThreadList();
+        renderMessages(t);
+        statusFooter.textContent = files.length === 1 ? "File sent." : "Files sent.";
         tbFilePick.value = "";
-      });
-
-      tbVideo.addEventListener("click", () => {
-        addSysToActive("*Starting video session…*");
-        statusFooter.textContent = "Video: connecting… (demo)";
-      });
-
-      tbVoice.addEventListener("click", () => {
-        addSysToActive("*Voice call started.*");
-        statusFooter.textContent = "Voice: channel open (demo).";
       });
 
       buildEmojiMenu();
@@ -1559,7 +1681,7 @@
         if (e.key === "Escape") {
           if (!emojiMenu.hidden) {
             closeEmojiMenu();
-            statusFooter.textContent = "Emoticon menu closed.";
+            statusFooter.textContent = "The emoticon menu has been closed.";
           }
         }
       });
@@ -1574,108 +1696,6 @@
 
       window.addEventListener("resize", () => {
         if (!emojiMenu.hidden) closeEmojiMenu();
-      });
-
-      async function stopVoiceRecording() {
-        if (!voiceRecorder) return;
-        try {
-          // Helps avoid empty blobs in some browsers.
-          voiceRecorder.requestData?.();
-        } catch {
-          // ignore
-        }
-        if (voiceRecorder.state !== "inactive") voiceRecorder.stop();
-      }
-
-      function pickRecorderMimeType() {
-        const candidates = [
-          "audio/webm;codecs=opus",
-          "audio/webm",
-          "audio/ogg;codecs=opus",
-          "audio/ogg",
-        ];
-        if (!window.MediaRecorder?.isTypeSupported) return null;
-        return candidates.find((t) => MediaRecorder.isTypeSupported(t)) || null;
-      }
-
-      async function startVoiceRecording() {
-        voiceChunks = [];
-        voiceStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        if (!window.MediaRecorder) {
-          throw new Error("MediaRecorder not supported");
-        }
-
-        const mimeType = pickRecorderMimeType();
-        voiceRecorder = mimeType ? new MediaRecorder(voiceStream, { mimeType }) : new MediaRecorder(voiceStream);
-        voiceRecorder.addEventListener("start", () => {
-          statusFooter.textContent = "Recording voice clip… click Stop to attach.";
-        });
-        voiceRecorder.addEventListener("error", () => {
-          statusFooter.textContent = "Recorder error (try a different browser).";
-        });
-        voiceRecorder.addEventListener("dataavailable", (e) => {
-          if (e.data && e.data.size > 0) voiceChunks.push(e.data);
-        });
-        voiceRecorder.addEventListener("stop", () => {
-          const blobType = voiceRecorder?.mimeType || mimeType || "audio/webm";
-          const blob = new Blob(voiceChunks, { type: blobType });
-          if (blob.size === 0) {
-            statusFooter.textContent = "No audio captured (mic blocked or unsupported).";
-          }
-          const url = URL.createObjectURL(blob);
-          const t = threads.find((x) => x.id === activeId);
-          if (t) {
-            t.messages.push({ type: "audio", who: "Me", url });
-            t.preview = "🎤 Voice clip";
-            renderThreadList();
-            renderMessages(t);
-          }
-
-          if (voiceStream) {
-            voiceStream.getTracks().forEach((tr) => tr.stop());
-            voiceStream = null;
-          }
-          voiceRecorder = null;
-          voiceChunks = [];
-
-          fmtVoiceClip.textContent = "Voice clip";
-          if (blob.size > 0) statusFooter.textContent = "Voice clip attached.";
-        });
-        // Record as a single blob for correct duration metadata.
-        voiceRecorder.start();
-      }
-
-      fmtVoiceClip.addEventListener("click", async () => {
-        try {
-          const isRecording = !!voiceRecorder && voiceRecorder.state === "recording";
-          if (isRecording) {
-            fmtVoiceClip.textContent = "Voice clip";
-            statusFooter.textContent = "Stopping recording…";
-            await stopVoiceRecording();
-            return;
-          }
-
-          if (!navigator.mediaDevices?.getUserMedia) {
-            statusFooter.textContent = "Voice clips not supported in this browser.";
-            return;
-          }
-          if (!window.MediaRecorder) {
-            statusFooter.textContent = "Voice recording not supported in this browser.";
-            return;
-          }
-
-          fmtVoiceClip.textContent = "Stop";
-          await startVoiceRecording();
-        } catch (err) {
-          fmtVoiceClip.textContent = "Voice clip";
-          if (voiceStream) {
-            voiceStream.getTracks().forEach((tr) => tr.stop());
-            voiceStream = null;
-          }
-          voiceRecorder = null;
-          voiceChunks = [];
-          statusFooter.textContent = "Couldn’t start recording (mic permission or unsupported).";
-        }
       });
 
       renderThreadList();
