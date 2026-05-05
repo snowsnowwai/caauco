@@ -137,3 +137,45 @@ if (matchDeck && matchSlides.length) {
 
   showMatchSlide(2);
 }
+
+const cardIndexTrigger = document.getElementById("cardIndexTrigger");
+const cardIndexModal = document.getElementById("cardIndexModal");
+const cardIndexCloseBtn = document.getElementById("cardIndexCloseBtn");
+const cardIndexBackdrop = cardIndexModal ? cardIndexModal.querySelector("[data-card-index-close]") : null;
+
+function closeCardIndexModal() {
+  if (!cardIndexModal) {
+    return;
+  }
+  cardIndexModal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+function openCardIndexModal() {
+  if (!cardIndexModal) {
+    return;
+  }
+  cardIndexModal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+if (cardIndexTrigger && cardIndexModal) {
+  cardIndexTrigger.addEventListener("click", (event) => {
+    event.preventDefault();
+    openCardIndexModal();
+  });
+
+  if (cardIndexCloseBtn) {
+    cardIndexCloseBtn.addEventListener("click", closeCardIndexModal);
+  }
+
+  if (cardIndexBackdrop) {
+    cardIndexBackdrop.addEventListener("click", closeCardIndexModal);
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !cardIndexModal.hidden) {
+      closeCardIndexModal();
+    }
+  });
+}

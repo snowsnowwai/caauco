@@ -463,7 +463,26 @@ main {
   width: 100%;
   aspect-ratio: 1;
   min-width: 0;
-  background: var(--profile-icon-orange);
+  background-color: transparent;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.profile-back__icon-pip:nth-child(1) {
+  background-image: url("Icons/Adobe_Photoshop_CC_icon.svg.png");
+}
+
+.profile-back__icon-pip:nth-child(2) {
+  background-image: url("Icons/Adobe_Illustrator_CC_icon.svg.png");
+}
+
+.profile-back__icon-pip:nth-child(3) {
+  background-image: url("Icons/Adobe_After_Effects_CC_icon.svg.png");
+}
+
+.profile-back__icon-pip:nth-child(4) {
+  background-image: url("Icons/Adobe_InDesign_CC_icon.svg.png");
 }
 
 .profile-back__slot {
@@ -488,6 +507,8 @@ main {
   height: 100%;
   object-fit: contain;
   object-position: center center;
+  transform: scale(1.2);
+  transform-origin: center center;
 }
 
 .profile-back__section {
@@ -930,6 +951,109 @@ a.ghost-btn:hover {
   font-weight: 700;
   color: var(--ink-soft);
   background: #efe6ff;
+}
+
+.card-index-modal[hidden] {
+  display: none;
+}
+
+.card-index-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+}
+
+.card-index-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 10, 17, 0.56);
+}
+
+.card-index-modal__panel {
+  position: relative;
+  width: min(92vw, 760px);
+  border: 3px solid #101010;
+  border-radius: 10px;
+  background: var(--paper);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.35);
+  padding: 0.65rem 0.7rem 0.8rem;
+  font-family: "Caveat", cursive;
+}
+
+.card-index-modal__close {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.5rem;
+  border: 2px solid #101010;
+  background: #ffffff;
+  color: #101010;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.card-index-modal__title {
+  margin: 0 2.3rem 0.55rem;
+  font-family: "Caveat", cursive;
+  font-weight: 700;
+  font-size: clamp(2rem, 7vw, 3.1rem);
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: #141414;
+  text-align: center;
+}
+
+.card-index-modal__body {
+  display: grid;
+  grid-template-columns: minmax(170px, 1fr) minmax(220px, 1.3fr);
+  gap: 0.65rem;
+}
+
+.card-index-modal__right {
+  grid-column: 2;
+  width: 100%;
+  max-width: 400px;
+  justify-self: stretch;
+  border: 2px solid #141414;
+  border-radius: 8px;
+  background: var(--paper);
+  padding: 0.5rem;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.card-index-modal__art-frame {
+  border: 2px solid #141414;
+  border-radius: 8px;
+  background: #ffffff;
+  min-height: 210px;
+  overflow: hidden;
+}
+
+.card-index-modal__art-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.card-index-modal__name {
+  margin: 0;
+  border: 2px solid #141414;
+  border-radius: 8px;
+  background: #ffffff;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.22rem 0.35rem 0.28rem;
+  font-size: clamp(0.92rem, 2.7vw, 1.1rem);
 }
 
 @media (max-width: 980px) {

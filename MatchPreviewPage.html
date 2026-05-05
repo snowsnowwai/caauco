@@ -20,6 +20,7 @@
       </div>
       <nav class="topbar-right">
         <a class="top-nav-link" href="chat.html">Messages</a>
+        <a class="top-nav-link" href="#" id="cardIndexTrigger" aria-haspopup="dialog" aria-controls="cardIndexModal">Card Index</a>
         <a class="ghost-btn" href="ProfilePage.html">Profile</a>
       </nav>
     </header>
@@ -32,7 +33,7 @@
           <article class="artist-card match-slide is-front">
             <div class="match-card-inner">
               <div class="match-card-face match-card-face--front">
-                <img src="Image_Rotation/me oh vector-01.png" alt="Artist artwork preview 1">
+                <img src="UserCards/Jersey-Post_01.jpg" alt="Artist artwork preview 1">
                 <div class="artist-overlay">
                   <div class="artist-info">
                     <h3>Cole Louie</h3>
@@ -254,6 +255,24 @@
     <footer class="site-footer">
       <p>Quick Draw - where clients and artists find the right creative spark.</p>
     </footer>
+  </div>
+
+  <div class="card-index-modal" id="cardIndexModal" hidden>
+    <div class="card-index-modal__backdrop" data-card-index-close></div>
+    <section class="card-index-modal__panel" role="dialog" aria-modal="true" aria-labelledby="cardIndexTitle">
+      <button type="button" class="card-index-modal__close" id="cardIndexCloseBtn" aria-label="Close card index">
+        &#10005;
+      </button>
+      <h2 class="card-index-modal__title">Card Index</h2>
+      <div class="card-index-modal__body">
+        <div class="card-index-modal__right">
+          <div class="card-index-modal__art-frame">
+            <img src="Reference Images/800774c01847d13cf78fbfbcc3454313.png" alt="Card index illustration reference">
+          </div>
+          <p class="card-index-modal__name">Card Preview</p>
+        </div>
+      </div>
+    </section>
   </div>
 
   <script src="script.js"></script>
