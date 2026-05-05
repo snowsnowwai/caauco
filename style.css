@@ -513,6 +513,60 @@ main {
   min-height: 0;
 }
 
+.profile-back__section--experience .profile-back__section-body {
+  overflow-y: auto;
+  min-height: 0;
+}
+
+.profile-back__experience-block {
+  color: #c4476a;
+}
+
+.profile-back__experience-role,
+.profile-back__experience-when {
+  font-family: "Caveat", cursive;
+  letter-spacing: normal;
+}
+
+.profile-back__experience-role {
+  margin: 0 0 3px;
+  padding: 0;
+  font-weight: 700;
+  font-size: clamp(0.85rem, 3.35vw, 1.18rem);
+  line-height: 1.15;
+}
+
+.profile-back__experience-when {
+  margin: 0 0 5px;
+  font-size: clamp(0.78rem, 3vw, 1.05rem);
+  font-weight: 700;
+  line-height: 1.15;
+}
+
+.profile-back__experience-when em {
+  font-style: italic;
+}
+
+.profile-back__experience-points {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: clamp(0.6rem, 2.35vw, 0.8rem);
+  line-height: 1.28;
+}
+
+.profile-back__experience-points li {
+  margin: 0 0 2px;
+  padding-left: 0.55em;
+  position: relative;
+}
+
+.profile-back__experience-points li::before {
+  content: "- ";
+  position: absolute;
+  left: 0;
+}
+
 .profile-back__section--artworks {
   min-height: 0;
   gap: 3px;
@@ -531,7 +585,16 @@ main {
   flex: 1 1 0;
   min-width: 0;
   min-height: 0;
+  overflow: hidden;
   background: var(--profile-slot-green);
+}
+
+.profile-back__art-slot .profile-back__art-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .profile-back__section-label {
