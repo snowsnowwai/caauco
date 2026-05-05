@@ -44,10 +44,8 @@
         --inset-dark: #808080;
         --inset-light: #ffffff;
         --text: var(--ink);
-        --online: #008000;
-        --away: #c06000;
-        --busy: #c00000;
-        --offline: #c00000;
+        --read: var(--blue);
+        --unread: var(--pink);
         --history-bg: #ffffff;
         --warn-bg: #fffacd;
         --toolbar-icon-size: 48px;
@@ -70,11 +68,12 @@
       }
 
       body {
+        height: 100dvh;
         min-height: 100dvh;
         margin: 0;
         font-family: var(--font-body);
         font-weight: 700;
-        font-size: 14.2px;
+        font-size: 14.5px;
         color: var(--text);
         background:
           radial-gradient(circle at 20% 20%, #d54aa938 0%, #ffffff00 42%),
@@ -94,7 +93,7 @@
 
       /* Full-viewport panel */
       .chat-window {
-        flex: 1 1 auto;
+        flex: 1 1 0;
         display: flex;
         flex-direction: column;
         width: 100%;
@@ -119,6 +118,7 @@
         font-weight: 700;
         letter-spacing: 0.1em;
         user-select: none;
+        font-size: 14.2px;
       }
 
       .title-bar .title-left {
@@ -160,20 +160,6 @@
         outline-offset: 2px;
       }
 
-      .title-bar .butterfly {
-        width: 16px;
-        height: 16px;
-        flex: 0 0 auto;
-        background: conic-gradient(
-          #7cbb00 0deg 90deg,
-          #ffb900 90deg 180deg,
-          #00a4ef 180deg 270deg,
-          #f25022 270deg 360deg
-        );
-        border-radius: 2px;
-        box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.2);
-      }
-
       .title-bar span.title-text {
         font-family: var(--font-heading);
         font-weight: 400;
@@ -184,6 +170,14 @@
         overflow: hidden;
         text-overflow: ellipsis;
         min-width: 0;
+      }
+
+      .title-logo {
+        display: block;
+        height: clamp(34px, 5vw, 46px);
+        width: auto;
+        max-width: 320px;
+        object-fit: contain;
       }
 
       .chat-window.is-maximized {
@@ -228,16 +222,56 @@
 
       .thread-list-wrap {
         flex: 1;
-        overflow: auto;
-        padding: 8px;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        /* Inset the whole thread column (including scrollbar) from the sidebar edges. WebKit paints
+           the scrollbar in the gutter, so padding on .thread-scroll alone does not gap the pane border. */
+        padding: 8px 5px;
         background: var(--wave2), linear-gradient(180deg, var(--sky) 0%, #cad8ea 100%);
+      }
+
+      /* Scrollbar only for the online/offline thread lists (not chat history or other panes). */
+      .thread-scroll {
+        flex: 1;
+        min-height: 0;
+        overflow-x: hidden;
+        /* Classic scrollbar slot — overlay scrollbars stay visible better than overflow:auto alone */
+        overflow-y: scroll;
+        padding-left: 0;
+        padding-right: 0;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(72, 92, 152, 0.95) rgba(255, 255, 255, 0.55);
+      }
+
+      .thread-scroll::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      .thread-scroll::-webkit-scrollbar-track {
+        /* Gap between thread lists and track (left); wrap padding-right gaps track from .chat-pane */
+        margin: 2px 0 2px 5px;
+        background: rgba(255, 255, 255, 0.4);
+        border-radius: 3px;
+      }
+
+      .thread-scroll::-webkit-scrollbar-thumb {
+        background: linear-gradient(180deg, rgba(120, 138, 200, 0.95), rgba(88, 108, 168, 0.9));
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+
+      .thread-scroll::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(180deg, rgba(100, 118, 185, 1), rgba(72, 92, 152, 0.95));
       }
 
       .thread-section {
         font-family: var(--font-heading);
         font-weight: 400;
-        font-size: 12px;
+        font-size: 12.5px;
         margin: 6px 0 4px 4px;
+        padding-right: 5px;
         letter-spacing: 0.06em;
         color: var(--ink-soft);
       }
@@ -252,7 +286,7 @@
         border-top: 1px solid var(--sky-edge);
         background: linear-gradient(180deg, #eef3fa 0%, var(--sky-deep) 100%);
         text-align: center;
-        font-size: 10px;
+        font-size: 10.3px;
         color: var(--ink-soft);
       }
 
@@ -288,17 +322,17 @@
       }
 
       .thread.is-active {
-        background: var(--blue);
-        color: #fff;
+        background: #a9b8f2;
+        color: var(--ink);
       }
 
       .thread.is-active .thread-body .name {
-        color: #ffffff;
+        color: var(--ink);
       }
 
       .thread.is-active .preview,
       .thread.is-active .sub {
-        color: rgba(255, 255, 255, 0.92);
+        color: var(--ink);
       }
 
       .status-dot {
@@ -307,20 +341,12 @@
         margin-top: 1px;
         flex-shrink: 0;
         border-radius: 2px;
-        background: var(--online);
+        background: var(--read);
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
       }
 
-      .status-dot.away {
-        background: var(--away);
-      }
-
-      .status-dot.busy {
-        background: var(--busy);
-      }
-
-      .status-dot.offline {
-        background: var(--offline);
+      .status-dot.unread {
+        background: var(--unread);
       }
 
       .thread-body {
@@ -329,7 +355,7 @@
 
       .thread-body .name {
         font-weight: 700;
-        font-size: 12px;
+        font-size: 12.3px;
         color: var(--ink);
         white-space: nowrap;
         overflow: hidden;
@@ -337,7 +363,7 @@
       }
 
       .thread-body .preview {
-        font-size: 12px;
+        font-size: 12.3px;
         color: var(--ink);
         white-space: nowrap;
         overflow: hidden;
@@ -345,7 +371,7 @@
       }
 
       .thread-body .sub {
-        font-size: 11px;
+        font-size: 11.3px;
         color: var(--ink-soft);
         font-style: italic;
         white-space: nowrap;
@@ -411,7 +437,7 @@
         display: flex;
         gap: 8px;
         align-items: flex-start;
-        font-size: 13px;
+        font-size: 13.3px;
         line-height: 1.45;
         color: var(--ink);
       }
@@ -452,7 +478,7 @@
         box-shadow: inset 1px 1px 0 rgba(0, 0, 0, 0.08);
         overflow: auto;
         padding: 10px 12px;
-        font-size: 13px;
+        font-size: 13.3px;
         line-height: 1.55;
         color: var(--ink);
       }
@@ -605,23 +631,30 @@
         background: rgba(0, 0, 0, 0.55);
         display: grid;
         place-items: center;
-        padding: 18px;
+        --modal-pad-y: 12px;
+        padding: var(--modal-pad-y) 0;
       }
 
       .modal-panel {
-        width: min(92vw, 720px);
-        max-height: min(90vh, 820px);
-        overflow: auto;
-        background: var(--paper);
-        border: 3px solid var(--ink);
-        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
-        padding: 10px;
+        width: auto;
+        max-width: 100vw;
+        max-height: calc(100vh - (var(--modal-pad-y) * 2));
+        overflow: visible;
+        background: transparent;
+        border: 0;
+        box-shadow: none;
+        padding: 0;
+        display: grid;
+        place-items: center;
       }
 
       .modal-panel img {
         display: block;
-        width: 100%;
+        max-width: 100vw;
+        max-height: calc(100vh - (var(--modal-pad-y) * 2));
+        width: auto;
         height: auto;
+        object-fit: contain;
       }
 
       .modal-fallback {
@@ -684,7 +717,7 @@
       .fmt.wide {
         width: auto;
         padding: 0 8px;
-        font-size: 10px;
+        font-size: 10.3px;
         font-weight: 700;
       }
 
@@ -801,7 +834,7 @@
         width: 100%;
         min-height: 64px;
         resize: vertical;
-        font-size: 15px;
+        font-size: 15.3px;
         line-height: 1.45;
         font-weight: 600;
         color: var(--ink);
@@ -833,7 +866,7 @@
         border-top: 1px solid var(--sky-edge);
         background: linear-gradient(180deg, #eef3fa 0%, var(--sky-deep) 100%);
         color: var(--ink-soft);
-        font-size: 12px;
+        font-size: 12.3px;
       }
 
       @media (max-width: 640px) {
@@ -848,8 +881,7 @@
     <div class="chat-window" role="application" aria-label="Messenger style chat">
       <div class="title-bar">
         <div class="title-left">
-          <span class="butterfly" aria-hidden="true"></span>
-          <span class="title-text" id="winTitle">Messenger — Conversation</span>
+          <img class="title-logo" id="winTitle" src="./Logo/quick_draw.png" alt="Quick Draw" />
         </div>
         <div class="title-right">
           <button type="button" class="back-btn" id="backBtn" aria-label="Back">Back</button>
@@ -933,19 +965,26 @@
       const threads = [
         {
           id: "vectorclient",
-          name: "Jessica Morales",
-          email: "jessica.morales@hotmail.com",
+          name: "Cole Louie",
+          email: "cole.louie@hotmail.com",
           avatar: "./UserCards/Jersey-Post_01.jpg",
           online: true,
+          unread: true,
           statusClass: "",
           statusShort: "Online",
           flavor: "",
           preview: "Revision A looks excellent; one adjustment remains.",
-          warn: "This contact may be slow to reply while reviewing your commission files.",
+          warn: "The artist you're messaging may be slow to reply while reviewing your commission files.",
           messages: [
-            { type: "msg", who: "Me", text: "Uploaded Rev B of the logo vector package (commission #2041)." },
-            { type: "sys", text: "*Deliverables have been marked as ready for client review.*" },
-            { type: "msg", who: "Jessica Morales", text: "Revision A looks excellent. Could we make one adjustment to the stroke weight?" },
+            { type: "sys", text: "Commission #2041 opened: logo vector package for campus gallery campaign." },
+            { type: "msg", who: "Me", text: "Hi Cole — brief is in the folder. Priority is a clean mark that reads at small sizes." },
+            { type: "msg", who: "Cole Louie", text: "Got it. I'll start with two directions and a monochrome option." },
+            { type: "msg", who: "Me", text: "Please keep the stroke consistent with the style sheet I attached." },
+            { type: "msg", who: "Cole Louie", text: "Revision A is uploaded for review when you have a moment." },
+            { type: "msg", who: "Me", text: "Revision A looks excellent; one adjustment remains." },
+            { type: "msg", who: "Cole Louie", text: "I have uploaded Revision B of the logo vector package (commission #2041)." },
+            { type: "sys", text: "*Deliverables have been marked as ready for review.*" },
+            { type: "msg", who: "Me", text: "Thank you. Could you make one adjustment to the stroke weight?" },
             { type: "sys", text: "Milestone 2/3 for this commission is invoiced." },
           ],
         },
@@ -955,14 +994,18 @@
           email: "marcus.reid@hotmail.com",
           avatar: "./UserCards/DsGD100A_Pr1_Poster_Louie_ColeF.jpg",
           online: true,
+          unread: true,
           statusClass: "away",
           statusShort: "Away",
           flavor: "commission: event poster",
           preview: "Can we confirm delivery for Friday?",
           warn: "",
           messages: [
-            { type: "msg", who: "Marcus Reid", text: "Can we confirm delivery for Friday? This is for the gallery opening commission." },
-            { type: "msg", who: "Me", text: "Yes, provided the flat colors are approved by Wednesday evening." },
+            { type: "msg", who: "Marcus Reid", text: "Poster comp is underway. I'll share a mid-resolution preview before final inks." },
+            { type: "msg", who: "Me", text: "Sounds good. The gallery needs crop marks for the printer template." },
+            { type: "msg", who: "Marcus Reid", text: "Noted. I'll include a print-safe PDF and an RGB web export." },
+            { type: "msg", who: "Me", text: "Can we confirm delivery for Friday? This is for the gallery opening commission." },
+            { type: "msg", who: "Marcus Reid", text: "Yes, provided the flat colors are approved by Wednesday evening." },
           ],
         },
         {
@@ -971,14 +1014,18 @@
           email: "nina.kowalski@hotmail.com",
           avatar: "./UserCards/Gray Uniform Poster.png",
           online: true,
+          unread: true,
           statusClass: "busy",
           statusShort: "Busy",
           flavor: "band merch commission",
           preview: "PNG masters for the shirt run?",
           warn: "",
           messages: [
-            { type: "msg", who: "Nina Kowalski", text: "PNG masters for the shirt run still coming for the merch commission?" },
-            { type: "msg", who: "Me", text: "I will export the 300 DPI files this evening and place them in the same folder as the invoice." },
+            { type: "msg", who: "Nina Kowalski", text: "Mockups for the front and back are in the shared drive." },
+            { type: "msg", who: "Me", text: "Looks strong. Can we bump the logo slightly on the sleeve version?" },
+            { type: "msg", who: "Nina Kowalski", text: "Done — updated PDF is v3 in the folder." },
+            { type: "msg", who: "Me", text: "Are the PNG masters for the shirt run still on schedule?" },
+            { type: "msg", who: "Nina Kowalski", text: "Yes. I will export the 300 DPI files this evening and place them in the same folder as the invoice." },
             { type: "sys", text: "Nina Kowalski is marked Busy (approving print proofs)." },
           ],
         },
@@ -988,14 +1035,18 @@
           email: "cole.winters@hotmail.com",
           avatar: "./UserCards/Curryoke_F.jpg",
           online: true,
+          unread: true,
           statusClass: "",
           statusShort: "Online",
           flavor: "",
           preview: "Thank you for the revision notes.",
           warn: "",
           messages: [
-            { type: "msg", who: "Cole Winters", text: "Thank you for the revision notes on the character commission." },
-            { type: "msg", who: "Me", text: "I am happy to iterate. The third-round sketch will be delivered tomorrow." },
+            { type: "msg", who: "Cole Winters", text: "Round-two sketches are posted. Let me know which pose you want pushed to color." },
+            { type: "msg", who: "Me", text: "Left-facing stance with the jacket open slightly — matches the reference board." },
+            { type: "msg", who: "Cole Winters", text: "Copy that. I'll tighten the hands and push proportions in round three." },
+            { type: "msg", who: "Me", text: "Thank you for the revision notes on the character commission." },
+            { type: "msg", who: "Cole Winters", text: "You are welcome. The third-round sketch will be delivered tomorrow." },
           ],
         },
         {
@@ -1004,14 +1055,18 @@
           email: "avery.kim@outlook.com",
           avatar: "./Image_Rotation/me oh vector-01.png",
           online: true,
+          unread: true,
           statusClass: "away",
           statusShort: "Away",
           flavor: "shared pitch deck art",
           preview: "did you check the brief PDF?",
           warn: "",
           messages: [
-            { type: "msg", who: "Avery Kim", text: "did you check the brief PDF for our joint commission?" },
-            { type: "msg", who: "Me", text: "Yes. I will match your palette on the hero panel." },
+            { type: "msg", who: "Avery Kim", text: "Shared the mood board link — shout if any refs feel off-brand." },
+            { type: "msg", who: "Me", text: "All good except slide 4; swap that yellow for the cream from the palette doc." },
+            { type: "msg", who: "Avery Kim", text: "Updated. I'll mirror that cream in the deck backgrounds." },
+            { type: "msg", who: "Me", text: "Did you review the brief PDF for our joint commission?" },
+            { type: "msg", who: "Avery Kim", text: "Yes. I will match your palette on the hero panel." },
           ],
         },
         {
@@ -1020,14 +1075,19 @@
           email: "mai.nguyen@gmail.com",
           avatar: "./Image_Rotation/test 1.png",
           online: false,
+          unread: true,
           statusClass: "offline",
           statusShort: "Offline",
           flavor: "",
           preview: "Invoice sent for portrait deposit.",
           warn: "",
           messages: [
-            { type: "msg", who: "Mai Nguyen", text: "Portrait commission: I have received the deposit invoice. Thank you." },
-            { type: "msg", who: "Me", text: "Thank you. I will begin thumbnail sketches once the payment clears." },
+            { type: "msg", who: "Me", text: "I'd like a portrait commission — half-body, soft lighting, similar to your recent studio series." },
+            { type: "msg", who: "Mai Nguyen", text: "Thank you for the inquiry. I can take one slot this month. I'll send the intake form." },
+            { type: "msg", who: "Me", text: "Form submitted with reference photos." },
+            { type: "msg", who: "Mai Nguyen", text: "Received. I'll send the deposit invoice tonight." },
+            { type: "msg", who: "Me", text: "Portrait commission: I have received the deposit invoice. Thank you." },
+            { type: "msg", who: "Mai Nguyen", text: "Thank you. I will begin thumbnail sketches once the payment clears." },
           ],
         },
         {
@@ -1036,14 +1096,17 @@
           email: "riley.chen@printhaus.sf",
           avatar: "./Image_Rotation/References/20.jpg",
           online: false,
+          unread: false,
           statusClass: "offline",
           statusShort: "Offline",
           flavor: "",
           preview: "Large-format proof ready for pickup.",
           warn: "",
           messages: [
-            { type: "msg", who: "Riley Chen", text: "Your exhibition print commission proof is ready for pickup." },
-            { type: "msg", who: "Me", text: "I will pick it up on Thursday. Please hold it under Quick Draw." },
+            { type: "msg", who: "Me", text: "Uploading the final print file — please confirm receipt and ICC profile." },
+            { type: "msg", who: "Riley Chen", text: "Received. We'll proof on semi-gloss and flag any gamut issues." },
+            { type: "msg", who: "Riley Chen", text: "The exhibition print proof is ready for pickup." },
+            { type: "msg", who: "Me", text: "Thank you. I will pick it up on Thursday. Please hold it under Quick Draw." },
           ],
         },
         {
@@ -1051,12 +1114,15 @@
           name: "Jordan Blake",
           email: "jordan.blake@quickdraw.app",
           online: false,
+          unread: false,
           statusClass: "offline",
           statusShort: "Offline",
           flavor: "",
           preview: "Payout scheduled for completed jobs.",
           warn: "",
           messages: [
+            { type: "msg", who: "Jordan Blake", text: "Payout window reminder: submit any missing W-9 updates before Thursday." },
+            { type: "msg", who: "Me", text: "Uploaded an updated W-9 this morning." },
             { type: "sys", text: "Quick Draw: commission payouts batch runs Friday." },
             { type: "msg", who: "Jordan Blake", text: "Your last 3 completed commissions are included in this week's payout." },
           ],
@@ -1066,12 +1132,16 @@
           name: "Casey Flores",
           email: "casey.flores@campusframe.example",
           online: false,
+          unread: true,
           statusClass: "offline",
           statusShort: "Offline",
           flavor: "",
           preview: "Mat quote for your portfolio pieces.",
           warn: "",
           messages: [
+            { type: "msg", who: "Me", text: "Hi Casey — I have two portfolio pieces I'd like quoted for archival mats + UV glass." },
+            { type: "msg", who: "Casey Flores", text: "Send outer dimensions when you can. Standard turnaround is 5–7 business days." },
+            { type: "msg", who: "Me", text: "18×24 for both; see measurements in the email subject line." },
             { type: "msg", who: "Casey Flores", text: "Quote for mats + UV glass on the two portfolio commissions — reply when ready." },
           ],
         },
@@ -1080,14 +1150,168 @@
           name: "Alexandra Rivera",
           email: "alexandra.rivera@rivergallery.art",
           online: false,
+          unread: true,
           statusClass: "offline",
           statusShort: "Offline",
           flavor: "",
           preview: "Wall labels for the group show commission.",
           warn: "",
           messages: [
+            { type: "msg", who: "Alexandra Rivera", text: "Confirming we're still on for the student group show install next week." },
+            { type: "msg", who: "Me", text: "Yes — artwork labels are the last open item on my side." },
             { type: "msg", who: "Alexandra Rivera", text: "Wall labels copy for the group show commission — need final titles by Mon." },
             { type: "msg", who: "Me", text: "I will send a document this evening with the artist names and mediums." },
+          ],
+        },
+        {
+          id: "illustration_artist",
+          name: "Samira Patel",
+          email: "samira.patel@studio.example",
+          avatar: "./Image_Rotation/souraudrey.png",
+          online: true,
+          unread: true,
+          statusClass: "",
+          statusShort: "Online",
+          flavor: "commission: editorial illustration",
+          preview: "Linework is complete; color studies are ready.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Me", text: "Editorial brief attached — hero figure + supporting icons, print + web." },
+            { type: "msg", who: "Samira Patel", text: "Reviewed. I'll send pencils before moving to tight linework." },
+            { type: "msg", who: "Samira Patel", text: "Linework is complete, and I have prepared three color studies for your review." },
+            { type: "msg", who: "Me", text: "Thank you. Please proceed with option two and keep the background neutral." },
+          ],
+        },
+        {
+          id: "concept_artist",
+          name: "Diego Santos",
+          email: "diego.santos@atelier.example",
+          avatar: "./Image_Rotation/me oh vector-01.png",
+          online: true,
+          unread: true,
+          statusClass: "away",
+          statusShort: "Away",
+          flavor: "commission: character concepts",
+          preview: "Two silhouettes have been revised.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Me", text: "Looking for three character silhouettes for the pitch — athletic, editorial tone." },
+            { type: "msg", who: "Diego Santos", text: "First pass silhouettes are in the folder. Notes welcome." },
+            { type: "msg", who: "Me", text: "Great start — can we widen the shoulders on option B and shorten the cape?" },
+            { type: "msg", who: "Diego Santos", text: "I have revised two silhouettes and adjusted the proportions as requested." },
+            { type: "msg", who: "Me", text: "Thank you. Please prioritize the version with the broader shoulders." },
+          ],
+        },
+        {
+          id: "animation_artist",
+          name: "Hana Ito",
+          email: "hana.ito@motion.example",
+          avatar: "./Image_Rotation/test 1.png",
+          online: true,
+          unread: true,
+          statusClass: "busy",
+          statusShort: "Busy",
+          flavor: "commission: short motion loop",
+          preview: "The first pass is ready for approval.",
+          warn: "This artist may respond slowly while rendering.",
+          messages: [
+            { type: "msg", who: "Me", text: "Loop should feel energetic but readable at 1080×1080 — 3–4 seconds ideal." },
+            { type: "msg", who: "Hana Ito", text: "Blocking animatic uploaded; timing hits at ~3.5s before polish." },
+            { type: "msg", who: "Me", text: "Timing works. Proceed to first-pass animation when ready." },
+            { type: "msg", who: "Hana Ito", text: "The first animation pass is ready for approval. I can incorporate notes once I receive them." },
+            { type: "msg", who: "Me", text: "Please reduce the motion blur slightly and extend the hold on the final pose." },
+          ],
+        },
+        {
+          id: "branding_artist",
+          name: "Renee Chen",
+          email: "renee.chen@branding.example",
+          avatar: "./Reference Images/800774c01847d13cf78fbfbcc3454313.png",
+          online: false,
+          unread: true,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "commission: brand marks",
+          preview: "Type lockups delivered for review.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Me", text: "Brand refresh scope: wordmark + simplified icon, single-color constraints." },
+            { type: "msg", who: "Renee Chen", text: "Explorations are in the deck — three directions with spacing notes." },
+            { type: "msg", who: "Me", text: "Direction C is closest. Can you tighten letter-spacing on the condensed lockup?" },
+            { type: "msg", who: "Renee Chen", text: "I have delivered the type lockups for review and included spacing recommendations." },
+            { type: "msg", who: "Me", text: "Thank you. I will review them this afternoon and provide consolidated feedback." },
+          ],
+        },
+        {
+          id: "lettering_artist",
+          name: "Priya Desai",
+          email: "priya.desai@type.example",
+          avatar: "./UserCards/PXL_20250717_0005526912.jpg",
+          online: false,
+          unread: true,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "commission: hand lettering",
+          preview: "Final ink proofs are in your inbox.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Me", text: "Looking for a hand-lettered title treatment for a zine cover — rough deadline two weeks." },
+            { type: "msg", who: "Priya Desai", text: "Timeline works. I'll send two pencil comps and a brush-ink sample sheet." },
+            { type: "msg", who: "Me", text: "Comp B is the direction. Please tighten the secondary line so it balances the ascenders." },
+            { type: "msg", who: "Priya Desai", text: "Updated scans are uploaded. Final ink proofs are in your inbox." },
+          ],
+        },
+        {
+          id: "vendor_ink",
+          name: "Inky Supplies Co.",
+          email: "orders@inkysupplies.example",
+          online: false,
+          unread: false,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "paper + ink order",
+          preview: "Your cold-press sheets ship tomorrow.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Me", text: "Need a restock of cold-press sheets + two bottles of waterproof ink for studio finals." },
+            { type: "msg", who: "Inky Supplies Co.", text: "Quote attached. Let me know if you want rush shipping on the paper." },
+            { type: "msg", who: "Me", text: "Standard shipping is fine — please bundle with my club discount code." },
+            { type: "msg", who: "Inky Supplies Co.", text: "Discount applied. Your cold-press sheets ship tomorrow." },
+          ],
+        },
+        {
+          id: "photographer_deliver",
+          name: "Cam Weber",
+          email: "cam.weber@stillframe.example",
+          avatar: "./Image_Rotation/Gage n Natsuki OFFICIAL-01.png",
+          online: false,
+          unread: true,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "portfolio shoot selects",
+          preview: "RAW bundle link expires Friday.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Cam Weber", text: "Gallery from Saturday's shoot is processing — expect a contact sheet tonight." },
+            { type: "msg", who: "Me", text: "Thank you. Please flag any shots where the lighting clipped the jacket detail." },
+            { type: "msg", who: "Cam Weber", text: "Flagged five frames in the folder. RAW bundle link expires Friday." },
+          ],
+        },
+        {
+          id: "club_treasurer",
+          name: "Jamie Okonkwo",
+          email: "treasurer@campusclub.student.edu",
+          online: false,
+          unread: false,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "club commission budget",
+          preview: "Deposit approved for club poster run.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Jamie Okonkwo", text: "Treasurer here — send the vendor quote for the club poster run when you have it." },
+            { type: "msg", who: "Me", text: "Attached. Total matches what we discussed at last week's meeting." },
+            { type: "msg", who: "Jamie Okonkwo", text: "Deposit approved for club poster run. I'll notify finance once the invoice posts." },
           ],
         },
       ];
@@ -1112,6 +1336,8 @@
       const sendFilesBtn = document.getElementById("sendFilesBtn");
       const fmtEmoji = document.getElementById("fmtEmoji");
       const emojiMenu = document.getElementById("emojiMenu");
+
+      const CURRENT_USER = "Me";
 
       let activeId = threads.find((t) => t.online)?.id ?? threads[0]?.id ?? null;
       const EMOTICONS = [
@@ -1321,7 +1547,7 @@
         li.setAttribute("aria-selected", t.id === activeId ? "true" : "false");
 
         const dot = document.createElement("span");
-        dot.className = "status-dot " + (t.statusClass || "");
+        dot.className = "status-dot" + (t.unread ? " unread" : "");
         dot.setAttribute("aria-hidden", "true");
 
         const body = document.createElement("div");
@@ -1342,10 +1568,12 @@
         const offlineThreads = threads.filter((t) => !t.online);
 
         threadMount.innerHTML = `
-          <div class="thread-section">Online <span class="count">(${onlineThreads.length})</span></div>
-          <ul class="thread-list" id="onlineThreadList" role="listbox"></ul>
-          <div class="thread-section">Offline <span class="count">(${offlineThreads.length})</span></div>
-          <ul class="thread-list" id="offlineThreadList" role="listbox"></ul>
+          <div class="thread-scroll" role="region" aria-label="Online and offline conversation threads">
+            <div class="thread-section">Online <span class="count">(${onlineThreads.length})</span></div>
+            <ul class="thread-list" id="onlineThreadList" role="listbox"></ul>
+            <div class="thread-section">Offline <span class="count">(${offlineThreads.length})</span></div>
+            <ul class="thread-list" id="offlineThreadList" role="listbox"></ul>
+          </div>
         `;
 
         const onlineUl = threadMount.querySelector("#onlineThreadList");
@@ -1362,9 +1590,9 @@
             div.className = "msg sys";
             div.textContent = m.text;
           } else if (m.type === "file") {
-            div.className = "msg" + ((m.who || "Me") === "Me" ? " me-line" : "");
+            div.className = "msg" + ((m.who || CURRENT_USER) === CURRENT_USER ? " me-line" : "");
             div.innerHTML = '<span class="who"></span>: ';
-            div.querySelector(".who").textContent = m.who || "Me";
+            div.querySelector(".who").textContent = m.who || CURRENT_USER;
 
             const wrap = document.createElement("span");
             wrap.className = "file-attach";
@@ -1394,9 +1622,9 @@
 
             div.appendChild(wrap);
           } else if (m.type === "file-group") {
-            div.className = "msg" + ((m.who || "Me") === "Me" ? " me-line" : "");
+            div.className = "msg" + ((m.who || CURRENT_USER) === CURRENT_USER ? " me-line" : "");
             div.innerHTML = '<span class="who"></span>: ';
-            div.querySelector(".who").textContent = m.who || "Me";
+            div.querySelector(".who").textContent = m.who || CURRENT_USER;
 
             const group = document.createElement("span");
             group.className = "file-group";
@@ -1429,7 +1657,7 @@
 
             div.appendChild(group);
           } else {
-            div.className = "msg" + (m.who === "Me" ? " me-line" : "");
+            div.className = "msg" + (m.who === CURRENT_USER ? " me-line" : "");
             div.innerHTML = '<span class="who"></span>: ';
             div.querySelector(".who").textContent = m.who;
             div.appendChild(document.createTextNode(m.text));
@@ -1443,6 +1671,7 @@
         activeId = id;
         const t = threads.find((x) => x.id === id);
         if (!t) return;
+        t.unread = false;
 
         renderThreadList();
         toNameEl.textContent = t.name;
@@ -1453,7 +1682,7 @@
           toEmailEl.textContent = "";
           toEmailEl.hidden = true;
         }
-        winTitleEl.textContent = "Conversation — " + t.name;
+        document.title = "Conversation — " + t.name;
 
         // Update profile pictures (fallbacks keep UI stable even if an image is missing).
         toPic.src = t.avatar || "./UserCards/Curryoke_F.jpg";
@@ -1478,7 +1707,7 @@
         const t = threads.find((x) => x.id === activeId);
         if (!t) return;
 
-        t.messages.push({ type: "msg", who: "Me", text });
+        t.messages.push({ type: "msg", who: CURRENT_USER, text });
         t.preview = text.length > 40 ? text.slice(0, 37) + "…" : text;
         composer.value = "";
         renderThreadList();
@@ -1623,7 +1852,7 @@
         t.messages.push({
           id: groupId,
           type: "file-group",
-          who: "Me",
+          who: CURRENT_USER,
           files: fileEntries.map(({ id, name, url, thumbUrl, ext }) => ({ id, name, url, thumbUrl, ext })),
         });
 
