@@ -353,6 +353,14 @@
         min-width: 0;
       }
 
+      .thread-row-top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 8px;
+        min-width: 0;
+      }
+
       .thread-body .name {
         font-weight: 700;
         font-size: 12.3px;
@@ -360,6 +368,20 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        min-width: 0;
+      }
+
+      .thread-body .thread-time {
+        flex-shrink: 0;
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--ink-soft);
+        letter-spacing: 0.04em;
+        white-space: nowrap;
+      }
+
+      .thread.is-active .thread-body .thread-time {
+        color: var(--ink);
       }
 
       .thread-body .preview {
@@ -947,7 +969,7 @@
             </div>
           </div>
 
-          <div class="status-footer" id="statusFooter">Ready.</div>
+          <div class="status-footer" id="statusFooter"></div>
         </section>
       </div>
     </div>
@@ -1316,6 +1338,82 @@
         },
       ];
 
+      function getThreadLastMs(t) {
+        if (t.lastMessageAt != null && !Number.isNaN(Number(t.lastMessageAt))) {
+          return Number(t.lastMessageAt);
+        }
+        const msgs = t.messages;
+        if (!msgs?.length) return 0;
+        const last = msgs[msgs.length - 1];
+        if (last && last.at != null) return new Date(last.at).getTime();
+        return 0;
+      }
+
+      function touchThreadActivity(t) {
+        t.lastMessageAt = Date.now();
+      }
+
+      function formatThreadListTime(ms) {
+        if (!ms) return "";
+        const delta = Math.max(0, Date.now() - ms);
+        const eventDay = new Date(ms);
+        const now = new Date();
+        const dayStart = (x) => new Date(x.getFullYear(), x.getMonth(), x.getDate()).getTime();
+        const sameCalendarDay = dayStart(eventDay) === dayStart(now);
+
+        if (delta < 60000) return "Just now";
+
+        /* Same local calendar day: always use hours (no Nm). */
+        if (sameCalendarDay) {
+          const h = Math.max(1, Math.ceil(delta / 3600000));
+          return `${h}h`;
+        }
+
+        const mins = Math.floor(delta / 60000);
+        const hours = Math.floor(delta / 3600000);
+        const days = Math.floor(delta / (24 * 3600000));
+        if (mins < 60) return `${mins}m`;
+        if (hours < 24) return `${hours}h`;
+        if (days < 14) return `${days}d`;
+        return eventDay.toLocaleDateString(undefined, { month: "short", day: "numeric" });
+      }
+
+      (function initThreadTimestamps() {
+        const idsByRecency = [
+          "vectorclient",
+          "animation_artist",
+          "merch_assets",
+          "concept_artist",
+          "brief_partner",
+          "rush_client",
+          "cole",
+          "illustration_artist",
+          "lettering_artist",
+          "gallery_rep",
+          "printlab",
+          "portrait_client",
+          "branding_artist",
+          "photographer_deliver",
+          "payout",
+          "vendor_ink",
+          "frame",
+          "club_treasurer",
+        ];
+        /* Spread last activity from ~2 hours ago through ~10 days ago so labels mix hours (Nm, Nh) and days (Nd). */
+        const minAgo = 2 * 60 * 60 * 1000;
+        const maxAgo = 10 * 24 * 60 * 60 * 1000;
+        const n = idsByRecency.length;
+        idsByRecency.forEach((id, idx) => {
+          const th = threads.find((x) => x.id === id);
+          if (!th) return;
+          const t = n <= 1 ? 0 : idx / (n - 1);
+          th.lastMessageAt = Date.now() - (minAgo + t * (maxAgo - minAgo));
+        });
+        threads.forEach((th) => {
+          if (th.lastMessageAt == null) th.lastMessageAt = Date.now();
+        });
+      })();
+
       const threadMount = document.getElementById("threadMount");
       const historyEl = document.getElementById("history");
       const toNameEl = document.getElementById("toName");
@@ -1531,6 +1629,8 @@
         const t = threads.find((x) => x.id === activeId);
         if (!t) return;
         t.messages.push({ type: "sys", text });
+        touchThreadActivity(t);
+        renderThreadList();
         renderMessages(t);
       }
 
@@ -1552,8 +1652,18 @@
 
         const body = document.createElement("div");
         body.className = "thread-body";
-        body.innerHTML = '<div class="name"></div><div class="preview"></div><div class="sub"></div>';
+        body.innerHTML =
+          '<div class="thread-row-top"><div class="name"></div><time class="thread-time"></time></div><div class="preview"></div><div class="sub"></div>';
         body.querySelector(".name").textContent = t.name;
+        const lastMs = getThreadLastMs(t);
+        const timeEl = body.querySelector(".thread-time");
+        if (lastMs) {
+          timeEl.dateTime = new Date(lastMs).toISOString();
+          timeEl.textContent = formatThreadListTime(lastMs);
+        } else {
+          timeEl.removeAttribute("datetime");
+          timeEl.textContent = "";
+        }
         body.querySelector(".preview").textContent = t.preview;
         body.querySelector(".sub").textContent = t.flavor || "";
 
@@ -1564,8 +1674,9 @@
       }
 
       function renderThreadList() {
-        const onlineThreads = threads.filter((t) => t.online);
-        const offlineThreads = threads.filter((t) => !t.online);
+        const byLastMessage = (a, b) => getThreadLastMs(b) - getThreadLastMs(a);
+        const onlineThreads = threads.filter((t) => t.online).sort(byLastMessage);
+        const offlineThreads = threads.filter((t) => !t.online).sort(byLastMessage);
 
         threadMount.innerHTML = `
           <div class="thread-scroll" role="region" aria-label="Online and offline conversation threads">
@@ -1697,7 +1808,7 @@
         }
 
         renderMessages(t);
-        statusFooter.textContent = "You have reached the most recent message in this conversation.";
+        statusFooter.textContent = "";
       }
 
       function sendMessage() {
@@ -1708,6 +1819,7 @@
         if (!t) return;
 
         t.messages.push({ type: "msg", who: CURRENT_USER, text });
+        touchThreadActivity(t);
         t.preview = text.length > 40 ? text.slice(0, 37) + "…" : text;
         composer.value = "";
         renderThreadList();
@@ -1855,6 +1967,7 @@
           who: CURRENT_USER,
           files: fileEntries.map(({ id, name, url, thumbUrl, ext }) => ({ id, name, url, thumbUrl, ext })),
         });
+        touchThreadActivity(t);
 
         // Generate thumbnails for videos asynchronously.
         fileEntries
