@@ -6,10 +6,19 @@ const heroSlides = heroCarousel ? heroCarousel.querySelectorAll(".hero-slide") :
 const heroDots = heroCarousel ? heroCarousel.querySelectorAll(".dot") : [];
 const matchDeck = document.getElementById("matchDeck");
 const matchSlides = matchDeck ? matchDeck.querySelectorAll(".match-slide") : [];
+const flipAudio = new Audio("Audio/card1.mp3");
+flipAudio.volume = 0.35;
 let currentSlideIndex = 0;
 let carouselIntervalId = null;
 let currentMatchIndex = 0;
 const savedMatches = [];
+
+function playFlipAudio() {
+  flipAudio.currentTime = 0;
+  flipAudio.play().catch(() => {
+    // Ignore interrupted play errors on rapid taps.
+  });
+}
 
 if (startMatchingBtn) {
   startMatchingBtn.addEventListener("click", () => {
@@ -132,6 +141,7 @@ if (matchDeck && matchSlides.length) {
         return;
       }
       slide.classList.toggle("is-flipped");
+      playFlipAudio();
     });
   });
 
