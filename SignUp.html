@@ -128,6 +128,20 @@
       display: block;
     }
 
+    .avatar-upload img.is-fading-in {
+      animation: avatarFadeIn 3s ease forwards;
+    }
+
+    @keyframes avatarFadeIn {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
     .signup-title {
       margin: 0 0 0.4rem;
       text-transform: uppercase;
@@ -295,6 +309,8 @@
       passwordMask: "********",
       avatar:
         "file:///C:/Users/camsd/.cursor/projects/c-Users-camsd-OneDrive-Pictures-caauco/assets/c__Users_camsd_AppData_Roaming_Cursor_User_workspaceStorage_958e3511291e1c95152a142ee636d683_images_Screenshot_2026-05-06_030602-39f9a70b-3fa4-4c04-9507-1a72916995e2.png",
+      placeholderAvatar:
+        "file:///C:/Users/camsd/.cursor/projects/c-Users-camsd-OneDrive-Pictures-caauco/assets/c__Users_camsd_AppData_Roaming_Cursor_User_workspaceStorage_958e3511291e1c95152a142ee636d683_images_2026-05-05_1-775d0822-c0a0-4432-8465-5258110c2953.png",
     };
 
     const form = document.getElementById("signupForm");
@@ -391,14 +407,19 @@
     });
 
     avatarUploadBtn.addEventListener("click", () => {
+      avatarPreview.classList.remove("is-fading-in");
       avatarPreview.src = antoniusProfile.avatar;
+      // Restart animation so each click replays the 3s fade.
+      void avatarPreview.offsetWidth;
+      avatarPreview.classList.add("is-fading-in");
       avatarNote.textContent = "Uploaded: Antonius Smitherson profile picture.";
     });
 
     form.addEventListener("reset", () => {
       setTimeout(() => {
         clearFormForTyping();
-        avatarPreview.src = "";
+        avatarPreview.classList.remove("is-fading-in");
+        avatarPreview.src = antoniusProfile.placeholderAvatar;
         avatarNote.textContent = "Click the square profile area to upload your picture.";
       }, 0);
     });
@@ -412,6 +433,7 @@
     });
 
     clearFormForTyping();
+    avatarPreview.src = antoniusProfile.placeholderAvatar;
   </script>
 </body>
 </html>
