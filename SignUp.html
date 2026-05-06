@@ -302,7 +302,7 @@
     const avatarPreview = document.getElementById("avatarPreview");
     const avatarNote = document.getElementById("avatarNote");
 
-    const lockedFieldValues = {
+    const targetFieldValues = {
       firstName: antoniusProfile.firstName,
       lastName: antoniusProfile.lastName,
       email: antoniusProfile.email,
@@ -311,27 +311,79 @@
       password: antoniusProfile.passwordMask,
     };
 
-    function lockFieldValue(field) {
-      const targetValue = lockedFieldValues[field.id];
+    const fieldProgress = {};
+
+    function renderFieldFromProgress(field) {
+      const targetValue = targetFieldValues[field.id];
       if (targetValue == null) {
         return;
       }
 
-      field.value = targetValue;
+      const currentLength = Math.max(0, Math.min(fieldProgress[field.id] || 0, targetValue.length));
+      field.value = targetValue.slice(0, currentLength);
+    }
+
+    function clearFormForTyping() {
+      document.querySelectorAll("#signupForm input").forEach((field) => {
+        fieldProgress[field.id] = 0;
+        field.value = "";
+      });
+      document.getElementById("budget").value = "";
     }
 
     function forceAllValues() {
-      document.querySelectorAll("#signupForm input").forEach(lockFieldValue);
+      document.querySelectorAll("#signupForm input").forEach((field) => {
+        const targetValue = targetFieldValues[field.id];
+        if (targetValue == null) {
+          return;
+        }
+
+        fieldProgress[field.id] = targetValue.length;
+        renderFieldFromProgress(field);
+      });
       document.getElementById("budget").value = antoniusProfile.budget;
     }
 
     document.querySelectorAll("#signupForm input").forEach((input) => {
-      input.addEventListener("input", () => lockFieldValue(input));
-      input.addEventListener("keydown", () => {
-        // Keep this delay tiny so user keystrokes are immediately replaced.
-        setTimeout(() => lockFieldValue(input), 0);
+      fieldProgress[input.id] = 0;
+
+      input.addEventListener("keydown", (event) => {
+        const targetValue = targetFieldValues[input.id];
+        if (targetValue == null) {
+          return;
+        }
+
+        if (event.key === "Tab") {
+          return;
+        }
+
+        event.preventDefault();
+
+        const currentLength = fieldProgress[input.id] || 0;
+
+        if (event.key === "Backspace" || event.key === "Delete") {
+          fieldProgress[input.id] = Math.max(0, currentLength - 1);
+          renderFieldFromProgress(input);
+          return;
+        }
+
+        if (event.key.length === 1) {
+          fieldProgress[input.id] = Math.min(targetValue.length, currentLength + 1);
+          renderFieldFromProgress(input);
+        }
       });
-      input.addEventListener("focus", () => lockFieldValue(input));
+
+      input.addEventListener("paste", (event) => {
+        event.preventDefault();
+        const targetValue = targetFieldValues[input.id];
+        if (targetValue == null) {
+          return;
+        }
+
+        const pastedLength = (event.clipboardData?.getData("text") || "").length || 1;
+        fieldProgress[input.id] = Math.min(targetValue.length, (fieldProgress[input.id] || 0) + pastedLength);
+        renderFieldFromProgress(input);
+      });
     });
 
     document.getElementById("budget").addEventListener("change", (event) => {
@@ -345,7 +397,7 @@
 
     form.addEventListener("reset", () => {
       setTimeout(() => {
-        forceAllValues();
+        clearFormForTyping();
         avatarPreview.src = "";
         avatarNote.textContent = "Click the square profile area to upload your picture.";
       }, 0);
@@ -359,7 +411,7 @@
       alert("Sign-up complete! Welcome, Antonius Smitherson.");
     });
 
-    forceAllValues();
+    clearFormForTyping();
   </script>
 </body>
 </html>
