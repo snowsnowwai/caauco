@@ -12,6 +12,8 @@ let currentSlideIndex = 0;
 let carouselIntervalId = null;
 let currentMatchIndex = 0;
 const savedMatches = [];
+let matchSequence = [];
+let currentMatchSequencePosition = 0;
 
 function playFlipAudio() {
   flipAudio.currentTime = 0;
@@ -84,29 +86,78 @@ if (heroCarousel && heroSlides.length) {
   startHeroCarousel();
 }
 
-function showMatchSlide(index) {
-  if (!matchSlides.length) {
+function shuffleIndices(indices) {
+  const next = [...indices];
+  for (let i = next.length - 1; i > 0; i -= 1) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [next[i], next[j]] = [next[j], next[i]];
+  }
+  return next;
+}
+
+function buildMatchSequence() {
+  const guideIndex = Array.from(matchSlides).findIndex((slide) =>
+    Boolean(slide.querySelector(".match-card-face--back-guide"))
+  );
+  const allIndices = Array.from(matchSlides, (_, index) => index);
+  const nonGuideIndices = allIndices.filter((index) => index !== guideIndex);
+  const randomizedNonGuide = shuffleIndices(nonGuideIndices);
+
+  if (guideIndex >= 0) {
+    matchSequence = [guideIndex, ...randomizedNonGuide, guideIndex];
+  } else {
+    matchSequence = randomizedNonGuide;
+  }
+}
+
+function showMatchSequence(position) {
+  if (!matchSequence.length) {
     return;
   }
 
-  currentMatchIndex = (index + matchSlides.length) % matchSlides.length;
+  const boundedPosition = Math.max(0, Math.min(position, matchSequence.length - 1));
+  currentMatchSequencePosition = boundedPosition;
+  currentMatchIndex = matchSequence[currentMatchSequencePosition];
 
-  matchSlides.forEach((slide, slideIndex) => {
-    const slideOffset = (slideIndex - currentMatchIndex + matchSlides.length) % matchSlides.length;
+  matchSlides.forEach((slide) => {
     slide.classList.remove("is-front", "is-back-1", "is-back-2", "is-hidden");
-
-    if (slideOffset === 0) {
-      slide.classList.add("is-front");
-    } else if (slideOffset === 1) {
-      slide.classList.add("is-back-1");
-    } else if (slideOffset === 2) {
-      slide.classList.add("is-back-2");
-    } else {
-      slide.classList.add("is-hidden");
-    }
+    slide.classList.add("is-hidden");
   });
 
+  const frontIndex = matchSequence[currentMatchSequencePosition];
+  const backOneIndex = matchSequence[currentMatchSequencePosition + 1];
+  const backTwoIndex = matchSequence[currentMatchSequencePosition + 2];
+
+  if (typeof frontIndex === "number" && matchSlides[frontIndex]) {
+    matchSlides[frontIndex].classList.remove("is-hidden");
+    matchSlides[frontIndex].classList.add("is-front");
+  }
+  if (typeof backOneIndex === "number" && matchSlides[backOneIndex]) {
+    matchSlides[backOneIndex].classList.remove("is-hidden");
+    matchSlides[backOneIndex].classList.add("is-back-1");
+  }
+  if (typeof backTwoIndex === "number" && matchSlides[backTwoIndex]) {
+    matchSlides[backTwoIndex].classList.remove("is-hidden");
+    matchSlides[backTwoIndex].classList.add("is-back-2");
+  }
+
   setMatchSavedState(savedMatches[currentMatchIndex] === true);
+}
+
+function showNextMatchInSequence() {
+  if (!matchSequence.length) {
+    return;
+  }
+
+  const atEndOfRound = currentMatchSequencePosition >= matchSequence.length - 1;
+  if (atEndOfRound) {
+    // Start a new round: guide card first, randomized cards after it.
+    buildMatchSequence();
+    showMatchSequence(0);
+    return;
+  }
+
+  showMatchSequence(currentMatchSequencePosition + 1);
 }
 
 function setMatchSavedState(saved) {
@@ -131,7 +182,7 @@ if (matchDeck && matchSlides.length) {
 
   if (cycleMatchBtn) {
     cycleMatchBtn.addEventListener("click", () => {
-      showMatchSlide(currentMatchIndex + 1);
+      showNextMatchInSequence();
     });
   }
 
@@ -145,7 +196,8 @@ if (matchDeck && matchSlides.length) {
     });
   });
 
-  showMatchSlide(2);
+  buildMatchSequence();
+  showMatchSequence(0);
 }
 
 const cardIndexTrigger = document.getElementById("cardIndexTrigger");
