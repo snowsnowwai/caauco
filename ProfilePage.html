@@ -181,6 +181,24 @@
       letter-spacing: 0.12em;
     }
 
+    .info-summary {
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 0.75rem;
+      align-items: start;
+      margin-bottom: 0.2rem;
+    }
+
+    .info-avatar {
+      width: 104px;
+      aspect-ratio: 1 / 1;
+      border: 2px solid var(--ink);
+      background: #fff;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
     .panel-card[hidden] {
       display: none;
     }
@@ -323,8 +341,17 @@
 
           <div class="panel-stack">
             <article class="panel-card" id="infoPanel">
-              <h3>Info</h3>
-              <p class="section-copy">Basic profile and contact details used for artist communication and project updates.</p>
+              <div class="info-summary">
+                <img
+                  class="info-avatar"
+                  src="file:///C:/Users/camsd/.cursor/projects/c-Users-camsd-OneDrive-Pictures-caauco/assets/c__Users_camsd_AppData_Roaming_Cursor_User_workspaceStorage_958e3511291e1c95152a142ee636d683_images_Screenshot_2026-05-06_030602-39f9a70b-3fa4-4c04-9507-1a72916995e2.png"
+                  alt="Profile picture"
+                >
+                <div>
+                  <h3>Info</h3>
+                  <p class="section-copy">Basic profile and contact details used for artist communication and project updates.</p>
+                </div>
+              </div>
               <div class="field-grid">
                 <div class="field">
                   <p class="field-label">Full Name</p>
