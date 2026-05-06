@@ -101,12 +101,29 @@ function buildMatchSequence() {
   );
   const allIndices = Array.from(matchSlides, (_, index) => index);
   const nonGuideIndices = allIndices.filter((index) => index !== guideIndex);
-  const randomizedNonGuide = shuffleIndices(nonGuideIndices);
+  const seenSignatures = new Set();
+  const uniqueNonGuideIndices = nonGuideIndices.filter((index) => {
+    const slide = matchSlides[index];
+    const name = slide.querySelector(".artist-info h3")?.textContent?.trim() || "";
+    const subtitle = slide.querySelector(".artist-info p")?.textContent?.trim() || "";
+    const frontImageSrc = slide.querySelector(".match-card-face--front img")?.getAttribute("src") || "";
+    const placeholderBg =
+      slide.querySelector(".match-card-face--front .placeholder-tile")?.getAttribute("style") || "";
+    const signature = `${name}|${subtitle}|${frontImageSrc}|${placeholderBg}`;
+
+    if (seenSignatures.has(signature)) {
+      return false;
+    }
+    seenSignatures.add(signature);
+    return true;
+  });
+  const randomizedUniqueNonGuide = shuffleIndices(uniqueNonGuideIndices);
 
   if (guideIndex >= 0) {
-    matchSequence = [guideIndex, ...randomizedNonGuide, guideIndex];
+    // Guide appears only at the beginning and end of each full round.
+    matchSequence = [guideIndex, ...randomizedUniqueNonGuide, guideIndex];
   } else {
-    matchSequence = randomizedNonGuide;
+    matchSequence = randomizedUniqueNonGuide;
   }
 }
 
