@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Matemasie&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
   <style>
     :root {
       --font-heading: "Matemasie", system-ui, sans-serif;
@@ -56,33 +57,6 @@
       flex-direction: column;
     }
 
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-      padding: 0.35rem 0.8rem;
-      background: #f0e8ff;
-      border-bottom: 3px solid var(--ink);
-      color: var(--ink);
-    }
-
-    .header-logo img {
-      display: block;
-      height: clamp(34px, 5vw, 46px);
-      width: auto;
-      object-fit: contain;
-    }
-
-    .topbar-right {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      flex-wrap: wrap;
-    }
-
-    .top-nav-link,
-    .ghost-btn,
     .primary-btn,
     .secondary-btn {
       border: 2px solid var(--ink);
@@ -96,8 +70,6 @@
       transition: background-color 0.14s ease, transform 0.14s ease;
     }
 
-    .top-nav-link:hover,
-    .ghost-btn:hover,
     .primary-btn:hover,
     .secondary-btn:hover {
       background: var(--pink);
@@ -297,8 +269,8 @@
         grid-template-columns: 1fr;
       }
 
-      .topbar {
-        align-items: flex-start;
+      .actions-row {
+        gap: 0.5rem;
       }
     }
   </style>
