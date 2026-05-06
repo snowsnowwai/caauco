@@ -4,12 +4,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Profile - Quick Draw</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Matemasie&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --font-heading: "Matemasie", system-ui, sans-serif;
+      --font-body: "Gochi Hand", system-ui, sans-serif;
+      --blue: #07279a;
+      --pink: #d54aa9;
+      --paper: #f4efff;
+      --paper-2: #ece4ff;
+      --ink: #07279a;
+      --ink-soft: #3f4f9a;
+      --green: #a9b8f2;
+      --sky: #e6dcff;
+      --sky-deep: #ddd4f0;
+      --sky-edge: #b5a3d6;
+      --surface: var(--sky);
+      --surface-deep: var(--sky-deep);
+      --wave: radial-gradient(ellipse 90% 70% at 30% 25%, rgba(255, 255, 255, 0.55) 0%, transparent 58%);
+      --wave2: radial-gradient(ellipse 80% 60% at 85% 75%, rgba(255, 255, 255, 0.42) 0%, transparent 52%);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      letter-spacing: 0.1em;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 14.5px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 20%, #d54aa938 0%, #ffffff00 42%),
+        radial-gradient(circle at 85% 12%, #07279a33 0%, #ffffff00 45%),
+        var(--paper-2);
+    }
+
+    .browser-window {
+      min-height: 100vh;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      padding: 0.35rem 0.8rem;
+      background: #f0e8ff;
+      border-bottom: 3px solid var(--ink);
+      color: var(--ink);
+    }
+
+    .header-logo img {
+      display: block;
+      height: clamp(34px, 5vw, 46px);
+      width: auto;
+      object-fit: contain;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .top-nav-link,
+    .ghost-btn,
+    .primary-btn,
+    .secondary-btn {
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      color: #fff;
+      background: var(--blue);
+      text-decoration: none;
+      padding: 0.38rem 0.8rem 0.42rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.14s ease, transform 0.14s ease;
+    }
+
+    .top-nav-link:hover,
+    .ghost-btn:hover,
+    .primary-btn:hover,
+    .secondary-btn:hover {
+      background: var(--pink);
+      transform: translate(-1px, -1px);
+    }
+
+    .secondary-btn {
+      background: var(--green);
+      color: var(--ink);
+    }
+
+    main {
+      flex: 1;
+      background: var(--wave), var(--wave2), linear-gradient(175deg, #e6eef8 0%, var(--sky) 60%);
+    }
+
     .profile-shell {
       max-width: 1120px;
       margin: 0 auto;
-      padding: 0.2rem 0 1.2rem;
+      padding: 1rem 0 1.4rem;
     }
 
     .profile-grid {
@@ -22,7 +130,7 @@
     .left-nav,
     .panel-card {
       border: 3px solid var(--ink);
-      background: #f7f1ff;
+      background: #f0e8ff;
     }
 
     .left-nav {
@@ -34,7 +142,7 @@
 
     .profile-head {
       border: 2px solid var(--ink);
-      background: #ece2ff;
+      background: #e8dcff;
       padding: 0.65rem;
       margin-bottom: 0.75rem;
     }
@@ -55,7 +163,7 @@
       width: 100%;
       border: 2px solid var(--ink);
       border-radius: 10px;
-      background: #eee5ff;
+      background: #fff;
       color: var(--ink);
       text-align: left;
       padding: 0.5rem 0.7rem 0.56rem;
@@ -103,7 +211,7 @@
 
     .field {
       border: 2px solid var(--ink);
-      background: #efe6ff;
+      background: #fff;
       padding: 0.6rem;
     }
 
@@ -128,7 +236,7 @@
 
     .order-item {
       border: 2px solid var(--ink);
-      background: #efe6ff;
+      background: #fff;
       padding: 0.6rem;
       display: grid;
       gap: 0.3rem;
@@ -153,99 +261,6 @@
       background: #cce8ff;
     }
 
-    .messages-layout {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 0.75rem;
-      margin-top: 0.7rem;
-    }
-
-    .thread-list,
-    .chat-box {
-      border: 2px solid var(--ink);
-      background: #efe6ff;
-    }
-
-    .thread-list {
-      padding: 0.4rem;
-      display: grid;
-      gap: 0.38rem;
-      align-content: start;
-    }
-
-    .thread-btn {
-      border: 2px solid var(--ink);
-      border-radius: 10px;
-      background: #f8f3ff;
-      color: var(--ink);
-      text-align: left;
-      padding: 0.45rem 0.55rem 0.5rem;
-      cursor: pointer;
-    }
-
-    .thread-btn.is-active {
-      background: var(--blue);
-      color: #ffffff;
-    }
-
-    .chat-box {
-      padding: 0.6rem;
-      display: grid;
-      grid-template-rows: auto 1fr auto;
-      min-height: 380px;
-      gap: 0.55rem;
-    }
-
-    .chat-header h4,
-    .chat-header p {
-      margin: 0;
-    }
-
-    .chat-header p {
-      color: var(--ink-soft);
-      margin-top: 0.2rem;
-    }
-
-    .chat-messages {
-      border: 2px solid var(--ink);
-      background: #f9f4ff;
-      padding: 0.6rem;
-      overflow-y: auto;
-      display: grid;
-      gap: 0.5rem;
-    }
-
-    .chat-bubble {
-      max-width: 75%;
-      border: 2px solid var(--ink);
-      padding: 0.45rem 0.58rem 0.5rem;
-      background: #ffffff;
-    }
-
-    .chat-bubble.user {
-      justify-self: end;
-      background: #dce9ff;
-    }
-
-    .chat-input-row {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 0.5rem;
-      align-items: end;
-    }
-
-    .chat-input-row textarea {
-      border: 2px solid var(--ink);
-      border-radius: 10px;
-      resize: vertical;
-      min-height: 64px;
-      max-height: 140px;
-      padding: 0.45rem 0.6rem;
-      background: #ffffff;
-      color: var(--ink);
-      font-size: 0.98rem;
-    }
-
     .simple-list {
       margin: 0.75rem 0 0;
       padding: 0;
@@ -256,7 +271,7 @@
 
     .simple-list li {
       border: 2px solid var(--ink);
-      background: #efe6ff;
+      background: #fff;
       padding: 0.55rem 0.6rem;
     }
 
@@ -282,12 +297,8 @@
         grid-template-columns: 1fr;
       }
 
-      .messages-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .chat-box {
-        min-height: 320px;
+      .topbar {
+        align-items: flex-start;
       }
     }
   </style>
@@ -312,7 +323,7 @@
       <section class="profile-shell">
         <p class="eyebrow">Your Account</p>
         <h2>Profile Center</h2>
-        <p class="section-copy">Manage your account details, commissions, saved creators, and your inbox with artists.</p>
+        <p class="section-copy">Manage your account details, commissions, and saved creators.</p>
 
         <div class="profile-grid">
           <aside class="left-nav" aria-label="Profile navigation">
@@ -322,7 +333,6 @@
             </div>
             <button class="side-link is-active" type="button" data-panel="infoPanel">Info</button>
             <button class="side-link" type="button" data-panel="ordersPanel">Order History</button>
-            <button class="side-link" type="button" data-panel="inboxPanel">Inbox</button>
             <button class="side-link" type="button" data-panel="savedPanel">Saved Artists</button>
             <button class="side-link" type="button" data-panel="paymentPanel">Payment and Billing</button>
             <button class="side-link" type="button" data-panel="settingsPanel">Account Settings</button>
@@ -335,15 +345,15 @@
               <div class="field-grid">
                 <div class="field">
                   <p class="field-label">Full Name</p>
-                  <p class="field-value">XXX XXX</p>
+                  <p class="field-value">Antonius Smitherson</p>
                 </div>
                 <div class="field">
                   <p class="field-label">Email</p>
-                  <p class="field-value">xxx@sjsu.edu</p>
+                  <p class="field-value">antonius.smitherson@sjsu.edu</p>
                 </div>
                 <div class="field">
                   <p class="field-label">Phone</p>
-                  <p class="field-value">(XXX) XXX-XXX</p>
+                  <p class="field-value">(676)-767-676</p>
                 </div>
                 <div class="field">
                   <p class="field-label">School</p>
@@ -351,7 +361,7 @@
                 </div>
                 <div class="field">
                   <p class="field-label">Club / Organization</p>
-                  <p class="field-value">XXX</p>
+                  <p class="field-value">The Unfinished Masterpieces Society</p>
                 </div>
                 <div class="field">
                   <p class="field-label">Preferred Contact Method</p>
@@ -382,7 +392,7 @@
                     <span class="status-pill status-pill--done">Delivered</span>
                   </div>
                   <p class="meta">Artist: Audrey Wai | Category: Poster Design | Ordered: Apr 01</p>
-                  <p class="meta">Total: $120 | Files: PNG, PDF</p>
+                  <p class="meta">Total: $75 | Files: PNG, PDF</p>
                 </div>
                 <div class="order-item">
                   <div class="order-item-top">
@@ -390,7 +400,7 @@
                     <span class="status-pill status-pill--progress">In Progress</span>
                   </div>
                   <p class="meta">Artist: Cole Louie | Category: Mascot Design | Ordered: Apr 21</p>
-                  <p class="meta">Total: $180 | Next Milestone: Color pass review</p>
+                  <p class="meta">Total: $90 | Next Milestone: Color pass review</p>
                 </div>
                 <div class="order-item">
                   <div class="order-item-top">
@@ -398,35 +408,12 @@
                     <span class="status-pill status-pill--review">Revision Requested</span>
                   </div>
                   <p class="meta">Artist: Cora V. | Category: Digital Illustration | Ordered: Apr 25</p>
-                  <p class="meta">Total: $210 | Last Update: Today</p>
+                  <p class="meta">Total: $100 | Last Update: Today</p>
                 </div>
               </div>
               <div class="actions-row">
                 <button class="secondary-btn" type="button">Download Invoices</button>
                 <button class="primary-btn" type="button">Start New Commission</button>
-              </div>
-            </article>
-
-            <article class="panel-card" id="inboxPanel" hidden>
-              <h3>Inbox</h3>
-              <p class="section-copy">Message artists directly about project requirements, revisions, and delivery details.</p>
-              <div class="messages-layout">
-                <div class="thread-list" id="threadList">
-                  <button class="thread-btn is-active" type="button" data-thread-id="audrey">Audrey Wai<br><small>Poster updates</small></button>
-                  <button class="thread-btn" type="button" data-thread-id="cole">Cole Louie<br><small>Mascot sketch</small></button>
-                  <button class="thread-btn" type="button" data-thread-id="cora">Cora V.<br><small>Yearbook revisions</small></button>
-                </div>
-                <section class="chat-box">
-                  <div class="chat-header">
-                    <h4 id="chatTitle">Audrey Wai</h4>
-                    <p id="chatSubtitle">Poster updates</p>
-                  </div>
-                  <div class="chat-messages" id="chatMessages"></div>
-                  <form class="chat-input-row" id="chatForm">
-                    <textarea id="chatInput" placeholder="Type your message..." aria-label="Type your message"></textarea>
-                    <button class="primary-btn" type="submit">Send</button>
-                  </form>
-                </section>
               </div>
             </article>
 
@@ -498,85 +485,6 @@
         });
       });
     });
-
-    const threadData = {
-      audrey: {
-        name: "Audrey Wai",
-        topic: "Poster updates",
-        messages: [
-          { sender: "artist", text: "Hi Jordan! I uploaded two poster directions for your pep rally campaign." },
-          { sender: "user", text: "Awesome, can we push option 2 with stronger school colors?" },
-          { sender: "artist", text: "Yes! I can send the updated pass by tomorrow afternoon." }
-        ]
-      },
-      cole: {
-        name: "Cole Louie",
-        topic: "Mascot sketch",
-        messages: [
-          { sender: "artist", text: "I shared the first mascot sketch set. Which one should I refine?" },
-          { sender: "user", text: "We like sketch B best. Could you test a cleaner outline style?" }
-        ]
-      },
-      cora: {
-        name: "Cora V.",
-        topic: "Yearbook revisions",
-        messages: [
-          { sender: "artist", text: "Thanks for the feedback! I can adjust the title area spacing." },
-          { sender: "user", text: "Perfect. Please also reduce the border thickness near the bottom." }
-        ]
-      }
-    };
-
-    const threadButtons = document.querySelectorAll(".thread-btn");
-    const chatTitle = document.getElementById("chatTitle");
-    const chatSubtitle = document.getElementById("chatSubtitle");
-    const chatMessages = document.getElementById("chatMessages");
-    const chatForm = document.getElementById("chatForm");
-    const chatInput = document.getElementById("chatInput");
-
-    let activeThreadId = "audrey";
-
-    function renderMessages(threadId) {
-      const thread = threadData[threadId];
-      chatTitle.textContent = thread.name;
-      chatSubtitle.textContent = thread.topic;
-      chatMessages.innerHTML = "";
-
-      thread.messages.forEach((message) => {
-        const messageDiv = document.createElement("div");
-        messageDiv.className = message.sender === "user" ? "chat-bubble user" : "chat-bubble";
-        messageDiv.textContent = message.text;
-        chatMessages.appendChild(messageDiv);
-      });
-
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    }
-
-    threadButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        threadButtons.forEach((btn) => btn.classList.remove("is-active"));
-        button.classList.add("is-active");
-
-        activeThreadId = button.getAttribute("data-thread-id");
-        renderMessages(activeThreadId);
-      });
-    });
-
-    chatForm.addEventListener("submit", (event) => {
-      event.preventDefault();
-      const text = chatInput.value.trim();
-
-      if (!text) {
-        return;
-      }
-
-      threadData[activeThreadId].messages.push({ sender: "user", text });
-      renderMessages(activeThreadId);
-      chatInput.value = "";
-      chatInput.focus();
-    });
-
-    renderMessages(activeThreadId);
   </script>
 </body>
 </html>
