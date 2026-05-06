@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up - Quick Draw</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Gochi+Hand&family=Matemasie&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    :root {
+      --font-heading: "Matemasie", system-ui, sans-serif;
+      --font-body: "Gochi Hand", system-ui, sans-serif;
+      --blue: #07279a;
+      --pink: #d54aa9;
+      --paper: #f4efff;
+      --paper-2: #ece4ff;
+      --ink: #07279a;
+      --ink-soft: #3f4f9a;
+      --green: #a9b8f2;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      margin: 0;
+      min-height: 100%;
+      letter-spacing: 0.1em;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 14.5px;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 20% 20%, #d54aa938 0%, #ffffff00 42%),
+        radial-gradient(circle at 85% 12%, #07279a33 0%, #ffffff00 45%),
+        var(--paper-2);
+    }
+
+    .browser-window {
+      min-height: 100vh;
+      background: var(--paper);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      color: #fff;
+      background: var(--blue);
+      text-decoration: none;
+      padding: 0.38rem 0.8rem 0.42rem;
+      cursor: pointer;
+      font-weight: 700;
+      transition: background-color 0.14s ease, transform 0.14s ease;
+    }
+
+    .primary-btn:hover,
+    .secondary-btn:hover {
+      background: var(--pink);
+      transform: translate(-1px, -1px);
+    }
+
+    .secondary-btn {
+      background: var(--green);
+      color: var(--ink);
+    }
+
+    main {
+      flex: 1;
+      width: 100%;
+      max-width: none;
+      margin: 0;
+      padding: 0;
+      background: var(--paper);
+    }
+
+    .signup-shell {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1rem 0 1.4rem;
+    }
+
+    .signup-shell > .eyebrow,
+    .signup-shell > h2 {
+      font-family: var(--font-heading);
+      font-weight: 400;
+    }
+
+    .signup-card {
+      border: 3px solid var(--ink);
+      background: #f0e8ff;
+      padding: 1rem;
+      margin-top: 0.95rem;
+    }
+
+    .signup-head {
+      display: grid;
+      grid-template-columns: 104px 1fr;
+      gap: 0.75rem;
+      align-items: start;
+      margin-bottom: 0.6rem;
+    }
+
+    .avatar-upload {
+      width: 104px;
+      aspect-ratio: 1 / 1;
+      border: 2px solid var(--ink);
+      background: #fff;
+      overflow: hidden;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .avatar-upload img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .signup-title {
+      margin: 0 0 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-family: var(--font-heading);
+      font-weight: 400;
+    }
+
+    .field-grid {
+      display: grid;
+      gap: 0.7rem;
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      margin-top: 0.75rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.28rem;
+    }
+
+    .field label {
+      color: var(--ink-soft);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .field input,
+    .field select {
+      border: 2px solid var(--ink);
+      background: #fff;
+      color: var(--ink);
+      padding: 0.55rem 0.6rem;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .field.full {
+      grid-column: 1 / -1;
+    }
+
+    .status-note {
+      margin: 0.3rem 0 0;
+      color: var(--ink-soft);
+      font-size: 0.95rem;
+      min-height: 1.25rem;
+    }
+
+    .actions-row {
+      display: flex;
+      gap: 0.7rem;
+      flex-wrap: wrap;
+      margin-top: 0.95rem;
+    }
+
+    @media (max-width: 760px) {
+      .signup-head {
+        grid-template-columns: 1fr;
+      }
+
+      .avatar-upload {
+        width: 120px;
+      }
+
+      .field-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="browser-window">
+    <header class="topbar">
+      <div class="topbar-spacer" aria-hidden="true"></div>
+      <div class="header-logo">
+        <a href="MatchPreviewPage.html" aria-label="Quick Draw — match preview home">
+          <img src="Logo/quick_draw.png" alt="Quick Draw logo">
+        </a>
+      </div>
+      <nav class="topbar-right">
+        <a class="top-nav-link" href="chat.html">Messages</a>
+        <a class="top-nav-link" href="MatchPreviewPage.html">Card Index</a>
+        <a class="top-nav-link" href="SignUp.html">Sign Up</a>
+        <a class="ghost-btn" href="ProfilePage.html">Profile</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="signup-shell">
+        <p class="eyebrow">Create Account</p>
+        <h2>Sign Up</h2>
+        <p class="section-copy">Set up your customer account in a few quick steps.</p>
+
+        <article class="signup-card">
+          <div class="signup-head">
+            <button class="avatar-upload" id="avatarUploadBtn" type="button" aria-label="Upload profile picture">
+              <img id="avatarPreview" src="" alt="Profile preview">
+            </button>
+            <div>
+              <h3 class="signup-title">Account Info</h3>
+              <p class="section-copy">Enter your details below to create your customer profile.</p>
+              <p class="status-note" id="avatarNote">Click the square profile area to upload your picture.</p>
+            </div>
+          </div>
+
+          <form id="signupForm" novalidate>
+            <div class="field-grid">
+              <div class="field">
+                <label for="firstName">First Name</label>
+                <input id="firstName" name="firstName" type="text" autocomplete="given-name">
+              </div>
+              <div class="field">
+                <label for="lastName">Last Name</label>
+                <input id="lastName" name="lastName" type="text" autocomplete="family-name">
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" name="email" type="email" autocomplete="email">
+              </div>
+              <div class="field">
+                <label for="phone">Phone</label>
+                <input id="phone" name="phone" type="tel" autocomplete="tel">
+              </div>
+              <div class="field">
+                <label for="organization">Organization</label>
+                <input id="organization" name="organization" type="text" autocomplete="organization">
+              </div>
+              <div class="field">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" autocomplete="new-password">
+              </div>
+              <div class="field full">
+                <label for="budget">Default Commission Budget</label>
+                <select id="budget" name="budget">
+                  <option value="">Select a budget range</option>
+                  <option>$25-$100</option>
+                  <option>$100-$250</option>
+                  <option>$250-$500</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="actions-row">
+              <button class="secondary-btn" type="reset">Reset</button>
+              <button class="primary-btn" type="submit">Create Account</button>
+            </div>
+          </form>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Quick Draw - where clients and artists find the right creative spark.</p>
+    </footer>
+  </div>
+
+  <script>
+    const antoniusProfile = {
+      firstName: "Antonius",
+      lastName: "Smitherson",
+      email: "antonius.smitherson@sjsu.edu",
+      phone: "(676)-767-676",
+      organization: "Art Club",
+      budget: "$25-$100",
+      passwordMask: "********",
+      avatar:
+        "file:///C:/Users/camsd/.cursor/projects/c-Users-camsd-OneDrive-Pictures-caauco/assets/c__Users_camsd_AppData_Roaming_Cursor_User_workspaceStorage_958e3511291e1c95152a142ee636d683_images_Screenshot_2026-05-06_030602-39f9a70b-3fa4-4c04-9507-1a72916995e2.png",
+    };
+
+    const form = document.getElementById("signupForm");
+    const avatarUploadBtn = document.getElementById("avatarUploadBtn");
+    const avatarPreview = document.getElementById("avatarPreview");
+    const avatarNote = document.getElementById("avatarNote");
+
+    const lockedFieldValues = {
+      firstName: antoniusProfile.firstName,
+      lastName: antoniusProfile.lastName,
+      email: antoniusProfile.email,
+      phone: antoniusProfile.phone,
+      organization: antoniusProfile.organization,
+      password: antoniusProfile.passwordMask,
+    };
+
+    function lockFieldValue(field) {
+      const targetValue = lockedFieldValues[field.id];
+      if (targetValue == null) {
+        return;
+      }
+
+      field.value = targetValue;
+    }
+
+    function forceAllValues() {
+      document.querySelectorAll("#signupForm input").forEach(lockFieldValue);
+      document.getElementById("budget").value = antoniusProfile.budget;
+    }
+
+    document.querySelectorAll("#signupForm input").forEach((input) => {
+      input.addEventListener("input", () => lockFieldValue(input));
+      input.addEventListener("keydown", () => {
+        // Keep this delay tiny so user keystrokes are immediately replaced.
+        setTimeout(() => lockFieldValue(input), 0);
+      });
+      input.addEventListener("focus", () => lockFieldValue(input));
+    });
+
+    document.getElementById("budget").addEventListener("change", (event) => {
+      event.target.value = antoniusProfile.budget;
+    });
+
+    avatarUploadBtn.addEventListener("click", () => {
+      avatarPreview.src = antoniusProfile.avatar;
+      avatarNote.textContent = "Uploaded: Antonius Smitherson profile picture.";
+    });
+
+    form.addEventListener("reset", () => {
+      setTimeout(() => {
+        forceAllValues();
+        avatarPreview.src = "";
+        avatarNote.textContent = "Click the square profile area to upload your picture.";
+      }, 0);
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      forceAllValues();
+      avatarPreview.src = antoniusProfile.avatar;
+      avatarNote.textContent = "Account created for Antonius Smitherson.";
+      alert("Sign-up complete! Welcome, Antonius Smitherson.");
+    });
+
+    forceAllValues();
+  </script>
+</body>
+</html>
