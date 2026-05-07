@@ -458,15 +458,17 @@
         border-radius: 2px;
         display: flex;
         gap: 8px;
-        align-items: flex-start;
+        align-items: center;
         font-size: 13.3px;
         line-height: 1.45;
         color: var(--ink);
+        min-height: 34px;
       }
 
       .warn-bar #warnText {
         flex: 1;
         min-width: 0;
+        display: block;
       }
 
       .warn-bar .i {
@@ -989,7 +991,7 @@
           id: "vectorclient",
           name: "Cole Louie",
           email: "cole.louie@hotmail.com",
-          avatar: "./UserCards/Jersey-Post_01.jpg",
+          avatar: "./pfps/Cole.jpg",
           online: true,
           unread: true,
           statusClass: "",
@@ -1013,15 +1015,15 @@
         {
           id: "cole",
           name: "Audrey Wai",
-          email: "cole.winters@hotmail.com",
-          avatar: "./pfps/audrey2.png",
+          email: "audrey.wai@hotmail.com",
+          avatar: "./pfps/audrey3.jpg",
           online: true,
           unread: true,
           statusClass: "",
           statusShort: "Online",
           flavor: "",
           preview: "Thank you for the revision notes.",
-          warn: "",
+          warn: "Friendly reminder: reference images help me match your style faster.",
           messages: [
             { type: "msg", who: "Audrey Wai", text: "Round-two sketches are posted. Let me know which pose you want pushed to color." },
             { type: "msg", who: "Me", text: "Left-facing stance with the jacket open slightly — matches the reference board." },
@@ -1033,7 +1035,7 @@
         {
           id: "animation_artist",
           name: "Ryan Cayago",
-          email: "hana.ito@motion.example",
+          email: "ryan.cayago@motion.example",
           avatar: "./pfps/ryan.jpg",
           online: true,
           unread: true,
@@ -1061,7 +1063,7 @@
           statusShort: "Busy",
           flavor: "band merch commission",
           preview: "PNG masters for the shirt run?",
-          warn: "",
+          warn: "Heads up: print files may take longer while I export high‑res masters.",
           messages: [
             { type: "msg", who: "Nina Kowalski", text: "Mockups for the front and back are in the shared drive." },
             { type: "msg", who: "Me", text: "Looks strong. Can we bump the logo slightly on the sleeve version?" },
@@ -1073,8 +1075,8 @@
         },
         {
           id: "concept_artist",
-          name: "Diego Santos",
-          email: "diego.santos@atelier.example",
+          name: "Hobert Wai",
+          email: "hobert.wai@atelier.example",
           avatar: "./pfps/dad.jpg",
           online: true,
           unread: true,
@@ -1082,13 +1084,68 @@
           statusShort: "Away",
           flavor: "commission: character concepts",
           preview: "Two silhouettes have been revised.",
-          warn: "",
+          warn: "Note: silhouette passes are faster if you share 1–2 moodboard refs.",
           messages: [
             { type: "msg", who: "Me", text: "Looking for three character silhouettes for the pitch — athletic, editorial tone." },
-            { type: "msg", who: "Diego Santos", text: "First pass silhouettes are in the folder. Notes welcome." },
+            { type: "msg", who: "Hobert Wai", text: "First pass silhouettes are in the folder. Notes welcome." },
             { type: "msg", who: "Me", text: "Great start — can we widen the shoulders on option B and shorten the cape?" },
-            { type: "msg", who: "Diego Santos", text: "I have revised two silhouettes and adjusted the proportions as requested." },
+            { type: "msg", who: "Hobert Wai", text: "I have revised two silhouettes and adjusted the proportions as requested." },
             { type: "msg", who: "Me", text: "Thank you. Please prioritize the version with the broader shoulders." },
+          ],
+        },
+        {
+          id: "andrew_blanton",
+          name: "Tony Andrew",
+          email: "tony.andrew@studio.example",
+          avatar: "./pfps/andrew-blanton.jpg",
+          online: true,
+          unread: true,
+          statusClass: "",
+          statusShort: "Online",
+          flavor: "commission: brand system",
+          preview: "I can share a grid + type scale pass tonight.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Me", text: "Hi Andrew — need a small brand system: wordmark + two lockups." },
+            { type: "msg", who: "Tony Andrew", text: "Got it. Any constraints for type + spacing?" },
+            { type: "msg", who: "Me", text: "Keep it clean, legible at small sizes, and consistent with the palette." },
+            { type: "msg", who: "Tony Andrew", text: "I can share a grid + type scale pass tonight." },
+          ],
+        },
+        {
+          id: "cole_tony",
+          name: "Matthew Chan",
+          email: "matthew.chan@design.example",
+          avatar: "./pfps/Cole-Tony.jpg",
+          online: true,
+          unread: true,
+          statusClass: "away",
+          statusShort: "Away",
+          flavor: "commission: poster layout",
+          preview: "Which headline version are you leaning toward?",
+          warn: "Tip: confirm your final print size before I lock margins + bleed.",
+          messages: [
+            { type: "msg", who: "Matthew Chan", text: "I drafted three headline options for the poster." },
+            { type: "msg", who: "Me", text: "Nice — can we see them with the subhead tightened?" },
+            { type: "msg", who: "Matthew Chan", text: "Which headline version are you leaning toward?" },
+          ],
+        },
+        {
+          id: "cole_profile",
+          name: "Cole Park",
+          email: "cole.park@illustration.example",
+          avatar: "./pfps/Cole.jpg",
+          online: true,
+          unread: true,
+          statusClass: "busy",
+          statusShort: "Busy",
+          flavor: "commission: character sheet",
+          preview: "Turnaround sheets are in progress.",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Me", text: "Character sheet request: front/side/back + two expressions." },
+            { type: "msg", who: "Cole Park", text: "Got it — I'll keep line weight consistent and send a rough first." },
+            { type: "msg", who: "Cole Park", text: "Turnaround sheets are in progress." },
           ],
         },
         {
@@ -1120,7 +1177,7 @@
           statusShort: "Offline",
           flavor: "",
           preview: "Wall labels for the group show commission.",
-          warn: "",
+          warn: "Reminder: gallery install timelines can change — please confirm dates before final export.",
           messages: [
             { type: "msg", who: "Alexandra Rivera", text: "Confirming we're still on for the student group show install next week." },
             { type: "msg", who: "Me", text: "Yes — artwork labels are the last open item on my side." },
@@ -1145,6 +1202,41 @@
             { type: "msg", who: "Riley Chen", text: "Received. We'll proof on semi-gloss and flag any gamut issues." },
             { type: "msg", who: "Riley Chen", text: "The exhibition print proof is ready for pickup." },
             { type: "msg", who: "Me", text: "Thank you. I will pick it up on Thursday. Please hold it under Quick Draw." },
+          ],
+        },
+        {
+          id: "aspen_leong",
+          name: "Aspen Leong",
+          email: "aspen.leong@campus.example",
+          avatar: "./pfps/audrey2.png",
+          online: false,
+          unread: true,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "",
+          preview: "Can you send the final export settings?",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Aspen Leong", text: "Quick question: do you want the deliverable as PNG or PDF?" },
+            { type: "msg", who: "Me", text: "PDF for print, PNG for social would be perfect." },
+            { type: "msg", who: "Aspen Leong", text: "Can you send the final export settings?" },
+          ],
+        },
+        {
+          id: "aspen_followup",
+          name: "Jules Moreno",
+          email: "jules.moreno@club.example",
+          avatar: "./pfps/audrey3.jpg",
+          online: false,
+          unread: true,
+          statusClass: "offline",
+          statusShort: "Offline",
+          flavor: "",
+          preview: "Do we have a version with crop marks?",
+          warn: "",
+          messages: [
+            { type: "msg", who: "Jules Moreno", text: "Do we have a version with crop marks?" },
+            { type: "msg", who: "Me", text: "Yep — I’ll export it and send it over." },
           ],
         },
         {
@@ -1215,46 +1307,37 @@
       }
 
       (function initThreadTimestamps() {
-        const idsByRecency = [
-          "vectorclient",
-          "animation_artist",
-          "merch_assets",
-          "concept_artist",
-          "cole",
-          "lettering_artist",
-          "gallery_rep",
-          "printlab",
-          "portrait_client",
-        ];
-        /* Spread last activity from ~30 minutes ago through ~10 days ago so labels mix minutes, hours, and days. */
-        const minAgo = 30 * 60 * 1000;
-        const maxAgo = 10 * 24 * 60 * 60 * 1000;
-        const n = idsByRecency.length;
-        idsByRecency.forEach((id, idx) => {
-          const th = threads.find((x) => x.id === id);
-          if (!th) return;
-          const t = n <= 1 ? 0 : idx / (n - 1);
-          th.lastMessageAt = Date.now() - (minAgo + t * (maxAgo - minAgo));
-        });
+        // 14 threads total, bucketed time ranges:
+        // - 4 threads: 30 minutes → 10 hours
+        // - 5 threads: 10 hours → 1 day
+        // - 5 threads: 2 days → 4 days
+        const bucketA = ["vectorclient", "cole", "animation_artist", "merch_assets"];
+        const bucketB = ["concept_artist", "andrew_blanton", "cole_tony", "cole_profile", "lettering_artist"];
+        const bucketC = ["gallery_rep", "printlab", "aspen_leong", "aspen_followup", "portrait_client"];
+
+        function assignBucket(ids, minAgoMs, maxAgoMs) {
+          const n = ids.length;
+          ids.forEach((id, idx) => {
+            const th = threads.find((x) => x.id === id);
+            if (!th) return;
+            const t = n <= 1 ? 0 : idx / (n - 1);
+            const jitter = (Math.random() - 0.5) * 0.12; // +/- 6% to avoid uniform spacing
+            const tt = Math.max(0, Math.min(1, t + jitter));
+            th.lastMessageAt = Date.now() - (minAgoMs + tt * (maxAgoMs - minAgoMs));
+          });
+        }
+
+        assignBucket(bucketA, 30 * 60 * 1000, 10 * 60 * 60 * 1000);
+        assignBucket(bucketB, 10 * 60 * 60 * 1000, 24 * 60 * 60 * 1000);
+        assignBucket(bucketC, 2 * 24 * 60 * 60 * 1000, 4 * 24 * 60 * 60 * 1000);
+
         threads.forEach((th) => {
           if (th.lastMessageAt == null) th.lastMessageAt = Date.now();
         });
       })();
 
       (function orderOnlineThreadsForSidebar() {
-        const onlineOrder = [
-          "vectorclient",
-          "cole",
-          "animation_artist",
-          "merch_assets",
-          "concept_artist",
-        ];
-        const stepMs = 60 * 1000;
-        const base = Date.now();
-        onlineOrder.forEach((id, i) => {
-          const th = threads.find((x) => x.id === id);
-          if (th?.online) th.lastMessageAt = base - i * stepMs;
-        });
+        // Intentionally left blank: timestamps are explicitly bucketed above.
       })();
 
       const threadMount = document.getElementById("threadMount");
@@ -1279,6 +1362,13 @@
       const emojiMenu = document.getElementById("emojiMenu");
 
       const CURRENT_USER = "Me";
+
+      // Ensure the disclaimer area never reserves space unless populated.
+      if (warnBar) {
+        warnBar.hidden = true;
+        warnBar.style.display = "none";
+      }
+      if (warnText) warnText.textContent = "";
 
       let activeId = threads.find((t) => t.online)?.id ?? threads[0]?.id ?? null;
       const EMOTICONS = [
@@ -1642,11 +1732,20 @@
         toPic.src = t.avatar || "./UserCards/Curryoke_F.jpg";
         toPic.alt = `${t.name} profile picture`;
 
-        if (t.warn) {
+        const warnValue = (t.warn ?? "").toString();
+        const cleanedWarn = warnValue
+          // Remove common invisible / formatting codepoints
+          .replace(/[\u00AD\u034F\u061C\u200B-\u200F\u202A-\u202E\u2060-\u206F\uFEFF]/g, "")
+          .replace(/[\s\u00A0]+/g, " ")
+          .trim();
+        // Only show the bar when there's something visibly renderable.
+        if (cleanedWarn.replace(/[^\p{L}\p{N}\p{P}\p{S}]/gu, "").length) {
           warnBar.hidden = false;
-          warnText.textContent = t.warn;
+          warnBar.style.display = "flex";
+          warnText.textContent = cleanedWarn;
         } else {
           warnBar.hidden = true;
+          warnBar.style.display = "none";
           warnText.textContent = "";
         }
 
