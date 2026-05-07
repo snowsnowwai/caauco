@@ -234,41 +234,67 @@ function applyUnifiedBackTemplate() {
         effectiveProfileBack?.classList.add("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
         effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        effectiveProfileBack?.classList.remove("profile-back--steven-icons");
+        effectiveProfileBack?.classList.remove("profile-back--avery-icons");
+        effectiveProfileBack?.classList.remove("profile-back--paul-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${skyePortraitSrc}" alt="Skye Harper portrait">`;
       } else if (isCole) {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.add("profile-back--cole-icons");
         effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        effectiveProfileBack?.classList.remove("profile-back--steven-icons");
+        effectiveProfileBack?.classList.remove("profile-back--avery-icons");
+        effectiveProfileBack?.classList.remove("profile-back--paul-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${colePortraitSrc}" alt="Cole Louie portrait">`;
       } else if (isSteven) {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
         effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        effectiveProfileBack?.classList.add("profile-back--steven-icons");
+        effectiveProfileBack?.classList.remove("profile-back--avery-icons");
+        effectiveProfileBack?.classList.remove("profile-back--paul-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${stevenPortraitSrc}" alt="Steven Yuen portrait">`;
       } else if (isReese) {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
         effectiveProfileBack?.classList.add("profile-back--reese-icons");
+        effectiveProfileBack?.classList.remove("profile-back--steven-icons");
+        effectiveProfileBack?.classList.remove("profile-back--avery-icons");
+        effectiveProfileBack?.classList.remove("profile-back--paul-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${reesePortraitSrc}" alt="Reese Nova portrait">`;
       } else if (isAvery) {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
         effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        effectiveProfileBack?.classList.remove("profile-back--steven-icons");
+        effectiveProfileBack?.classList.add("profile-back--avery-icons");
+        effectiveProfileBack?.classList.remove("profile-back--paul-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${averyPortraitSrc}" alt="Avery Stone portrait">`;
       } else if (isJordan) {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
         effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        effectiveProfileBack?.classList.remove("profile-back--steven-icons");
+        effectiveProfileBack?.classList.remove("profile-back--avery-icons");
+        effectiveProfileBack?.classList.remove("profile-back--paul-icons");
+        effectiveProfileBack?.classList.add("profile-back--jordan-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${jordanPortraitSrc}" alt="Jordan Vale portrait">`;
       } else if (isPaul) {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
         effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        effectiveProfileBack?.classList.remove("profile-back--steven-icons");
+        effectiveProfileBack?.classList.remove("profile-back--avery-icons");
+        effectiveProfileBack?.classList.add("profile-back--paul-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${paulPortraitSrc}" alt="Paul Rogers portrait">`;
       } else {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
         effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        effectiveProfileBack?.classList.remove("profile-back--steven-icons");
+        effectiveProfileBack?.classList.remove("profile-back--avery-icons");
+        effectiveProfileBack?.classList.remove("profile-back--paul-icons");
+        effectiveProfileBack?.classList.remove("profile-back--jordan-icons");
         redSquare.innerHTML = "";
       }
     }
@@ -283,6 +309,31 @@ function applyUnifiedBackTemplate() {
         fieldLabels.innerHTML = `
           <span>Year 2</span>
           <span>Digital Media Studies</span>
+        `;
+      } else if (isSteven) {
+        fieldLabels.innerHTML = `
+          <span>4th Year</span>
+          <span>Animation &amp; Illustration BFA</span>
+        `;
+      } else if (isAvery) {
+        fieldLabels.innerHTML = `
+          <span>2nd Year</span>
+          <span>Design Studies BA</span>
+        `;
+      } else if (isCole) {
+        fieldLabels.innerHTML = `
+          <span>4th Year</span>
+          <span>Design Studies BA</span>
+        `;
+      } else if (isPaul) {
+        fieldLabels.innerHTML = `
+          <span>2nd Year</span>
+          <span>Art Studio BA</span>
+        `;
+      } else if (isJordan) {
+        fieldLabels.innerHTML = `
+          <span>4th Year</span>
+          <span>Illustration BFA</span>
         `;
       }
     }

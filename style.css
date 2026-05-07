@@ -691,6 +691,42 @@ main {
   background-image: url("Icons/canva.png");
 }
 
+.profile-back--steven-icons .skye-template__tool-square:nth-child(1) {
+  background-image: url("Icons/procreate.png");
+}
+
+.profile-back--steven-icons .skye-template__tool-square:nth-child(2) {
+  background-image: url("Icons/Adobe_InDesign_CC_icon.svg.png");
+}
+
+.profile-back--steven-icons .skye-template__tool-square:nth-child(3) {
+  background-image: url("Icons/Adobe_Illustrator_CC_icon.svg.png");
+}
+
+.profile-back--avery-icons .skye-template__tool-square:nth-child(1) {
+  background-image: url("Icons/Adobe_Photoshop_CC_icon.svg.png");
+}
+
+.profile-back--avery-icons .skye-template__tool-square:nth-child(2) {
+  background-image: url("Icons/Adobe_Illustrator_CC_icon.svg.png");
+}
+
+.profile-back--paul-icons .skye-template__tool-square:nth-child(1) {
+  background-image: url("Icons/blender.png");
+}
+
+.profile-back--paul-icons .skye-template__tool-square:nth-child(2) {
+  background-image: url("Icons/Adobe_Photoshop_CC_icon.svg.png");
+}
+
+.profile-back--paul-icons .skye-template__tool-square:nth-child(3) {
+  background-image: url("Icons/Adobe_InDesign_CC_icon.svg.png");
+}
+
+.profile-back--jordan-icons .skye-template__tool-square:nth-child(1) {
+  background-image: url("Icons/Adobe_Illustrator_CC_icon.svg.png");
+}
+
 .skye-template__bio {
   border: 2px solid #7d42f4;
   background: #e5e5e5;
