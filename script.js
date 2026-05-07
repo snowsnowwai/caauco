@@ -145,7 +145,19 @@ function applyUnifiedBackTemplate() {
     return;
   }
 
-  const excludedNames = new Set(["Audrey Wai", "Cassidy Singman"]);
+  const excludedNames = new Set(["Audrey Wai"]);
+  const skyePortraitSrc = "UserCards/RandomAdditions/momo.jpg";
+  const colePortraitSrc = "UserCards/Cole-PXL_20250717_0005526912.jpg";
+  const coleArtSrcs = [
+    "UserCards/Cole-Gray%20Uniform%20Poster.png",
+    "UserCards/Cole-DsGD100A_Pr1_Poster_Louie_ColeF.jpg",
+    "UserCards/Cole-Curryoke_F.jpg",
+  ];
+  const skyeArtSrcs = [
+    "UserCards/RandomAdditions/CORTIS.jpg",
+    "UserCards/RandomAdditions/GOT7.jpg",
+    "UserCards/RandomAdditions/Jennie.jpg",
+  ];
   const templateMarkup = getBackTemplateMarkup();
 
   matchSlides.forEach((slide) => {
@@ -155,14 +167,82 @@ function applyUnifiedBackTemplate() {
     }
 
     const backFace = slide.querySelector(".match-card-face--back-profile");
-    const profileBack = backFace ? backFace.querySelector(".profile-back") : null;
-    if (!profileBack) {
+    if (!backFace) {
       return;
     }
 
-    profileBack.classList.add("profile-back--skye-template");
-    if (!profileBack.querySelector(".skye-template")) {
-      profileBack.innerHTML = templateMarkup;
+    const profileBack = backFace.querySelector(".profile-back");
+    if (!profileBack) {
+      backFace.innerHTML = `<div class="profile-back profile-back--skye-template">${templateMarkup}</div>`;
+    } else {
+      profileBack.classList.add("profile-back--skye-template");
+      if (!profileBack.querySelector(".skye-template")) {
+        profileBack.innerHTML = templateMarkup;
+      }
+    }
+
+    const effectiveProfileBack = backFace.querySelector(".profile-back");
+    const redSquare = effectiveProfileBack ? effectiveProfileBack.querySelector(".skye-template__red-square") : null;
+    const isSkye = artistName === "Skye Harper";
+    const isCole = artistName === "Cole Louie";
+    if (redSquare) {
+      if (isSkye) {
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${skyePortraitSrc}" alt="Skye Harper portrait">`;
+      } else if (isCole) {
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${colePortraitSrc}" alt="Cole Louie portrait">`;
+      } else {
+        redSquare.innerHTML = "";
+      }
+    }
+
+    const artSquares = effectiveProfileBack
+      ? Array.from(effectiveProfileBack.querySelectorAll(".skye-template__art-square"))
+      : [];
+    if (artSquares.length) {
+      if (isSkye) {
+        artSquares.forEach((sq, idx) => {
+          const src = skyeArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Skye artwork ${idx + 1}">`;
+          }
+        });
+      } else if (isCole) {
+        artSquares.forEach((sq, idx) => {
+          const src = coleArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Cole artwork ${idx + 1}">`;
+          }
+        });
+      } else {
+        artSquares.forEach((sq) => {
+          sq.innerHTML = "";
+        });
+      }
+    }
+
+    const bioBox = effectiveProfileBack ? effectiveProfileBack.querySelector(".skye-template__bio-box") : null;
+    if (bioBox) {
+      if (isSkye) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Skye Harper categories">
+            <span class="profile-back__badge">Typography</span>
+            <span class="profile-back__badge">Page Layout</span>
+            <span class="profile-back__badge">Graphic Designs</span>
+          </div>
+        `;
+      } else if (isCole) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Cole Louie categories">
+            <span class="profile-back__badge">Motion Graphics</span>
+            <span class="profile-back__badge">Graphic Designs</span>
+            <span class="profile-back__badge">Typography</span>
+            <span class="profile-back__badge">Poster Designs</span>
+            <span class="profile-back__badge">Infographics</span>
+          </div>
+        `;
+      } else {
+        bioBox.innerHTML = "";
+      }
     }
   });
 }
