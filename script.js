@@ -156,6 +156,7 @@ function applyUnifiedBackTemplate() {
   const colePortraitSrc = "UserCards/Cole-PXL_20250717_0005526912.jpg";
   const stevenPortraitSrc = "UserCards/RandomAdditions/Steven%20Yeun.jpg";
   const reesePortraitSrc = "UserCards/RandomAdditions/Yunjin.jpg";
+  const cassidyPortraitSrc = "UserCards/cassidy4.jpg";
   const averyPortraitSrc = "UserCards/RandomAdditions/chaeyoung.jpg";
   const jordanPortraitSrc = "UserCards/RandomAdditions/marktuan.jpg";
   const paulPortraitSrc = "UserCards/RandomAdditions/guy.jpg";
@@ -173,6 +174,11 @@ function applyUnifiedBackTemplate() {
     "UserCards/RandomAdditions/goose.jpg",
     "UserCards/RandomAdditions/shirt1.png",
     "UserCards/RandomAdditions/type.jpg",
+  ];
+  const cassidyArtSrcs = [
+    "UserCards/Cassidy1.png",
+    "UserCards/Cassidy2.jpg",
+    "UserCards/Cassidy3.png",
   ];
   const averyArtSrcs = [
     "UserCards/RandomAdditions/sweater1.jpg",
@@ -201,6 +207,29 @@ function applyUnifiedBackTemplate() {
     if (excludedNames.has(artistName)) {
       return;
     }
+    const frontFace = slide.querySelector(".match-card-face--front");
+    if (frontFace) {
+      const existingFrontBadgeStack = frontFace.querySelector(".front-badge-stack");
+      if (artistName === "Cassidy Singman") {
+        if (!existingFrontBadgeStack) {
+          const badgeStack = document.createElement("div");
+          badgeStack.className = "front-badge-stack front-badge-stack--cassidy";
+          badgeStack.setAttribute("aria-label", "Cassidy Singman badges");
+          badgeStack.innerHTML = `
+            <img src="Badges/Club%20Badge.png" alt="Club Badge" loading="lazy" decoding="async">
+            <img src="Badges/template%20badge.png" alt="Template badge" loading="lazy" decoding="async">
+          `;
+          const artistOverlay = frontFace.querySelector(".artist-overlay");
+          if (artistOverlay) {
+            frontFace.insertBefore(badgeStack, artistOverlay);
+          } else {
+            frontFace.appendChild(badgeStack);
+          }
+        }
+      } else if (existingFrontBadgeStack?.classList.contains("front-badge-stack--cassidy")) {
+        existingFrontBadgeStack.remove();
+      }
+    }
 
     const backFace = slide.querySelector(".match-card-face--back-profile");
     if (!backFace) {
@@ -225,6 +254,7 @@ function applyUnifiedBackTemplate() {
     const isSkye = artistName === "Skye Harper";
     const isCole = artistName === "Cole Louie";
     const isSteven = artistName === "Steven Yuen";
+    const isCassidy = artistName === "Cassidy Singman";
     const isReese = artistName === "Reese Nova";
     const isAvery = artistName === "Avery Stone";
     const isJordan = artistName === "Jordan Vale";
@@ -254,6 +284,15 @@ function applyUnifiedBackTemplate() {
         effectiveProfileBack?.classList.remove("profile-back--avery-icons");
         effectiveProfileBack?.classList.remove("profile-back--paul-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${stevenPortraitSrc}" alt="Steven Yuen portrait">`;
+      } else if (isCassidy) {
+        effectiveProfileBack?.classList.remove("profile-back--skye-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cole-icons");
+        effectiveProfileBack?.classList.add("profile-back--cassidy-icons");
+        effectiveProfileBack?.classList.remove("profile-back--steven-icons");
+        effectiveProfileBack?.classList.remove("profile-back--avery-icons");
+        effectiveProfileBack?.classList.remove("profile-back--paul-icons");
+        effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${cassidyPortraitSrc}" alt="Cassidy Singman portrait">`;
       } else if (isReese) {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
@@ -261,6 +300,7 @@ function applyUnifiedBackTemplate() {
         effectiveProfileBack?.classList.remove("profile-back--steven-icons");
         effectiveProfileBack?.classList.remove("profile-back--avery-icons");
         effectiveProfileBack?.classList.remove("profile-back--paul-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cassidy-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${reesePortraitSrc}" alt="Reese Nova portrait">`;
       } else if (isAvery) {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
@@ -291,6 +331,7 @@ function applyUnifiedBackTemplate() {
         effectiveProfileBack?.classList.remove("profile-back--skye-icons");
         effectiveProfileBack?.classList.remove("profile-back--cole-icons");
         effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cassidy-icons");
         effectiveProfileBack?.classList.remove("profile-back--steven-icons");
         effectiveProfileBack?.classList.remove("profile-back--avery-icons");
         effectiveProfileBack?.classList.remove("profile-back--paul-icons");
@@ -304,6 +345,11 @@ function applyUnifiedBackTemplate() {
         fieldLabels.innerHTML = `
           <span>Year 3</span>
           <span>Graphic Design BFA</span>
+        `;
+      } else if (isCassidy) {
+        fieldLabels.innerHTML = `
+          <span>3rd Year</span>
+          <span>Digital Media Art</span>
         `;
       } else if (isReese) {
         fieldLabels.innerHTML = `
@@ -361,6 +407,13 @@ function applyUnifiedBackTemplate() {
           const src = stevenArtSrcs[idx];
           if (src) {
             sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Steven artwork ${idx + 1}">`;
+          }
+        });
+      } else if (isCassidy) {
+        artSquares.forEach((sq, idx) => {
+          const src = cassidyArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Cassidy artwork ${idx + 1}">`;
           }
         });
       } else if (isReese) {
@@ -427,6 +480,15 @@ function applyUnifiedBackTemplate() {
             <span class="profile-back__badge">Mascot Design</span>
             <span class="profile-back__badge">Character Concepts</span>
             <span class="profile-back__badge">Page Layout</span>
+          </div>
+        `;
+      } else if (isCassidy) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Cassidy Singman categories">
+            <span class="profile-back__badge">Graphic Designs</span>
+            <span class="profile-back__badge">Motion Graphics</span>
+            <span class="profile-back__badge">Character Concepts</span>
+            <span class="profile-back__badge">Collage Artist</span>
           </div>
         `;
       } else if (isReese) {

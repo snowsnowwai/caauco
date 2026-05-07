@@ -722,6 +722,22 @@ main {
   background-image: url("Icons/canva.png");
 }
 
+.profile-back--cassidy-icons .skye-template__tool-square:nth-child(1) {
+  background-image: url("Icons/Adobe_Photoshop_CC_icon.svg.png");
+}
+
+.profile-back--cassidy-icons .skye-template__tool-square:nth-child(2) {
+  background-image: url("Icons/procreate.png");
+}
+
+.profile-back--cassidy-icons .skye-template__tool-square:nth-child(3) {
+  background-image: url("Icons/Adobe_After_Effects_CC_icon.svg.png");
+}
+
+.profile-back--cassidy-icons .skye-template__tool-square:nth-child(4) {
+  background-image: url("Icons/canva.png");
+}
+
 .profile-back--steven-icons .skye-template__tool-square:nth-child(1) {
   background-image: url("Icons/procreate.png");
 }
