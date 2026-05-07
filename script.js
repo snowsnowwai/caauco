@@ -477,6 +477,14 @@ function applyUnifiedBackTemplate() {
 
 const flipAudio = new Audio("Audio/card1.mp3");
 flipAudio.volume = 0.35;
+const goldSealAudio = new Audio("Audio/gold_seal.mp3");
+goldSealAudio.volume = 0.7;
+const filterCheckAudio = new Audio("Audio/multhit1.mp3");
+filterCheckAudio.volume = 0.55;
+const filterSaveAudio = new Audio("Audio/holo1.mp3");
+filterSaveAudio.volume = 0.6;
+const commissionFunctionAudio = new Audio("Audio/tarot1.mp3");
+commissionFunctionAudio.volume = 0.55;
 let currentSlideIndex = 0;
 let carouselIntervalId = null;
 let currentMatchIndex = 0;
@@ -488,6 +496,54 @@ function playFlipAudio() {
   flipAudio.currentTime = 0;
   flipAudio.play().catch(() => {
     // Ignore interrupted play errors on rapid taps.
+  });
+}
+
+function playGoldSealAudio() {
+  try {
+    goldSealAudio.pause();
+    goldSealAudio.currentTime = 0;
+  } catch {
+    // No-op
+  }
+  goldSealAudio.play().catch(() => {
+    // Ignore autoplay / interrupted play errors.
+  });
+}
+
+function playFilterCheckAudio() {
+  try {
+    filterCheckAudio.pause();
+    filterCheckAudio.currentTime = 0;
+  } catch {
+    // No-op
+  }
+  filterCheckAudio.play().catch(() => {
+    // Ignore autoplay / interrupted play errors.
+  });
+}
+
+function playFilterSaveAudio() {
+  try {
+    filterSaveAudio.pause();
+    filterSaveAudio.currentTime = 0;
+  } catch {
+    // No-op
+  }
+  filterSaveAudio.play().catch(() => {
+    // Ignore autoplay / interrupted play errors.
+  });
+}
+
+function playCommissionFunctionAudio() {
+  try {
+    commissionFunctionAudio.pause();
+    commissionFunctionAudio.currentTime = 0;
+  } catch {
+    // No-op
+  }
+  commissionFunctionAudio.play().catch(() => {
+    // Ignore autoplay / interrupted play errors.
   });
 }
 
@@ -698,6 +754,10 @@ if (matchDeck && matchSlides.length) {
     saveForLaterBtn.addEventListener("click", () => {
       const next = !(savedMatches[currentMatchIndex] === true);
       setMatchSavedState(next);
+      if (next) {
+        // Play exactly when the stamp appears.
+        requestAnimationFrame(() => playGoldSealAudio());
+      }
     });
   }
 
@@ -770,6 +830,7 @@ const filterPreferencesForm = document.getElementById("filterPreferencesForm");
 const filterPreferencesBackdrop = filterPreferencesModal
   ? filterPreferencesModal.querySelector("[data-filter-close]")
   : null;
+let isRestoringFilterPreferences = false;
 
 function restoreFilterPreferencesFromStorage() {
   if (!filterPreferencesForm) {
@@ -785,6 +846,7 @@ function restoreFilterPreferencesFromStorage() {
     const commission = Array.isArray(parsed.commission_type) ? parsed.commission_type : [];
     const usage = Array.isArray(parsed.usage_type) ? parsed.usage_type : [];
 
+    isRestoringFilterPreferences = true;
     filterPreferencesForm.querySelectorAll('input[name="commission_type"]').forEach((input) => {
       input.checked = commission.includes(input.value);
     });
@@ -793,6 +855,8 @@ function restoreFilterPreferencesFromStorage() {
     });
   } catch {
     // Ignore malformed storage.
+  } finally {
+    isRestoringFilterPreferences = false;
   }
 }
 
@@ -845,9 +909,30 @@ if (filterTrigger && filterPreferencesModal) {
   }
 
   if (filterPreferencesForm) {
+    filterPreferencesForm.addEventListener("change", (event) => {
+      if (isRestoringFilterPreferences) {
+        return;
+      }
+      const target = event.target;
+      if (!(target instanceof HTMLInputElement)) {
+        return;
+      }
+      if (target.type !== "checkbox") {
+        return;
+      }
+      if (!target.checked) {
+        return;
+      }
+      if (target.name !== "commission_type" && target.name !== "usage_type") {
+        return;
+      }
+      playFilterCheckAudio();
+    });
+
     filterPreferencesForm.addEventListener("submit", (event) => {
       event.preventDefault();
       persistFilterPreferences();
+      requestAnimationFrame(() => playFilterSaveAudio());
       closeFilterPreferencesModal();
       refreshMatchDeckFromSavedPreferences();
     });
@@ -874,6 +959,7 @@ const commissionRequestBackdrop = commissionRequestModal
   : null;
 const commissionRequestSubmitBtn = document.getElementById("commissionRequestSubmitBtn");
 const requestTimeFrameSelect = document.getElementById("requestTimeFrame");
+let isResettingCommissionRequestForm = false;
 
 function syncRequestTimeFrameAsapColor() {
   if (!requestTimeFrameSelect) {
@@ -897,6 +983,7 @@ function openCommissionRequestModal() {
   if (!commissionRequestModal || !commissionRequestForm) {
     return;
   }
+  isResettingCommissionRequestForm = true;
   commissionRequestForm.reset();
   syncRequestTimeFrameAsapColor();
   if (commissionRequestSuccessEl) {
@@ -909,6 +996,9 @@ function openCommissionRequestModal() {
   commissionRequestModal.hidden = false;
   document.body.style.overflow = "hidden";
   requestTimeFrameSelect?.focus();
+  queueMicrotask(() => {
+    isResettingCommissionRequestForm = false;
+  });
 }
 
 function closeCommissionRequestModal() {
@@ -954,11 +1044,32 @@ if (requestMatchBtn && commissionRequestModal && commissionRequestForm) {
     commissionRequestBackdrop.addEventListener("click", closeCommissionRequestModal);
   }
 
+  commissionRequestForm.addEventListener("change", (event) => {
+    if (isResettingCommissionRequestForm) {
+      return;
+    }
+    const target = event.target;
+    if (!(target instanceof HTMLInputElement)) {
+      return;
+    }
+    if (target.type !== "checkbox") {
+      return;
+    }
+    if (target.name !== "commission_function") {
+      return;
+    }
+    if (!target.checked) {
+      return;
+    }
+    playCommissionFunctionAudio();
+  });
+
   commissionRequestForm.addEventListener("submit", (event) => {
     event.preventDefault();
     if (commissionRequestSubmitBtn) {
       commissionRequestSubmitBtn.disabled = true;
     }
+    requestAnimationFrame(() => playFilterSaveAudio());
     const fd = new FormData(commissionRequestForm);
     const payload = {
       artist: getFrontCardArtistName(),
@@ -975,11 +1086,15 @@ if (requestMatchBtn && commissionRequestModal && commissionRequestForm) {
     }
     window.setTimeout(() => {
       closeCommissionRequestModal();
+      isResettingCommissionRequestForm = true;
       commissionRequestForm.reset();
       syncRequestTimeFrameAsapColor();
       if (commissionRequestSubmitBtn) {
         commissionRequestSubmitBtn.disabled = false;
       }
+      queueMicrotask(() => {
+        isResettingCommissionRequestForm = false;
+      });
     }, 900);
   });
 
