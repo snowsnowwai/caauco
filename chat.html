@@ -1053,9 +1053,9 @@
         },
         {
           id: "cole",
-          name: "Cole Winters",
+          name: "Audrey Wai",
           email: "cole.winters@hotmail.com",
-          avatar: "./UserCards/Curryoke_F.jpg",
+          avatar: "./pfps/audrey2.png",
           online: true,
           unread: true,
           statusClass: "",
@@ -1064,11 +1064,11 @@
           preview: "Thank you for the revision notes.",
           warn: "",
           messages: [
-            { type: "msg", who: "Cole Winters", text: "Round-two sketches are posted. Let me know which pose you want pushed to color." },
+            { type: "msg", who: "Audrey Wai", text: "Round-two sketches are posted. Let me know which pose you want pushed to color." },
             { type: "msg", who: "Me", text: "Left-facing stance with the jacket open slightly — matches the reference board." },
-            { type: "msg", who: "Cole Winters", text: "Copy that. I'll tighten the hands and push proportions in round three." },
+            { type: "msg", who: "Audrey Wai", text: "Copy that. I'll tighten the hands and push proportions in round three." },
             { type: "msg", who: "Me", text: "Thank you for the revision notes on the character commission." },
-            { type: "msg", who: "Cole Winters", text: "You are welcome. The third-round sketch will be delivered tomorrow." },
+            { type: "msg", who: "Audrey Wai", text: "You are welcome. The third-round sketch will be delivered tomorrow." },
           ],
         },
         {
@@ -1411,6 +1411,25 @@
         });
         threads.forEach((th) => {
           if (th.lastMessageAt == null) th.lastMessageAt = Date.now();
+        });
+      })();
+
+      (function orderOnlineThreadsForSidebar() {
+        const onlineOrder = [
+          "vectorclient",
+          "cole",
+          "animation_artist",
+          "merch_assets",
+          "concept_artist",
+          "brief_partner",
+          "rush_client",
+          "illustration_artist",
+        ];
+        const stepMs = 60 * 1000;
+        const base = Date.now();
+        onlineOrder.forEach((id, i) => {
+          const th = threads.find((x) => x.id === id);
+          if (th?.online) th.lastMessageAt = base - i * stepMs;
         });
       })();
 
