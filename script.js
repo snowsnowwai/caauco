@@ -149,6 +149,7 @@ function applyUnifiedBackTemplate() {
   const skyePortraitSrc = "UserCards/RandomAdditions/momo.jpg";
   const colePortraitSrc = "UserCards/Cole-PXL_20250717_0005526912.jpg";
   const stevenPortraitSrc = "UserCards/RandomAdditions/Steven%20Yeun.jpg";
+  const reesePortraitSrc = "UserCards/RandomAdditions/Yunjin.jpg";
   const coleArtSrcs = [
     "UserCards/Cole-Gray%20Uniform%20Poster.png",
     "UserCards/Cole-DsGD100A_Pr1_Poster_Louie_ColeF.jpg",
@@ -158,6 +159,11 @@ function applyUnifiedBackTemplate() {
     "UserCards/RandomAdditions/Invincible%20Poster%202.jpg",
     "UserCards/RandomAdditions/INVINCIBLE%20TV%20SHOW%20POSTER.jpg",
     "UserCards/RandomAdditions/invincible.png",
+  ];
+  const reeseArtSrcs = [
+    "UserCards/RandomAdditions/goose.jpg",
+    "UserCards/RandomAdditions/shirt1.png",
+    "UserCards/RandomAdditions/type.jpg",
   ];
   const skyeArtSrcs = [
     "UserCards/RandomAdditions/CORTIS.jpg",
@@ -192,6 +198,7 @@ function applyUnifiedBackTemplate() {
     const isSkye = artistName === "Skye Harper";
     const isCole = artistName === "Cole Louie";
     const isSteven = artistName === "Steven Yuen";
+    const isReese = artistName === "Reese Nova";
     if (redSquare) {
       if (isSkye) {
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${skyePortraitSrc}" alt="Skye Harper portrait">`;
@@ -199,6 +206,8 @@ function applyUnifiedBackTemplate() {
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${colePortraitSrc}" alt="Cole Louie portrait">`;
       } else if (isSteven) {
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${stevenPortraitSrc}" alt="Steven Yuen portrait">`;
+      } else if (isReese) {
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${reesePortraitSrc}" alt="Reese Nova portrait">`;
       } else {
         redSquare.innerHTML = "";
       }
@@ -227,6 +236,13 @@ function applyUnifiedBackTemplate() {
           const src = stevenArtSrcs[idx];
           if (src) {
             sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Steven artwork ${idx + 1}">`;
+          }
+        });
+      } else if (isReese) {
+        artSquares.forEach((sq, idx) => {
+          const src = reeseArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Reese artwork ${idx + 1}">`;
           }
         });
       } else {
@@ -263,6 +279,16 @@ function applyUnifiedBackTemplate() {
             <span class="profile-back__badge">Mascot Design</span>
             <span class="profile-back__badge">Character Concepts</span>
             <span class="profile-back__badge">Page Layout</span>
+          </div>
+        `;
+      } else if (isReese) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Reese Nova categories">
+            <span class="profile-back__badge">Poster Design</span>
+            <span class="profile-back__badge">Logo and Branding</span>
+            <span class="profile-back__badge">Apparel Designer</span>
+            <span class="profile-back__badge">Collage Artist</span>
+            <span class="profile-back__badge">Digital Illustrations</span>
           </div>
         `;
       } else {
