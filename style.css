@@ -365,6 +365,7 @@ main {
 }
 
 .match-card-face--back-profile {
+  position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -376,6 +377,62 @@ main {
   font-family: "Caveat", cursive;
   font-weight: 700;
   font-size: clamp(1.08rem, 4.5vw, 1.42rem);
+}
+
+.match-slide.has-motion-graphics .match-card-face--front::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.22;
+  mix-blend-mode: screen;
+  background-image: url("Reference Images/AdobeStock_264352424.jpeg");
+  background-size: cover;
+  background-position: center;
+  animation: foilBasePulse 4.2s ease-in-out infinite alternate;
+}
+
+.match-slide.has-motion-graphics .match-card-face--front::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+  mix-blend-mode: color-dodge;
+  opacity: 0.14;
+  background:
+    radial-gradient(120% 85% at 18% 72%, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0) 62%),
+    radial-gradient(95% 70% at 82% 22%, rgba(182, 120, 255, 0.28), rgba(182, 120, 255, 0) 66%),
+    radial-gradient(120% 95% at 54% 52%, rgba(120, 242, 255, 0.24), rgba(120, 242, 255, 0) 64%),
+    linear-gradient(
+      114deg,
+      rgba(255, 255, 255, 0.05) 0%,
+      rgba(255, 185, 248, 0.28) 24%,
+      rgba(137, 238, 255, 0.26) 49%,
+      rgba(210, 171, 255, 0.3) 73%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+  background-size: 170% 170%, 175% 175%, 185% 185%, 240% 240%;
+  animation: foilWave 10s linear infinite;
+}
+
+@keyframes foilBasePulse {
+  0% {
+    filter: saturate(1.08) brightness(1.02);
+  }
+  100% {
+    filter: saturate(1.28) brightness(1.14);
+  }
+}
+
+@keyframes foilWave {
+  0% {
+    background-position: 0% 70%, 100% 24%, 38% 58%, 0% 50%;
+  }
+  100% {
+    background-position: 100% 36%, 0% 78%, 68% 30%, 100% 50%;
+  }
 }
 
 .profile-back {
