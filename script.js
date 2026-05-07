@@ -157,6 +157,8 @@ function applyUnifiedBackTemplate() {
   const stevenPortraitSrc = "UserCards/RandomAdditions/Steven%20Yeun.jpg";
   const reesePortraitSrc = "UserCards/RandomAdditions/Yunjin.jpg";
   const averyPortraitSrc = "UserCards/RandomAdditions/chaeyoung.jpg";
+  const jordanPortraitSrc = "UserCards/RandomAdditions/marktuan.jpg";
+  const paulPortraitSrc = "UserCards/RandomAdditions/guy.jpg";
   const coleArtSrcs = [
     "UserCards/Cole-Gray%20Uniform%20Poster.png",
     "UserCards/Cole-DsGD100A_Pr1_Poster_Louie_ColeF.jpg",
@@ -176,6 +178,16 @@ function applyUnifiedBackTemplate() {
     "UserCards/RandomAdditions/sweater1.jpg",
     "UserCards/RandomAdditions/stamp.jpg",
     "UserCards/RandomAdditions/tanktop.jpg",
+  ];
+  const jordanArtSrcs = [
+    "UserCards/RandomAdditions/color1.jpg",
+    "UserCards/RandomAdditions/flash.jpg",
+    "UserCards/RandomAdditions/superman2.jpg",
+  ];
+  const paulArtSrcs = [
+    "UserCards/RandomAdditions/3D1.jpg",
+    "UserCards/RandomAdditions/3D2.jpg",
+    "UserCards/RandomAdditions/3D3.jpg",
   ];
   const skyeArtSrcs = [
     "UserCards/RandomAdditions/CORTIS.jpg",
@@ -206,25 +218,72 @@ function applyUnifiedBackTemplate() {
     }
 
     const effectiveProfileBack = backFace.querySelector(".profile-back");
+    const fieldLabels = effectiveProfileBack
+      ? effectiveProfileBack.querySelector(".skye-template__field-labels")
+      : null;
     const redSquare = effectiveProfileBack ? effectiveProfileBack.querySelector(".skye-template__red-square") : null;
     const isSkye = artistName === "Skye Harper";
     const isCole = artistName === "Cole Louie";
     const isSteven = artistName === "Steven Yuen";
     const isReese = artistName === "Reese Nova";
     const isAvery = artistName === "Avery Stone";
+    const isJordan = artistName === "Jordan Vale";
+    const isPaul = artistName === "Paul Rogers";
     if (redSquare) {
       if (isSkye) {
+        effectiveProfileBack?.classList.add("profile-back--skye-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cole-icons");
+        effectiveProfileBack?.classList.remove("profile-back--reese-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${skyePortraitSrc}" alt="Skye Harper portrait">`;
       } else if (isCole) {
+        effectiveProfileBack?.classList.remove("profile-back--skye-icons");
+        effectiveProfileBack?.classList.add("profile-back--cole-icons");
+        effectiveProfileBack?.classList.remove("profile-back--reese-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${colePortraitSrc}" alt="Cole Louie portrait">`;
       } else if (isSteven) {
+        effectiveProfileBack?.classList.remove("profile-back--skye-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cole-icons");
+        effectiveProfileBack?.classList.remove("profile-back--reese-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${stevenPortraitSrc}" alt="Steven Yuen portrait">`;
       } else if (isReese) {
+        effectiveProfileBack?.classList.remove("profile-back--skye-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cole-icons");
+        effectiveProfileBack?.classList.add("profile-back--reese-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${reesePortraitSrc}" alt="Reese Nova portrait">`;
       } else if (isAvery) {
+        effectiveProfileBack?.classList.remove("profile-back--skye-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cole-icons");
+        effectiveProfileBack?.classList.remove("profile-back--reese-icons");
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${averyPortraitSrc}" alt="Avery Stone portrait">`;
+      } else if (isJordan) {
+        effectiveProfileBack?.classList.remove("profile-back--skye-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cole-icons");
+        effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${jordanPortraitSrc}" alt="Jordan Vale portrait">`;
+      } else if (isPaul) {
+        effectiveProfileBack?.classList.remove("profile-back--skye-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cole-icons");
+        effectiveProfileBack?.classList.remove("profile-back--reese-icons");
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${paulPortraitSrc}" alt="Paul Rogers portrait">`;
       } else {
+        effectiveProfileBack?.classList.remove("profile-back--skye-icons");
+        effectiveProfileBack?.classList.remove("profile-back--cole-icons");
+        effectiveProfileBack?.classList.remove("profile-back--reese-icons");
         redSquare.innerHTML = "";
+      }
+    }
+
+    if (fieldLabels) {
+      if (isSkye) {
+        fieldLabels.innerHTML = `
+          <span>Year 3</span>
+          <span>Graphic Design BFA</span>
+        `;
+      } else if (isReese) {
+        fieldLabels.innerHTML = `
+          <span>Year 2</span>
+          <span>Digital Media Studies</span>
+        `;
       }
     }
 
@@ -267,6 +326,20 @@ function applyUnifiedBackTemplate() {
             sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Avery artwork ${idx + 1}">`;
           }
         });
+      } else if (isJordan) {
+        artSquares.forEach((sq, idx) => {
+          const src = jordanArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Jordan artwork ${idx + 1}">`;
+          }
+        });
+      } else if (isPaul) {
+        artSquares.forEach((sq, idx) => {
+          const src = paulArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Paul artwork ${idx + 1}">`;
+          }
+        });
       } else {
         artSquares.forEach((sq) => {
           sq.innerHTML = "";
@@ -282,6 +355,8 @@ function applyUnifiedBackTemplate() {
             <span class="profile-back__badge">Typography</span>
             <span class="profile-back__badge">Page Layout</span>
             <span class="profile-back__badge">Graphic Designs</span>
+            <span class="profile-back__badge">Template Designer</span>
+            <span class="profile-back__badge">Design Researcher</span>
           </div>
         `;
       } else if (isCole) {
@@ -320,6 +395,26 @@ function applyUnifiedBackTemplate() {
             <span class="profile-back__badge">Digital Illustrations</span>
             <span class="profile-back__badge">Graphic Designs</span>
             <span class="profile-back__badge">Logo and Branding</span>
+          </div>
+        `;
+      } else if (isJordan) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Jordan Vale categories">
+            <span class="profile-back__badge">Digital Illustrations</span>
+            <span class="profile-back__badge">Page Layout</span>
+            <span class="profile-back__badge">Colorist</span>
+            <span class="profile-back__badge">Cover Designer</span>
+            <span class="profile-back__badge">Character Concepts</span>
+            <span class="profile-back__badge">Design Researcher</span>
+          </div>
+        `;
+      } else if (isPaul) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Paul Rogers categories">
+            <span class="profile-back__badge">3D Models</span>
+            <span class="profile-back__badge">Page Layout</span>
+            <span class="profile-back__badge">Infographics</span>
+            <span class="profile-back__badge">Cover Designer</span>
           </div>
         `;
       } else {
