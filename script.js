@@ -474,3 +474,135 @@ if (filterTrigger && filterPreferencesModal) {
     }
   });
 }
+
+const COMMISSION_REQUEST_STORAGE_KEY = "quickdraw_commission_requests";
+
+const commissionRequestModal = document.getElementById("commissionRequestModal");
+const requestMatchBtn = document.getElementById("requestMatchBtn");
+const commissionRequestCloseBtn = document.getElementById("commissionRequestCloseBtn");
+const commissionRequestCancelBtn = document.getElementById("commissionRequestCancelBtn");
+const commissionRequestForm = document.getElementById("commissionRequestForm");
+const commissionRequestArtistEl = document.getElementById("commissionRequestArtist");
+const commissionRequestSuccessEl = document.getElementById("commissionRequestSuccess");
+const commissionRequestBackdrop = commissionRequestModal
+  ? commissionRequestModal.querySelector("[data-request-close]")
+  : null;
+const commissionRequestSubmitBtn = document.getElementById("commissionRequestSubmitBtn");
+const requestTimeFrameSelect = document.getElementById("requestTimeFrame");
+
+function syncRequestTimeFrameAsapColor() {
+  if (!requestTimeFrameSelect) {
+    return;
+  }
+  requestTimeFrameSelect.classList.toggle("is-value-asap", requestTimeFrameSelect.value === "ASAP");
+}
+
+function getFrontCardArtistName() {
+  if (!matchSlides.length) {
+    return "";
+  }
+  const slide = matchSlides[currentMatchIndex];
+  if (!slide) {
+    return "";
+  }
+  return slide.querySelector(".artist-info h3")?.textContent?.trim() || "";
+}
+
+function openCommissionRequestModal() {
+  if (!commissionRequestModal || !commissionRequestForm) {
+    return;
+  }
+  commissionRequestForm.reset();
+  syncRequestTimeFrameAsapColor();
+  if (commissionRequestSuccessEl) {
+    commissionRequestSuccessEl.hidden = true;
+  }
+  const name = getFrontCardArtistName();
+  if (commissionRequestArtistEl) {
+    commissionRequestArtistEl.textContent = name ? `To: ${name}` : "To: —";
+  }
+  commissionRequestModal.hidden = false;
+  document.body.style.overflow = "hidden";
+  requestTimeFrameSelect?.focus();
+}
+
+function closeCommissionRequestModal() {
+  if (!commissionRequestModal) {
+    return;
+  }
+  commissionRequestModal.hidden = true;
+  document.body.style.overflow = "";
+  if (commissionRequestSuccessEl) {
+    commissionRequestSuccessEl.hidden = true;
+  }
+  if (commissionRequestSubmitBtn) {
+    commissionRequestSubmitBtn.disabled = false;
+  }
+}
+
+function persistCommissionRequest(entry) {
+  try {
+    const raw = localStorage.getItem(COMMISSION_REQUEST_STORAGE_KEY);
+    const list = raw ? JSON.parse(raw) : [];
+    const next = Array.isArray(list) ? list : [];
+    next.push(entry);
+    localStorage.setItem(COMMISSION_REQUEST_STORAGE_KEY, JSON.stringify(next));
+  } catch {
+    // Ignore storage failures (private mode, quota).
+  }
+}
+
+if (requestMatchBtn && commissionRequestModal && commissionRequestForm) {
+  requestMatchBtn.addEventListener("click", () => {
+    openCommissionRequestModal();
+  });
+
+  if (commissionRequestCloseBtn) {
+    commissionRequestCloseBtn.addEventListener("click", closeCommissionRequestModal);
+  }
+
+  if (commissionRequestCancelBtn) {
+    commissionRequestCancelBtn.addEventListener("click", closeCommissionRequestModal);
+  }
+
+  if (commissionRequestBackdrop) {
+    commissionRequestBackdrop.addEventListener("click", closeCommissionRequestModal);
+  }
+
+  commissionRequestForm.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (commissionRequestSubmitBtn) {
+      commissionRequestSubmitBtn.disabled = true;
+    }
+    const fd = new FormData(commissionRequestForm);
+    const payload = {
+      artist: getFrontCardArtistName(),
+      time_frame: String(fd.get("time_frame") || "").trim(),
+      price: String(fd.get("price") || "").trim(),
+      description: String(fd.get("description") || "").trim(),
+      commission_function: fd.getAll("commission_function").filter(Boolean),
+      additional_notes: String(fd.get("additional_notes") || "").trim(),
+      createdAt: Date.now(),
+    };
+    persistCommissionRequest(payload);
+    if (commissionRequestSuccessEl) {
+      commissionRequestSuccessEl.hidden = false;
+    }
+    window.setTimeout(() => {
+      closeCommissionRequestModal();
+      commissionRequestForm.reset();
+      syncRequestTimeFrameAsapColor();
+      if (commissionRequestSubmitBtn) {
+        commissionRequestSubmitBtn.disabled = false;
+      }
+    }, 900);
+  });
+
+  requestTimeFrameSelect?.addEventListener("change", syncRequestTimeFrameAsapColor);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && commissionRequestModal && !commissionRequestModal.hidden) {
+      closeCommissionRequestModal();
+    }
+  });
+}

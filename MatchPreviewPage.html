@@ -149,12 +149,14 @@
                       <span class="profile-back__section-label">Artworks:</span>
                       <div class="profile-back__artworks-row">
                         <div class="profile-back__art-slot">
-                          <img class="profile-back__art-img" src="UserCards/audrey-tick-happens.svg" alt="Tick Happens illustration" loading="lazy" decoding="async">
+                          <img class="profile-back__art-img" src="UserCards/audrey-starry-night.png" alt="Starry night artwork" loading="lazy" decoding="async">
                         </div>
                         <div class="profile-back__art-slot">
                           <img class="profile-back__art-img" src="UserCards/audrey-bust.png" alt="Ceramic bust artwork" loading="lazy" decoding="async">
                         </div>
-                        <div class="profile-back__art-slot"></div>
+                        <div class="profile-back__art-slot">
+                          <img class="profile-back__art-img" src="UserCards/audrey-tick-happens.svg" alt="Tick Happens illustration" loading="lazy" decoding="async">
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -725,7 +727,15 @@
           <button class="rotate-btn" id="cycleMatchBtn" aria-label="Show next match">
             <span class="rotate-icon" aria-hidden="true">&#8594;</span>
           </button>
-          <button class="like-btn like-btn--match" type="button" id="requestMatchBtn">Request</button>
+          <button
+            class="like-btn like-btn--match"
+            type="button"
+            id="requestMatchBtn"
+            aria-haspopup="dialog"
+            aria-controls="commissionRequestModal"
+          >
+            Request
+          </button>
         </div>
       </section>
     </main>
@@ -820,18 +830,6 @@
                 <input type="checkbox" name="commission_type" value="infographics">
                 <span class="bubble-chip">Infographics</span>
               </label>
-              <label>
-                <input type="checkbox" name="commission_type" value="video-thumbnail-artist">
-                <span class="bubble-chip">Video Thumbnail Artist</span>
-              </label>
-              <label>
-                <input type="checkbox" name="commission_type" value="template-designer">
-                <span class="bubble-chip">Template Designer</span>
-              </label>
-              <label>
-                <input type="checkbox" name="commission_type" value="cover-artist">
-                <span class="bubble-chip">Cover Artist</span>
-              </label>
             </div>
           </article>
 
@@ -885,6 +883,118 @@
 
         <div class="filter-modal__actions">
           <button class="primary-btn" type="submit">Save Preferences</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="commission-request-modal" id="commissionRequestModal" hidden>
+    <div class="commission-request-modal__backdrop" data-request-close></div>
+    <section
+      class="commission-request-modal__panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="commissionRequestTitle"
+      aria-describedby="commissionRequestArtist"
+    >
+      <button type="button" class="commission-request-modal__close" id="commissionRequestCloseBtn" aria-label="Close request form">
+        &#10005;
+      </button>
+      <h2 class="commission-request-modal__title" id="commissionRequestTitle">Commission request</h2>
+      <p class="commission-request-modal__artist" id="commissionRequestArtist"></p>
+
+      <form id="commissionRequestForm" class="commission-request-form">
+        <div class="commission-request-modal__scroll">
+          <div class="request-field">
+            <label for="requestTimeFrame">Time frame</label>
+            <select id="requestTimeFrame" name="time_frame">
+              <option value="">Select Your Time Frame</option>
+              <option value="ASAP">ASAP</option>
+              <option value="1 Week">1 Week</option>
+              <option value="2 Week">2 Week</option>
+              <option value="1 Month">1 Month</option>
+              <option value="1 Month+">1 Month+</option>
+            </select>
+          </div>
+          <div class="request-field">
+            <label for="requestPrice">Price</label>
+            <select id="requestPrice" name="price">
+              <option value="">Select Your Budget</option>
+              <option>$25-$100</option>
+              <option>$100-$250</option>
+              <option>$250-$500</option>
+              <option>$500+</option>
+            </select>
+          </div>
+          <div class="request-field">
+            <label for="requestDescription">Description</label>
+            <textarea id="requestDescription" name="description" rows="3" placeholder="Describe Your Commission"></textarea>
+          </div>
+          <div class="request-field request-field--function">
+            <label id="functionFieldLabel" for="commissionFnFirst">Function</label>
+            <div class="request-function-field-shell" role="group" aria-labelledby="functionFieldLabel">
+              <div class="bubble-grid">
+                <label>
+                  <input
+                    id="commissionFnFirst"
+                    type="checkbox"
+                    name="commission_function"
+                    value="school-club-events"
+                  />
+                  <span class="bubble-chip">School Club Events</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="school-projects" />
+                  <span class="bubble-chip">Class Projects</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="social-media-posts" />
+                  <span class="bubble-chip">Social Media Posts</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="student-campaigns" />
+                  <span class="bubble-chip">Student Campaigns</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="presentations" />
+                  <span class="bubble-chip">Presentations</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="merchandise" />
+                  <span class="bubble-chip">Club Merchandise</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="yearbook" />
+                  <span class="bubble-chip">Yearbook Features</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="school-website" />
+                  <span class="bubble-chip">School Website</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="print-flyers" />
+                  <span class="bubble-chip">Print Flyers</span>
+                </label>
+                <label>
+                  <input type="checkbox" name="commission_function" value="announcements" />
+                  <span class="bubble-chip">Campus Announcements</span>
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="request-field">
+            <label for="requestAdditionalNotes">Additional notes</label>
+            <textarea id="requestAdditionalNotes" name="additional_notes" rows="3" placeholder="Anything Else"></textarea>
+          </div>
+        </div>
+
+        <p class="commission-request-modal__success" id="commissionRequestSuccess" hidden role="status">
+          Request saved. You can continue browsing.
+        </p>
+
+        <div class="commission-request-modal__actions">
+          <button type="button" class="secondary-btn" id="commissionRequestCancelBtn">Cancel</button>
+          <button type="submit" class="primary-btn" id="commissionRequestSubmitBtn">Submit request</button>
         </div>
       </form>
     </section>

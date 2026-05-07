@@ -1372,3 +1372,212 @@ a.ghost-btn:hover {
     max-height: min(52vh, 420px);
   }
 }
+
+/* Match Preview — commission request dialog */
+.commission-request-modal[hidden] {
+  display: none;
+}
+
+.commission-request-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1260;
+  display: grid;
+  place-items: center;
+  padding: 0.75rem;
+}
+
+.commission-request-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(8, 10, 17, 0.56);
+}
+
+.commission-request-modal__panel {
+  position: relative;
+  width: min(96vw, 570px);
+  max-height: min(90vh, 720px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 3px solid #101010;
+  border-radius: 10px;
+  background: #f7f1ff;
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.35);
+  padding: 0.75rem 1rem 1rem;
+  font-family: "Caveat", cursive;
+}
+
+.commission-request-modal__close {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.5rem;
+  border: 2px solid #101010;
+  background: #ffffff;
+  color: #101010;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.commission-request-modal__title {
+  margin: 0 2.3rem 0.35rem;
+  font-family: "Matemasie", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.65rem, 4.5vw, 2.35rem);
+  line-height: 1.05;
+  letter-spacing: 0.02em;
+  color: #141414;
+  text-align: center;
+}
+
+.commission-request-modal__artist {
+  margin: 0 0 0.65rem;
+  text-align: center;
+  font-family: "Matemasie", system-ui, sans-serif;
+  font-weight: 400;
+  font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+  color: var(--ink-soft);
+}
+
+.commission-request-modal__scroll {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 0.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.commission-request-form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.request-field {
+  display: grid;
+  gap: 0.28rem;
+  margin-bottom: 0.65rem;
+}
+
+.request-field label {
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.request-field input,
+.request-field select,
+.request-field textarea {
+  width: 100%;
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: #ece4ff;
+  color: var(--ink);
+  padding: 0.45rem 0.55rem;
+  font-family: inherit;
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+  font-weight: 600;
+  line-height: 1.35;
+  resize: vertical;
+  min-height: 0;
+}
+
+.request-field select {
+  cursor: pointer;
+  resize: none;
+}
+
+#requestTimeFrame option[value="ASAP"] {
+  color: var(--pink);
+}
+
+#requestTimeFrame.is-value-asap {
+  color: var(--pink);
+}
+
+.request-field input::placeholder,
+.request-field textarea::placeholder {
+  color: rgba(63, 79, 154, 0.55);
+  font-weight: 600;
+}
+
+.commission-request-modal__success {
+  margin: 0 0 0.5rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: 8px;
+  background: rgba(169, 184, 242, 0.45);
+  border: 2px solid var(--ink);
+  text-align: center;
+  font-size: clamp(1rem, 2.2vw, 1.15rem);
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.commission-request-modal__actions {
+  display: flex;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: auto;
+  padding-top: 0.35rem;
+  flex-shrink: 0;
+}
+
+.request-field--function {
+  gap: 0.28rem;
+}
+
+/* Same edge treatment as .request-field input / textarea (commission request modal). */
+.request-function-field-shell {
+  border: 2px solid var(--ink);
+  border-radius: 8px;
+  background: #ece4ff;
+  padding: 0.45rem 0.55rem;
+}
+
+.commission-request-modal .request-field--function .bubble-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.commission-request-modal .bubble-grid input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.commission-request-modal .bubble-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.42rem 0.8rem 0.5rem;
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  background: #ece4ff;
+  color: var(--ink);
+  cursor: pointer;
+  transition: transform 0.14s ease, background-color 0.14s ease, color 0.14s ease;
+  font-size: clamp(0.95rem, 2.1vw, 1.05rem);
+  font-weight: 600;
+}
+
+.commission-request-modal .bubble-chip:hover {
+  transform: translate(-1px, -1px);
+  background: var(--pink);
+  color: #ffffff;
+}
+
+.commission-request-modal .bubble-grid input[type="checkbox"]:checked + .bubble-chip {
+  background: var(--blue);
+  color: #ffffff;
+}
