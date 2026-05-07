@@ -550,6 +550,8 @@ commissionFunctionAudio.volume = 0.55;
 let currentSlideIndex = 0;
 let carouselIntervalId = null;
 let currentMatchIndex = 0;
+let isAdvancingMatch = false;
+let previousNonGuideSequenceSignature = "";
 const savedMatches = [];
 let matchSequence = [];
 let currentMatchSequencePosition = 0;
@@ -682,6 +684,10 @@ function shuffleIndices(indices) {
   return next;
 }
 
+function getSequenceSignature(indices) {
+  return indices.join(",");
+}
+
 function buildMatchSequence() {
   const guideIndex = Array.from(matchSlides).findIndex((slide) =>
     Boolean(slide.querySelector(".match-card-face--back-guide"))
@@ -721,7 +727,17 @@ function buildMatchSequence() {
     preferencePool = [skyeIndex, ...preferencePool];
   }
 
-  const randomizedUniqueNonGuide = shuffleIndices(preferencePool);
+  let randomizedUniqueNonGuide = shuffleIndices(preferencePool);
+  if (randomizedUniqueNonGuide.length > 1) {
+    let attempts = 0;
+    while (
+      getSequenceSignature(randomizedUniqueNonGuide) === previousNonGuideSequenceSignature &&
+      attempts < 8
+    ) {
+      randomizedUniqueNonGuide = shuffleIndices(preferencePool);
+      attempts += 1;
+    }
+  }
   if (typeof skyeIndex === "number" && skyeIndex >= 0) {
     const skyePosition = randomizedUniqueNonGuide.indexOf(skyeIndex);
     if (skyePosition > 0) {
@@ -729,6 +745,7 @@ function buildMatchSequence() {
       randomizedUniqueNonGuide.unshift(skyeIndex);
     }
   }
+  previousNonGuideSequenceSignature = getSequenceSignature(randomizedUniqueNonGuide);
 
   if (guideIndex >= 0) {
     // Guide appears only at the beginning and end of each full round.
@@ -825,6 +842,19 @@ if (matchDeck && matchSlides.length) {
 
   if (cycleMatchBtn) {
     cycleMatchBtn.addEventListener("click", () => {
+      if (isAdvancingMatch) {
+        return;
+      }
+      const currentFrontSlide = matchSlides[currentMatchIndex];
+      if (currentFrontSlide?.classList.contains("is-flipped")) {
+        isAdvancingMatch = true;
+        currentFrontSlide.classList.remove("is-flipped");
+        window.setTimeout(() => {
+          showNextMatchInSequence();
+          isAdvancingMatch = false;
+        }, 260);
+        return;
+      }
       showNextMatchInSequence();
     });
   }
