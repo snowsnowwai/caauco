@@ -226,7 +226,22 @@ function buildMatchSequence() {
     preferencePool = filtered.length > 0 ? filtered : uniqueNonGuideIndices;
   }
 
+  const skyeIndex = uniqueNonGuideIndices.find((index) => {
+    const name = matchSlides[index]?.querySelector(".artist-info h3")?.textContent?.trim();
+    return name === "Skye Harper";
+  });
+  if (typeof skyeIndex === "number" && skyeIndex >= 0 && !preferencePool.includes(skyeIndex)) {
+    preferencePool = [skyeIndex, ...preferencePool];
+  }
+
   const randomizedUniqueNonGuide = shuffleIndices(preferencePool);
+  if (typeof skyeIndex === "number" && skyeIndex >= 0) {
+    const skyePosition = randomizedUniqueNonGuide.indexOf(skyeIndex);
+    if (skyePosition > 0) {
+      randomizedUniqueNonGuide.splice(skyePosition, 1);
+      randomizedUniqueNonGuide.unshift(skyeIndex);
+    }
+  }
 
   if (guideIndex >= 0) {
     // Guide appears only at the beginning and end of each full round.
