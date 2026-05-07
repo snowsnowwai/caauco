@@ -106,6 +106,67 @@ function updateMotionGraphicsFoilClasses() {
   });
 }
 
+function getBackTemplateMarkup() {
+  return `
+    <div class="skye-template">
+      <div class="skye-template__top">
+        <div class="skye-template__red-square" aria-hidden="true"></div>
+        <div class="skye-template__top-right">
+          <div class="skye-template__field-labels">
+            <span>School Year</span>
+            <span>Current Major</span>
+          </div>
+          <div class="skye-template__tool-row" aria-hidden="true">
+            <span class="skye-template__tool-square"></span>
+            <span class="skye-template__tool-square"></span>
+            <span class="skye-template__tool-square"></span>
+            <span class="skye-template__tool-square"></span>
+          </div>
+          <div class="skye-template__bio">
+            <span class="skye-template__section-label">Bio:</span>
+            <div class="skye-template__bio-box"></div>
+          </div>
+        </div>
+      </div>
+      <div class="skye-template__artworks">
+        <span class="skye-template__section-label">Artworks:</span>
+        <div class="skye-template__art-grid" aria-hidden="true">
+          <div class="skye-template__art-square"></div>
+          <div class="skye-template__art-square"></div>
+          <div class="skye-template__art-square"></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function applyUnifiedBackTemplate() {
+  if (!matchSlides.length) {
+    return;
+  }
+
+  const excludedNames = new Set(["Audrey Wai", "Cassidy Singman"]);
+  const templateMarkup = getBackTemplateMarkup();
+
+  matchSlides.forEach((slide) => {
+    const artistName = slide.querySelector(".artist-info h3")?.textContent?.trim() || "";
+    if (excludedNames.has(artistName)) {
+      return;
+    }
+
+    const backFace = slide.querySelector(".match-card-face--back-profile");
+    const profileBack = backFace ? backFace.querySelector(".profile-back") : null;
+    if (!profileBack) {
+      return;
+    }
+
+    profileBack.classList.add("profile-back--skye-template");
+    if (!profileBack.querySelector(".skye-template")) {
+      profileBack.innerHTML = templateMarkup;
+    }
+  });
+}
+
 const flipAudio = new Audio("Audio/card1.mp3");
 flipAudio.volume = 0.35;
 let currentSlideIndex = 0;
@@ -321,6 +382,7 @@ function setMatchSavedState(saved) {
 }
 
 if (matchDeck && matchSlides.length) {
+  applyUnifiedBackTemplate();
   updateMotionGraphicsFoilClasses();
   matchSlides.forEach(() => savedMatches.push(false));
 
