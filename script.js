@@ -6,6 +6,92 @@ const heroSlides = heroCarousel ? heroCarousel.querySelectorAll(".hero-slide") :
 const heroDots = heroCarousel ? heroCarousel.querySelectorAll(".dot") : [];
 const matchDeck = document.getElementById("matchDeck");
 const matchSlides = matchDeck ? matchDeck.querySelectorAll(".match-slide") : [];
+const FILTER_PREFS_STORAGE_KEY = "quickdraw_filter_prefs";
+
+const BIO_LABEL_TO_SLUGS = {
+  "digital illustrations": ["digital-illustrations"],
+  "graphic designs": ["graphic-designs"],
+  "motion graphics": ["motion-graphics"],
+  "3d models": ["3d-models"],
+  "acrylic paintings": ["acrylic-paintings"],
+  "oil paintings": ["oil-paintings"],
+  "poster designs": ["poster-designs"],
+  "logo and branding": ["logo-branding"],
+  "mascot design": ["mascot-design"],
+  "character concepts": ["character-concepts"],
+  "comic panels": ["comic-panels"],
+  "infographics": ["infographics"],
+  "vector artist": ["digital-illustrations", "graphic-designs"],
+  "instagram posts": ["social-media-posts"],
+  "club merchandise": ["merchandise"],
+  "school club events": ["school-club-events"],
+  "class projects": ["school-projects"],
+  "social media posts": ["social-media-posts"],
+  "student campaigns": ["student-campaigns"],
+  presentations: ["presentations"],
+  "yearbook features": ["yearbook"],
+  "school website": ["school-website"],
+  "print flyers": ["print-flyers"],
+  "campus announcements": ["announcements"],
+};
+
+function normalizeBioLabel(text) {
+  return text.trim().toLowerCase().replace(/\s+/g, " ");
+}
+
+function mapBioLabelToSlugs(label) {
+  const slugs = BIO_LABEL_TO_SLUGS[normalizeBioLabel(label)];
+  return slugs || [];
+}
+
+function getActiveFilterSlugs() {
+  try {
+    const raw = localStorage.getItem(FILTER_PREFS_STORAGE_KEY);
+    if (!raw) {
+      return null;
+    }
+    const parsed = JSON.parse(raw);
+    const commission = Array.isArray(parsed.commission_type) ? parsed.commission_type : [];
+    const usage = Array.isArray(parsed.usage_type) ? parsed.usage_type : [];
+    const combined = [...commission, ...usage];
+    return combined.length ? new Set(combined) : null;
+  } catch {
+    return null;
+  }
+}
+
+function getCardPreferenceTags(slide) {
+  const tags = new Set();
+  const dataAttr = slide.getAttribute("data-bio-preferences");
+  if (dataAttr) {
+    dataAttr.split(/\s+/).filter(Boolean).forEach((slug) => tags.add(slug));
+  }
+  slide.querySelectorAll(".profile-back__badge-list .profile-back__badge").forEach((el) => {
+    mapBioLabelToSlugs(el.textContent).forEach((slug) => tags.add(slug));
+  });
+  return tags;
+}
+
+function slideMatchesSavedPreferences(slideIndex, filterSlugs) {
+  if (!filterSlugs || filterSlugs.size === 0) {
+    return true;
+  }
+  const slide = matchSlides[slideIndex];
+  if (!slide) {
+    return false;
+  }
+  const cardTags = getCardPreferenceTags(slide);
+  if (!cardTags.size) {
+    return false;
+  }
+  for (const slug of filterSlugs) {
+    if (cardTags.has(slug)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 const flipAudio = new Audio("Audio/card1.mp3");
 flipAudio.volume = 0.35;
 let currentSlideIndex = 0;
@@ -117,7 +203,16 @@ function buildMatchSequence() {
     seenSignatures.add(signature);
     return true;
   });
-  const randomizedUniqueNonGuide = shuffleIndices(uniqueNonGuideIndices);
+  const filterSlugs = getActiveFilterSlugs();
+  let preferencePool = uniqueNonGuideIndices;
+  if (filterSlugs && filterSlugs.size > 0) {
+    const filtered = uniqueNonGuideIndices.filter((index) =>
+      slideMatchesSavedPreferences(index, filterSlugs)
+    );
+    preferencePool = filtered.length > 0 ? filtered : uniqueNonGuideIndices;
+  }
+
+  const randomizedUniqueNonGuide = shuffleIndices(preferencePool);
 
   if (guideIndex >= 0) {
     // Guide appears only at the beginning and end of each full round.
@@ -159,6 +254,15 @@ function showMatchSequence(position) {
   }
 
   setMatchSavedState(savedMatches[currentMatchIndex] === true);
+}
+
+function refreshMatchDeckFromSavedPreferences() {
+  if (!matchDeck || !matchSlides.length) {
+    return;
+  }
+  matchSlides.forEach((slide) => slide.classList.remove("is-flipped"));
+  buildMatchSequence();
+  showMatchSequence(0);
 }
 
 function showNextMatchInSequence() {
@@ -255,6 +359,103 @@ if (cardIndexTrigger && cardIndexModal) {
   document.addEventListener("keydown", (event) => {
     if (event.key === "Escape" && !cardIndexModal.hidden) {
       closeCardIndexModal();
+    }
+  });
+}
+
+const filterTrigger = document.getElementById("filterTrigger");
+const filterPreferencesModal = document.getElementById("filterPreferencesModal");
+const filterPreferencesCloseBtn = document.getElementById("filterPreferencesCloseBtn");
+const filterPreferencesForm = document.getElementById("filterPreferencesForm");
+const filterPreferencesBackdrop = filterPreferencesModal
+  ? filterPreferencesModal.querySelector("[data-filter-close]")
+  : null;
+
+function restoreFilterPreferencesFromStorage() {
+  if (!filterPreferencesForm) {
+    return;
+  }
+
+  try {
+    const raw = localStorage.getItem(FILTER_PREFS_STORAGE_KEY);
+    if (!raw) {
+      return;
+    }
+    const parsed = JSON.parse(raw);
+    const commission = Array.isArray(parsed.commission_type) ? parsed.commission_type : [];
+    const usage = Array.isArray(parsed.usage_type) ? parsed.usage_type : [];
+
+    filterPreferencesForm.querySelectorAll('input[name="commission_type"]').forEach((input) => {
+      input.checked = commission.includes(input.value);
+    });
+    filterPreferencesForm.querySelectorAll('input[name="usage_type"]').forEach((input) => {
+      input.checked = usage.includes(input.value);
+    });
+  } catch {
+    // Ignore malformed storage.
+  }
+}
+
+function persistFilterPreferences() {
+  if (!filterPreferencesForm) {
+    return;
+  }
+
+  const formData = new FormData(filterPreferencesForm);
+  const payload = {
+    commission_type: formData.getAll("commission_type"),
+    usage_type: formData.getAll("usage_type"),
+  };
+  localStorage.setItem(FILTER_PREFS_STORAGE_KEY, JSON.stringify(payload));
+}
+
+function closeFilterPreferencesModal() {
+  if (!filterPreferencesModal) {
+    return;
+  }
+  filterPreferencesModal.hidden = true;
+  document.body.style.overflow = "";
+}
+
+function openFilterPreferencesModal() {
+  if (!filterPreferencesModal) {
+    return;
+  }
+  restoreFilterPreferencesFromStorage();
+  filterPreferencesModal.hidden = false;
+  document.body.style.overflow = "hidden";
+}
+
+if (filterPreferencesForm) {
+  restoreFilterPreferencesFromStorage();
+}
+
+if (filterTrigger && filterPreferencesModal) {
+  filterTrigger.addEventListener("click", (event) => {
+    event.preventDefault();
+    openFilterPreferencesModal();
+  });
+
+  if (filterPreferencesCloseBtn) {
+    filterPreferencesCloseBtn.addEventListener("click", closeFilterPreferencesModal);
+  }
+
+  if (filterPreferencesBackdrop) {
+    filterPreferencesBackdrop.addEventListener("click", closeFilterPreferencesModal);
+  }
+
+  if (filterPreferencesForm) {
+    filterPreferencesForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      persistFilterPreferences();
+      closeFilterPreferencesModal();
+      refreshMatchDeckFromSavedPreferences();
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !filterPreferencesModal.hidden) {
+      closeFilterPreferencesModal();
     }
   });
 }
