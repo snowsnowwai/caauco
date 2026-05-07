@@ -13,8 +13,11 @@ const BIO_LABEL_TO_SLUGS = {
   "graphic designs": ["graphic-designs"],
   "motion graphics": ["motion-graphics"],
   "3d models": ["3d-models"],
-  "acrylic paintings": ["acrylic-paintings"],
-  "oil paintings": ["oil-paintings"],
+  typography: ["typography"],
+  "page layout": ["page-layout"],
+  "video thumbnail artist": ["video-thumbnail-artist"],
+  "template designer": ["template-designer"],
+  "cover artist": ["cover-artist"],
   "poster designs": ["poster-designs"],
   "logo and branding": ["logo-branding"],
   "mascot design": ["mascot-design"],
@@ -90,6 +93,17 @@ function slideMatchesSavedPreferences(slideIndex, filterSlugs) {
     }
   }
   return false;
+}
+
+function updateMotionGraphicsFoilClasses() {
+  if (!matchSlides.length) {
+    return;
+  }
+
+  matchSlides.forEach((slide) => {
+    const cardTags = getCardPreferenceTags(slide);
+    slide.classList.toggle("has-motion-graphics", cardTags.has("motion-graphics"));
+  });
 }
 
 const flipAudio = new Audio("Audio/card1.mp3");
@@ -292,6 +306,7 @@ function setMatchSavedState(saved) {
 }
 
 if (matchDeck && matchSlides.length) {
+  updateMotionGraphicsFoilClasses();
   matchSlides.forEach(() => savedMatches.push(false));
 
   if (saveForLaterBtn) {
