@@ -18,6 +18,12 @@ const BIO_LABEL_TO_SLUGS = {
   "video thumbnail artist": ["video-thumbnail-artist"],
   "template designer": ["template-designer"],
   "cover artist": ["cover-artist"],
+  "apparel design": ["apparel-design"],
+  "apparel designer": ["apparel-design"],
+  colorist: ["colorist"],
+  "design researcher": ["design-researcher"],
+  "cover designer": ["cover-designer"],
+  "collage artist": ["collage-artist"],
   "poster designs": ["poster-designs"],
   "logo and branding": ["logo-branding"],
   "mascot design": ["mascot-design"],
@@ -150,6 +156,7 @@ function applyUnifiedBackTemplate() {
   const colePortraitSrc = "UserCards/Cole-PXL_20250717_0005526912.jpg";
   const stevenPortraitSrc = "UserCards/RandomAdditions/Steven%20Yeun.jpg";
   const reesePortraitSrc = "UserCards/RandomAdditions/Yunjin.jpg";
+  const averyPortraitSrc = "UserCards/RandomAdditions/chaeyoung.jpg";
   const coleArtSrcs = [
     "UserCards/Cole-Gray%20Uniform%20Poster.png",
     "UserCards/Cole-DsGD100A_Pr1_Poster_Louie_ColeF.jpg",
@@ -164,6 +171,11 @@ function applyUnifiedBackTemplate() {
     "UserCards/RandomAdditions/goose.jpg",
     "UserCards/RandomAdditions/shirt1.png",
     "UserCards/RandomAdditions/type.jpg",
+  ];
+  const averyArtSrcs = [
+    "UserCards/RandomAdditions/sweater1.jpg",
+    "UserCards/RandomAdditions/stamp.jpg",
+    "UserCards/RandomAdditions/tanktop.jpg",
   ];
   const skyeArtSrcs = [
     "UserCards/RandomAdditions/CORTIS.jpg",
@@ -199,6 +211,7 @@ function applyUnifiedBackTemplate() {
     const isCole = artistName === "Cole Louie";
     const isSteven = artistName === "Steven Yuen";
     const isReese = artistName === "Reese Nova";
+    const isAvery = artistName === "Avery Stone";
     if (redSquare) {
       if (isSkye) {
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${skyePortraitSrc}" alt="Skye Harper portrait">`;
@@ -208,6 +221,8 @@ function applyUnifiedBackTemplate() {
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${stevenPortraitSrc}" alt="Steven Yuen portrait">`;
       } else if (isReese) {
         redSquare.innerHTML = `<img class="skye-template__portrait" src="${reesePortraitSrc}" alt="Reese Nova portrait">`;
+      } else if (isAvery) {
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${averyPortraitSrc}" alt="Avery Stone portrait">`;
       } else {
         redSquare.innerHTML = "";
       }
@@ -243,6 +258,13 @@ function applyUnifiedBackTemplate() {
           const src = reeseArtSrcs[idx];
           if (src) {
             sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Reese artwork ${idx + 1}">`;
+          }
+        });
+      } else if (isAvery) {
+        artSquares.forEach((sq, idx) => {
+          const src = averyArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Avery artwork ${idx + 1}">`;
           }
         });
       } else {
@@ -289,6 +311,15 @@ function applyUnifiedBackTemplate() {
             <span class="profile-back__badge">Apparel Designer</span>
             <span class="profile-back__badge">Collage Artist</span>
             <span class="profile-back__badge">Digital Illustrations</span>
+          </div>
+        `;
+      } else if (isAvery) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Avery Stone categories">
+            <span class="profile-back__badge">Apparel Design</span>
+            <span class="profile-back__badge">Digital Illustrations</span>
+            <span class="profile-back__badge">Graphic Designs</span>
+            <span class="profile-back__badge">Logo and Branding</span>
           </div>
         `;
       } else {
