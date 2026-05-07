@@ -106,6 +106,172 @@ function updateMotionGraphicsFoilClasses() {
   });
 }
 
+function getBackTemplateMarkup() {
+  return `
+    <div class="skye-template">
+      <div class="skye-template__top">
+        <div class="skye-template__red-square" aria-hidden="true"></div>
+        <div class="skye-template__top-right">
+          <div class="skye-template__field-labels">
+            <span>School Year</span>
+            <span>Current Major</span>
+          </div>
+          <div class="skye-template__tool-row" aria-hidden="true">
+            <span class="skye-template__tool-square"></span>
+            <span class="skye-template__tool-square"></span>
+            <span class="skye-template__tool-square"></span>
+            <span class="skye-template__tool-square"></span>
+          </div>
+          <div class="skye-template__bio">
+            <span class="skye-template__section-label">Bio:</span>
+            <div class="skye-template__bio-box"></div>
+          </div>
+        </div>
+      </div>
+      <div class="skye-template__artworks">
+        <span class="skye-template__section-label">Artworks:</span>
+        <div class="skye-template__art-grid" aria-hidden="true">
+          <div class="skye-template__art-square"></div>
+          <div class="skye-template__art-square"></div>
+          <div class="skye-template__art-square"></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function applyUnifiedBackTemplate() {
+  if (!matchSlides.length) {
+    return;
+  }
+
+  const excludedNames = new Set(["Audrey Wai"]);
+  const skyePortraitSrc = "UserCards/RandomAdditions/momo.jpg";
+  const colePortraitSrc = "UserCards/Cole-PXL_20250717_0005526912.jpg";
+  const stevenPortraitSrc = "UserCards/RandomAdditions/Steven%20Yeun.jpg";
+  const coleArtSrcs = [
+    "UserCards/Cole-Gray%20Uniform%20Poster.png",
+    "UserCards/Cole-DsGD100A_Pr1_Poster_Louie_ColeF.jpg",
+    "UserCards/Cole-Curryoke_F.jpg",
+  ];
+  const stevenArtSrcs = [
+    "UserCards/RandomAdditions/Invincible%20Poster%202.jpg",
+    "UserCards/RandomAdditions/INVINCIBLE%20TV%20SHOW%20POSTER.jpg",
+    "UserCards/RandomAdditions/invincible.png",
+  ];
+  const skyeArtSrcs = [
+    "UserCards/RandomAdditions/CORTIS.jpg",
+    "UserCards/RandomAdditions/GOT7.jpg",
+    "UserCards/RandomAdditions/Jennie.jpg",
+  ];
+  const templateMarkup = getBackTemplateMarkup();
+
+  matchSlides.forEach((slide) => {
+    const artistName = slide.querySelector(".artist-info h3")?.textContent?.trim() || "";
+    if (excludedNames.has(artistName)) {
+      return;
+    }
+
+    const backFace = slide.querySelector(".match-card-face--back-profile");
+    if (!backFace) {
+      return;
+    }
+
+    const profileBack = backFace.querySelector(".profile-back");
+    if (!profileBack) {
+      backFace.innerHTML = `<div class="profile-back profile-back--skye-template">${templateMarkup}</div>`;
+    } else {
+      profileBack.classList.add("profile-back--skye-template");
+      if (!profileBack.querySelector(".skye-template")) {
+        profileBack.innerHTML = templateMarkup;
+      }
+    }
+
+    const effectiveProfileBack = backFace.querySelector(".profile-back");
+    const redSquare = effectiveProfileBack ? effectiveProfileBack.querySelector(".skye-template__red-square") : null;
+    const isSkye = artistName === "Skye Harper";
+    const isCole = artistName === "Cole Louie";
+    const isSteven = artistName === "Steven Yuen";
+    if (redSquare) {
+      if (isSkye) {
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${skyePortraitSrc}" alt="Skye Harper portrait">`;
+      } else if (isCole) {
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${colePortraitSrc}" alt="Cole Louie portrait">`;
+      } else if (isSteven) {
+        redSquare.innerHTML = `<img class="skye-template__portrait" src="${stevenPortraitSrc}" alt="Steven Yuen portrait">`;
+      } else {
+        redSquare.innerHTML = "";
+      }
+    }
+
+    const artSquares = effectiveProfileBack
+      ? Array.from(effectiveProfileBack.querySelectorAll(".skye-template__art-square"))
+      : [];
+    if (artSquares.length) {
+      if (isSkye) {
+        artSquares.forEach((sq, idx) => {
+          const src = skyeArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Skye artwork ${idx + 1}">`;
+          }
+        });
+      } else if (isCole) {
+        artSquares.forEach((sq, idx) => {
+          const src = coleArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Cole artwork ${idx + 1}">`;
+          }
+        });
+      } else if (isSteven) {
+        artSquares.forEach((sq, idx) => {
+          const src = stevenArtSrcs[idx];
+          if (src) {
+            sq.innerHTML = `<img class="skye-template__art-image" src="${src}" alt="Steven artwork ${idx + 1}">`;
+          }
+        });
+      } else {
+        artSquares.forEach((sq) => {
+          sq.innerHTML = "";
+        });
+      }
+    }
+
+    const bioBox = effectiveProfileBack ? effectiveProfileBack.querySelector(".skye-template__bio-box") : null;
+    if (bioBox) {
+      if (isSkye) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Skye Harper categories">
+            <span class="profile-back__badge">Typography</span>
+            <span class="profile-back__badge">Page Layout</span>
+            <span class="profile-back__badge">Graphic Designs</span>
+          </div>
+        `;
+      } else if (isCole) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Cole Louie categories">
+            <span class="profile-back__badge">Motion Graphics</span>
+            <span class="profile-back__badge">Graphic Designs</span>
+            <span class="profile-back__badge">Typography</span>
+            <span class="profile-back__badge">Poster Designs</span>
+            <span class="profile-back__badge">Infographics</span>
+          </div>
+        `;
+      } else if (isSteven) {
+        bioBox.innerHTML = `
+          <div class="profile-back__badge-list" aria-label="Steven Yuen categories">
+            <span class="profile-back__badge">Digital Illustration</span>
+            <span class="profile-back__badge">Mascot Design</span>
+            <span class="profile-back__badge">Character Concepts</span>
+            <span class="profile-back__badge">Page Layout</span>
+          </div>
+        `;
+      } else {
+        bioBox.innerHTML = "";
+      }
+    }
+  });
+}
+
 const flipAudio = new Audio("Audio/card1.mp3");
 flipAudio.volume = 0.35;
 let currentSlideIndex = 0;
@@ -321,6 +487,7 @@ function setMatchSavedState(saved) {
 }
 
 if (matchDeck && matchSlides.length) {
+  applyUnifiedBackTemplate();
   updateMotionGraphicsFoilClasses();
   matchSlides.forEach(() => savedMatches.push(false));
 

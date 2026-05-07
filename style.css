@@ -564,6 +564,152 @@ main {
   background-image: url("Icons/td.png");
 }
 
+.profile-back__icon-strip--skye .profile-back__icon-pip:nth-child(1) {
+  background-image: url("Icons/Adobe_Illustrator_CC_icon.svg.png");
+}
+
+.profile-back__icon-strip--skye .profile-back__icon-pip:nth-child(2) {
+  background-image: url("Icons/Adobe_Photoshop_CC_icon.svg.png");
+}
+
+.profile-back__icon-strip--skye .profile-back__icon-pip:nth-child(3) {
+  background-image: url("Icons/procreate.png");
+}
+
+.profile-back--skye-template {
+  background: #e5e5e5;
+  padding: 8px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.skye-template {
+  border: 5px solid #1c3197;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-height: 100%;
+  height: 100%;
+}
+
+.skye-template__top {
+  display: grid;
+  grid-template-columns: 50% 1fr;
+  gap: 7px;
+  min-height: 56%;
+  flex: 1 1 auto;
+}
+
+.skye-template__red-square {
+  border: 2px solid #7d42f4;
+  background: #ff2f3a;
+  min-height: 100%;
+  overflow: hidden;
+}
+
+.skye-template__portrait {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.skye-template__top-right {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-height: 0;
+}
+
+.skye-template__field-labels {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: clamp(1rem, 3.9vw, 2rem);
+  line-height: 1.08;
+  color: #131313;
+}
+
+.skye-template__field-labels span {
+  display: block;
+}
+
+.skye-template__tool-row {
+  border: 2px solid #7d42f4;
+  background: #e5e5e5;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 7px;
+  padding: 8px;
+}
+
+.skye-template__tool-square {
+  aspect-ratio: 1;
+  background: #efa739;
+}
+
+.skye-template__bio {
+  border: 2px solid #7d42f4;
+  background: #e5e5e5;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 3px 5px 5px;
+  flex: 1;
+  min-height: 0;
+}
+
+.skye-template__section-label {
+  font-family: inherit;
+  font-weight: 700;
+  font-size: clamp(0.92rem, 3.2vw, 1.55rem);
+  line-height: 1;
+  color: #131313;
+}
+
+.skye-template__bio-box {
+  flex: 1;
+  min-height: 148px;
+}
+
+.skye-template__artworks {
+  border: 2px solid #7d42f4;
+  padding: 3px 5px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 0;
+  flex: 0 0 38%;
+  min-height: 34%;
+}
+
+.skye-template__art-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 7px;
+  flex: 1;
+}
+
+.skye-template__art-square {
+  background: #58cf52;
+  min-height: 145px;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  position: relative;
+}
+
+.skye-template__art-image {
+  position: absolute;
+  inset: 0;
+  max-width: 100%;
+  max-height: 100%;
+  margin: auto;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+}
+
 .profile-back__slot {
   box-sizing: border-box;
   border-radius: 0;
