@@ -831,6 +831,18 @@ main {
   transform-origin: center center;
 }
 
+.profile-back__slot--cassidy {
+  background-image: url("https://i.postimg.cc/s2zMmZVG/2026-03-21-1.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.profile-back__slot--cassidy .profile-back__portrait {
+  object-fit: cover;
+  transform: none;
+}
+
 .profile-back__slot--photo {
   min-width: 0;
   width: 100%;
