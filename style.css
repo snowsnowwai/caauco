@@ -576,6 +576,22 @@ main {
   background-image: url("Icons/procreate.png");
 }
 
+.profile-back__icon-strip--cassidy .profile-back__icon-pip:nth-child(1) {
+  background-image: url("https://i.postimg.cc/1XDtD9Lm/canva.png");
+}
+
+.profile-back__icon-strip--cassidy .profile-back__icon-pip:nth-child(2) {
+  background-image: url("https://i.postimg.cc/zf3G0w96/Adobe-Photoshop-CC-icon-svg.png");
+}
+
+.profile-back__icon-strip--cassidy .profile-back__icon-pip:nth-child(3) {
+  background-image: url("https://i.postimg.cc/52242qNL/procreate.webp");
+}
+
+.profile-back__icon-strip--cassidy .profile-back__icon-pip:nth-child(4) {
+  background-image: url("https://i.postimg.cc/j2hTsCpP/Adobe-After-Effects-CC-icon-svg.png");
+}
+
 .profile-back--skye-template {
   background: #e5e5e5;
   padding: 8px;
