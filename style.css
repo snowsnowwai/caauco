@@ -491,6 +491,22 @@ main {
   background-image: url("Icons/Adobe_InDesign_CC_icon.svg.png");
 }
 
+.profile-back__icon-strip--audrey .profile-back__icon-pip:nth-child(1) {
+  background-image: url("Icons/procreate.png");
+}
+
+.profile-back__icon-strip--audrey .profile-back__icon-pip:nth-child(2) {
+  background-image: url("Icons/Adobe_Illustrator_CC_icon.svg.png");
+}
+
+.profile-back__icon-strip--audrey .profile-back__icon-pip:nth-child(3) {
+  background-image: url("Icons/vscode.png");
+}
+
+.profile-back__icon-strip--audrey .profile-back__icon-pip:nth-child(4) {
+  background-image: url("Icons/td.png");
+}
+
 .profile-back__slot {
   box-sizing: border-box;
   border-radius: 0;
@@ -508,6 +524,26 @@ main {
 }
 
 .profile-back__slot--red .profile-back__portrait {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+  transform: scale(1.2);
+  transform-origin: center center;
+}
+
+.profile-back__slot--photo {
+  min-width: 0;
+  width: 100%;
+  min-height: calc(clamp(140px, 42vmin, 240px) - var(--profile-hero-breath));
+  min-height: calc(60cqi - var(--profile-hero-breath));
+  align-self: stretch;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.profile-back__slot--photo .profile-back__portrait {
   display: block;
   width: 100%;
   height: 100%;
@@ -819,7 +855,7 @@ main {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 10px;
+  bottom: 0;
   padding: 0.45rem 0.75rem 0.55rem;
   min-height: 72px;
   background: #ffffff;
