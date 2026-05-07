@@ -181,22 +181,112 @@
       letter-spacing: 0.12em;
     }
 
-    .info-summary {
+    .info-account-form {
+      border: 2px solid var(--ink);
+      background: #e1d8f0;
+      padding: 0.95rem;
       display: grid;
-      grid-template-columns: 104px 1fr;
-      gap: 0.75rem;
+      gap: 0.72rem;
+    }
+
+    .info-account-form__header {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 0.82rem;
       align-items: start;
-      margin-bottom: 0.2rem;
+    }
+
+    .info-avatar-button {
+      width: 120px;
+      aspect-ratio: 1 / 1;
+      border: 2px solid var(--ink);
+      border-radius: 12px;
+      background: #ffffff;
+      padding: 0;
+      cursor: pointer;
+      overflow: hidden;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .info-avatar {
-      width: 104px;
-      aspect-ratio: 1 / 1;
-      border: 2px solid var(--ink);
-      background: #fff;
+      width: 100%;
+      height: 100%;
       object-fit: cover;
       object-position: center;
       display: block;
+    }
+
+    .info-account-form h3 {
+      margin: 0;
+      color: #2d2c91;
+      text-transform: uppercase;
+      letter-spacing: 0.13em;
+    }
+
+    .info-account-copy {
+      margin: 0.2rem 0 0;
+      color: #2d2c91;
+      font-size: 1.05rem;
+      line-height: 1.32;
+      letter-spacing: 0.06em;
+    }
+
+    .info-form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 0.62rem 0.68rem;
+    }
+
+    .info-form-field {
+      display: grid;
+      gap: 0.22rem;
+    }
+
+    .info-form-field--full {
+      grid-column: 1 / -1;
+    }
+
+    .info-form-label {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #2d2c91;
+      line-height: 1.1;
+    }
+
+    .info-form-input,
+    .info-form-select {
+      width: 100%;
+      border: 2px solid var(--ink);
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.5rem 0.7rem;
+      min-height: 46px;
+      outline: none;
+    }
+
+    .info-form-input:focus,
+    .info-form-select:focus {
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #8890ff;
+    }
+
+    .info-form-actions {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-top: 0.15rem;
+    }
+
+    .info-form-actions .secondary-btn,
+    .info-form-actions .primary-btn {
+      border-radius: 14px;
+      padding: 0.44rem 1.05rem 0.5rem;
+      letter-spacing: 0.06em;
     }
 
     .panel-card[hidden] {
@@ -294,6 +384,18 @@
     }
 
     @media (max-width: 760px) {
+      .info-account-form__header {
+        grid-template-columns: 1fr;
+      }
+
+      .info-avatar-button {
+        width: 104px;
+      }
+
+      .info-form-grid {
+        grid-template-columns: 1fr;
+      }
+
       .field-grid {
         grid-template-columns: 1fr;
       }
@@ -341,55 +443,64 @@
 
           <div class="panel-stack">
             <article class="panel-card" id="infoPanel">
-              <div class="info-summary">
-                <img
-                  class="info-avatar"
-                  src="file:///C:/Users/camsd/.cursor/projects/c-Users-camsd-OneDrive-Pictures-caauco/assets/c__Users_camsd_AppData_Roaming_Cursor_User_workspaceStorage_958e3511291e1c95152a142ee636d683_images_Screenshot_2026-05-06_030602-39f9a70b-3fa4-4c04-9507-1a72916995e2.png"
-                  alt="Profile picture"
-                >
-                <div>
-                  <h3>Info</h3>
-                  <p class="section-copy">Basic profile and contact details used for artist communication and project updates.</p>
+              <form class="info-account-form">
+                <div class="info-account-form__header">
+                  <button class="info-avatar-button" type="button" aria-label="Upload profile picture">
+                    <img
+                      class="info-avatar"
+                      src="file:///C:/Users/camsd/.cursor/projects/c-Users-camsd-OneDrive-Pictures-caauco/assets/c__Users_camsd_AppData_Roaming_Cursor_User_workspaceStorage_958e3511291e1c95152a142ee636d683_images_Screenshot_2026-05-06_030602-39f9a70b-3fa4-4c04-9507-1a72916995e2.png"
+                      alt="Profile picture"
+                    >
+                  </button>
+                  <div>
+                    <h3>Account Info</h3>
+                    <p class="info-account-copy">Enter your details below to create your customer profile.</p>
+                    <p class="info-account-copy">Click the square profile area to upload your picture.</p>
+                  </div>
                 </div>
-              </div>
-              <div class="field-grid">
-                <div class="field">
-                  <p class="field-label">Full Name</p>
-                  <p class="field-value">Antonius Smitherson</p>
+
+                <div class="info-form-grid">
+                  <label class="info-form-field">
+                    <span class="info-form-label">First Name</span>
+                    <input class="info-form-input" type="text" name="first_name" autocomplete="given-name">
+                  </label>
+                  <label class="info-form-field">
+                    <span class="info-form-label">Last Name</span>
+                    <input class="info-form-input" type="text" name="last_name" autocomplete="family-name">
+                  </label>
+                  <label class="info-form-field">
+                    <span class="info-form-label">Email</span>
+                    <input class="info-form-input" type="email" name="email" autocomplete="email">
+                  </label>
+                  <label class="info-form-field">
+                    <span class="info-form-label">Phone</span>
+                    <input class="info-form-input" type="tel" name="phone" autocomplete="tel">
+                  </label>
+                  <label class="info-form-field">
+                    <span class="info-form-label">Organization</span>
+                    <input class="info-form-input" type="text" name="organization" autocomplete="organization">
+                  </label>
+                  <label class="info-form-field">
+                    <span class="info-form-label">Password</span>
+                    <input class="info-form-input" type="password" name="password" autocomplete="new-password">
+                  </label>
+                  <label class="info-form-field info-form-field--full">
+                    <span class="info-form-label">Default Commission Budget</span>
+                    <select class="info-form-select" name="budget">
+                      <option value="" selected>Select a budget range</option>
+                      <option value="25-50">$25-$50</option>
+                      <option value="50-100">$50-$100</option>
+                      <option value="100-250">$100-$250</option>
+                      <option value="250-plus">$250+</option>
+                    </select>
+                  </label>
                 </div>
-                <div class="field">
-                  <p class="field-label">Email</p>
-                  <p class="field-value">antonius.smitherson@sjsu.edu</p>
+
+                <div class="info-form-actions">
+                  <button class="secondary-btn" type="reset">Reset</button>
+                  <button class="primary-btn" type="submit">Create Account</button>
                 </div>
-                <div class="field">
-                  <p class="field-label">Phone</p>
-                  <p class="field-value">(676)-767-676</p>
-                </div>
-                <div class="field">
-                  <p class="field-label">School</p>
-                  <p class="field-value">San Jose State University</p>
-                </div>
-                <div class="field">
-                  <p class="field-label">Club / Organization</p>
-                  <p class="field-value">Art Club</p>
-                </div>
-                <div class="field">
-                  <p class="field-label">Preferred Contact Method</p>
-                  <p class="field-value">Inbox + Email</p>
-                </div>
-                <div class="field">
-                  <p class="field-label">Default Commission Budget</p>
-                  <p class="field-value">$25-$100</p>
-                </div>
-                <div class="field">
-                  <p class="field-label">Typical Deadline Window</p>
-                  <p class="field-value">1 to 2 weeks</p>
-                </div>
-              </div>
-              <div class="actions-row">
-                <button class="secondary-btn" type="button">Edit Info</button>
-                <button class="primary-btn" type="button">Save Changes</button>
-              </div>
+              </form>
             </article>
 
             <article class="panel-card" id="ordersPanel" hidden>
